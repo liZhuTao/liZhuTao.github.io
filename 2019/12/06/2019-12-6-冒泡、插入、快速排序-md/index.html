@@ -50,18 +50,18 @@
   };
 </script>
 
-  <meta name="description" content="封装queryURLParams函数方法一：基于数组的方法123456789101112131415161718192021222324252627282930let url = &amp;apos;http:&#x2F;&#x2F;www.lizhutao.github.io&#x2F;index.html?id=1&amp;amp;name=lzt&amp;amp;age=20#box&amp;apos;;function queryURLParams(">
-<meta name="keywords" content="JavaScript">
+  <meta name="description" content="冒泡排序 它重复地走访过要排序的元素列，依次比较两个相邻的元素，如果顺序（如从大到小、首字母从从Z到A）错误就把他们交换过来。走访元素的工作是重复地进行直到没有相邻元素需要交换，也就是说该元素列已经排序完成。">
+<meta name="keywords" content="算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="封装queryURLParams函数">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;26&#x2F;2019-11-26-queryURLParams-md&#x2F;index.html">
+<meta property="og:title" content=":2019:12:6:冒泡、插入、快速排序.md">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;12&#x2F;06&#x2F;2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="封装queryURLParams函数方法一：基于数组的方法123456789101112131415161718192021222324252627282930let url = &amp;apos;http:&#x2F;&#x2F;www.lizhutao.github.io&#x2F;index.html?id=1&amp;amp;name=lzt&amp;amp;age=20#box&amp;apos;;function queryURLParams(">
+<meta property="og:description" content="冒泡排序 它重复地走访过要排序的元素列，依次比较两个相邻的元素，如果顺序（如从大到小、首字母从从Z到A）错误就把他们交换过来。走访元素的工作是重复地进行直到没有相邻元素需要交换，也就是说该元素列已经排序完成。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-28T11:44:38.280Z">
+<meta property="og:updated_time" content="2019-12-06T04:04:01.798Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2019/12/06/2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md/">
 
 
 <script id="page-configurations">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>封装queryURLParams函数 | Bsmall</title>
+  <title>:2019:12:6:冒泡、插入、快速排序.md | Bsmall</title>
   
 
 
@@ -189,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/12/06/2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          封装queryURLParams函数
+          :2019:12:6:冒泡、插入、快速排序.md
         </h1>
 
         <div class="post-meta">
@@ -211,16 +211,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-26 16:43:17" itemprop="dateCreated datePublished" datetime="2019-11-26T16:43:17+08:00">2019-11-26</time>
+              <time title="创建时间：2019-12-06 12:03:18 / 修改时间：12:04:01" itemprop="dateCreated datePublished" datetime="2019-12-06T12:03:18+08:00">2019-12-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-28 19:44:38" itemprop="dateModified" datetime="2019-11-28T19:44:38+08:00">2019-11-28</time>
-              </span>
 
           
 
@@ -233,10 +227,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure><a id="more"></a>
+        <h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><blockquote>
+<p>它重复地走访过要排序的元素列，依次比较两个相邻的元素，如果顺序（如从大到小、首字母从从Z到A）错误就把他们交换过来。走访元素的工作是重复地进行直到没有相邻元素需要交换，也就是说该元素列已经排序完成。</p>
+</blockquote><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function bubble(ary)&#123;</span><br><span class="line">    let temp = null;</span><br><span class="line">    for(let i = 0; i &lt; ary.length-1; i++)&#123;</span><br><span class="line">        for(let j = 0; j &lt; ary.length-1-i; j++)&#123;</span><br><span class="line">            if(ary[j] &gt; ary[j+1])&#123;</span><br><span class="line">                temp = ary[j];</span><br><span class="line">                ary[j] = ary[j+1];</span><br><span class="line">                ary[j+1] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ary;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><blockquote>
+<p>插入排序的基本操作就是将一个数据插入到已经排好序的有序数据中，从而得到一个新的、个数加一的有序数据，算法适用于少量数据的排序，时间复杂度为O(n^2)。是稳定的排序方法。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function insert(ary)&#123;</span><br><span class="line">    let newAry = [];</span><br><span class="line">    newAry.push(ary[0]);</span><br><span class="line">    for(let i = 1; i &lt; ary.length; i++)&#123;</span><br><span class="line">        let A = ary[i];</span><br><span class="line">        for(let j =newAry.length-1; j &gt;=0; j--)&#123;</span><br><span class="line">            let B = newAry[j];</span><br><span class="line">            if(A&gt;B)&#123;</span><br><span class="line">                newAry.splice(j+1,0,A);</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            if(j===0)&#123;</span><br><span class="line">                newAry.unshift(A);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return newAry;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><blockquote>
+<p>通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function quick(ary)&#123;</span><br><span class="line">    if(ary.length&lt;=1)&#123;</span><br><span class="line">        return ary;</span><br><span class="line">    &#125;</span><br><span class="line">    let middleIndex = Math.floor(ary.length/2);</span><br><span class="line">    let middleValue = ary.splice(middleIndex,1)[0];</span><br><span class="line">    let aryLeft = [];</span><br><span class="line">    let aryRight = [];</span><br><span class="line">    for(let i = 0;i&lt;ary.length;i++)&#123;</span><br><span class="line">        let item = ary[i];</span><br><span class="line">        item &lt; middleValue ? aryLeft.push(item):aryRight.push(item);</span><br><span class="line">    &#125;</span><br><span class="line">    return quick(aryLeft).concat(middleValue,quick(aryRight));</span><br><span class="line">&#125;</span><br><span class="line">var ary = [1,25,23,2,61,22,35,99];</span><br><span class="line">console.log(ary);</span><br><span class="line">var result = quick(ary);</span><br><span class="line">console.log(result);</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -245,24 +250,21 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" rel="next" title="数组去重">
-                  <i class="fa fa-chevron-left"></i> 数组去重
+                <a href="/2019/11/28/2019-11-28-formatTime-md/" rel="next" title="formatTime">
+                  <i class="fa fa-chevron-left"></i> formatTime
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/28/2019-11-28-formatTime-md/" rel="prev" title="formatTime">
-                  formatTime <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -301,7 +303,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装queryURLParams函数"><span class="nav-number">1.</span> <span class="nav-text">封装queryURLParams函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：基于数组的方法"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：基于数组的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二：基于正则表达式实现"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：基于正则表达式实现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#冒泡排序"><span class="nav-number">1.</span> <span class="nav-text">冒泡排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入排序"><span class="nav-number">2.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">3.</span> <span class="nav-text">快速排序</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

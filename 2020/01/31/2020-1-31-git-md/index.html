@@ -50,18 +50,18 @@
   };
 </script>
 
-  <meta name="description" content="封装queryURLParams函数方法一：基于数组的方法123456789101112131415161718192021222324252627282930let url = &amp;apos;http:&#x2F;&#x2F;www.lizhutao.github.io&#x2F;index.html?id=1&amp;amp;name=lzt&amp;amp;age=20#box&amp;apos;;function queryURLParams(">
-<meta name="keywords" content="JavaScript">
+  <meta name="description" content="git简介 git是一款开源的分布式版本控制系统，能够有效、高速的处理从小到大的项目版本管理。 市面上常见的版本控制器有两种： 分布式的 Git 集中式的 SVN git常用命令代码仓库创建仓库1.进入需要创建代码仓库的文件夹      cd [文件路径] 2.初始化代码仓库                    git init 3.远程拉去仓库到本地                git cl">
+<meta name="keywords" content="git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="封装queryURLParams函数">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;26&#x2F;2019-11-26-queryURLParams-md&#x2F;index.html">
+<meta property="og:title" content="git常用命令">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;01&#x2F;31&#x2F;2020-1-31-git-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="封装queryURLParams函数方法一：基于数组的方法123456789101112131415161718192021222324252627282930let url = &amp;apos;http:&#x2F;&#x2F;www.lizhutao.github.io&#x2F;index.html?id=1&amp;amp;name=lzt&amp;amp;age=20#box&amp;apos;;function queryURLParams(">
+<meta property="og:description" content="git简介 git是一款开源的分布式版本控制系统，能够有效、高速的处理从小到大的项目版本管理。 市面上常见的版本控制器有两种： 分布式的 Git 集中式的 SVN git常用命令代码仓库创建仓库1.进入需要创建代码仓库的文件夹      cd [文件路径] 2.初始化代码仓库                    git init 3.远程拉去仓库到本地                git cl">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-28T11:44:38.280Z">
+<meta property="og:updated_time" content="2020-01-31T13:30:46.746Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/01/31/2020-1-31-git-md/">
 
 
 <script id="page-configurations">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>封装queryURLParams函数 | Bsmall</title>
+  <title>git常用命令 | Bsmall</title>
   
 
 
@@ -189,7 +189,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/01/31/2020-1-31-git-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -202,7 +202,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          封装queryURLParams函数
+          git常用命令
         </h1>
 
         <div class="post-meta">
@@ -211,16 +211,10 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-26 16:43:17" itemprop="dateCreated datePublished" datetime="2019-11-26T16:43:17+08:00">2019-11-26</time>
+              <time title="创建时间：2020-01-31 21:28:53 / 修改时间：21:30:46" itemprop="dateCreated datePublished" datetime="2020-01-31T21:28:53+08:00">2020-01-31</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-11-28 19:44:38" itemprop="dateModified" datetime="2019-11-28T19:44:38+08:00">2019-11-28</time>
-              </span>
 
           
 
@@ -233,10 +227,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure><a id="more"></a>
+        <h3 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h3><blockquote>
+<p>git是一款开源的分布式版本控制系统，能够有效、高速的处理从小到大的项目版本管理。</p>
+</blockquote><p>市面上常见的版本控制器有两种：</p><ul>
+<li>分布式的 Git</li>
+<li>集中式的 SVN</li>
+</ul><h3 id="git常用命令"><a href="#git常用命令" class="headerlink" title="git常用命令"></a>git常用命令</h3><h4 id="代码仓库"><a href="#代码仓库" class="headerlink" title="代码仓库"></a>代码仓库</h4><p>创建仓库</p><pre><code>1.进入需要创建代码仓库的文件夹      cd [文件路径]
+2.初始化代码仓库                    git init
+3.远程拉去仓库到本地                git clone</code></pre><a id="more"></a>
 
 
-<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+
+<p>添加文件到仓库</p>
+<pre><code>1.添加文件到暂存区
+    + 添加单个文件到暂存区          git add [文件名]
+    + 添加所用文件到暂存区          git add ./-A
+2.把暂存区文件提交到历史区
+    + git commit -m&apos;描述信息&apos;
+    + 建议使用  git commit 再填写 git message
+3.查看工作区状态
+    + git status
+4.对比工作区变化
+    + git diff</code></pre><p>仓库配置</p>
+<pre><code>1.配置全局用户名和邮箱
+    + git config --global user.name &quot;[name]&quot;
+    + git config --global user,email &quot;[email address]&quot;
+2.配置当前仓库用户名和密码
+    + git config user.name &quot;[name]&quot;
+    + git config user.email &quot;[email address]&quot;</code></pre><p>将本地仓库信息提交到远程仓库</p>
+<pre><code>1.建立本地仓库与远程仓库的连接
+    + 查看建立连接      git remote -v
+    + 建立连接          git remote add origin [仓库地址]
+    + 删除连接          git remote rm origin 
+2.先拉取在提交
+    + 拉取              git pull origin master
+    + 提交              git push origin master</code></pre><p>克隆远程仓库</p>
+<pre><code>git clone [本地仓库] [别名（可省略）]
+1.初始化本地仓库
+2.关联远程仓库
+3.默认内容拉取到本地</code></pre><h4 id="代码版本"><a href="#代码版本" class="headerlink" title="代码版本"></a>代码版本</h4><pre><code>1.查看历史版本信息
+    + git log                       提交详情
+    + git log --pretty=oneline      提交简介
+2.回退版本提交
+    + git reset --hard HEAD         回退到当前最新提交
+    + git reset --hard HEAD^        回退到上次提交
+    + git reset --hard HEAD~n       回退到上n次提交
+    + git reset --hard commitid     回退到某次提交
+3.重返未来版本
+    + git reflog    查看历史提交以及被回退的提交（该记录有时限，且只在本地）
+    + git reset --herd commitid     回到未来版本
+4.撤销修改
+    + 文件去撤销文件（没有提交到暂存区/没有git add）撤销修改    git checkout [文件名]
+    + 暂存区撤销文件
+        -将暂存区文件撤销到工作区   git reset HEAD 文件不带--hard
+        -撤销修改                   git checkout [文件名]
+5.删除文件
+    + 从版本库中删除文件（修改后需要提交）  git rm [文件名]
+    + 恢复删除      参考撤销修改
+    + 从版本库中删除文件，本地不删除        git rm --cached [文件名]</code></pre><h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><p>创建和合并分支</p>
+<pre><code>1.创建分支
+    - 仅创建        git branch [分支名]
+    - 创建并切换    git checkout -b [分支名]
+2.切换分支          git checkout [分支名]
+3.合并分支
+        - 合并某分支到当前分支       git merge
+        - git rebase   无特殊需求不建议使用
+4.删除分支
+    - 删除本地未合并分支    git branch -D
+    - 删除温蒂已合并分支    git branch -d
+    - 删除远程分支          git push origin -d
+                            git push [远程仓库名] -d [分支名]
+5.查看分支
+    - 查看当前分支          git branch
+    - 查看所有分支信息      git branch -a
+6.合并分支，解决分支冲突
+    - 将要合并的分支更新到最新
+    - 切换到主分支
+    - 合并分支
+    - 解决合并时的conflict
+    - 提交到版本库
+    - 合并成功
+    - 查看分支状态  git log --graph
+                    git log --graph --pretty=oneline --abbrey-commit
+7.开发完成需要提交PR/MR</code></pre><p>暂存修改</p>
+<pre><code>1.暂存工作现场      git stash
+2.恢复工作现场
+    - 恢复          git stash apply
+    - 删除          git stash drop
+    - 恢复+删除     git stash pop</code></pre><p>多人协作</p>
+<pre><code>1.查看远程库信息
+    - 详细      git remote -v
+    - 不详细    git remote
+2.更新推出远程库
+    - 更新远程库信息                git fetch
+    - 将远程库最新更新到本地库       git pull
+    - 将本地修改推送到远程库         git push
+                                   git push origin [分支名]
+3.本地分支与远程分支交互
+    - 使用远程分支A创建本地分支     git checkout -b origin/A
+    - 将本地分支与远程分支关联      git branch --set-upstream A origin/A</code></pre><h4 id="代码版本tag"><a href="#代码版本tag" class="headerlink" title="代码版本tag"></a>代码版本tag</h4><pre><code>1.查看tag
+    - 本地tag       git tag
+    - 远程tag       git tag -r
+2.操作tag
+    - 添加tag       
+        + 给当前版本添加tag     git tag [标签名]
+        + 给历史版本添加tag     git tag [标签名] commitid
+    - 删除tag
+        + 删除本地标签          git tag -d [标签名]
+        + 删除远程标签          git push origin -d
+    - 推送到远端仓库            git push origin [标签名]
+        + 推送所有未提交tag     git push origin --tags
+    - 更新到本地        git pull origin --tags
+tag与branch的操作基本一致，因为tag就是一个仅可读的branch</code></pre><blockquote>
+<p>可以使用 git help 查看常用的命令，使用 git help -a 可以查看所有的git命令</p>
+</blockquote>
+
     </div>
 
     
@@ -245,24 +350,21 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/tags/git/" rel="tag"># git</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" rel="next" title="数组去重">
-                  <i class="fa fa-chevron-left"></i> 数组去重
+                <a href="/2019/12/06/2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md/" rel="next" title="JS实现冒泡、插入、快速排序">
+                  <i class="fa fa-chevron-left"></i> JS实现冒泡、插入、快速排序
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/28/2019-11-28-formatTime-md/" rel="prev" title="formatTime">
-                  formatTime <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -301,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装queryURLParams函数"><span class="nav-number">1.</span> <span class="nav-text">封装queryURLParams函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：基于数组的方法"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：基于数组的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二：基于正则表达式实现"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：基于正则表达式实现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#git简介"><span class="nav-number">1.</span> <span class="nav-text">git简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git常用命令"><span class="nav-number">2.</span> <span class="nav-text">git常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码仓库"><span class="nav-number">2.1.</span> <span class="nav-text">代码仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码版本"><span class="nav-number">2.2.</span> <span class="nav-text">代码版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支"><span class="nav-number">2.3.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码版本tag"><span class="nav-number">2.4.</span> <span class="nav-text">代码版本tag</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

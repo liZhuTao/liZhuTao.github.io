@@ -65,7 +65,9 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;a6899f70-719e-11ea-8a36-ebb87efcf8c0.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;5ae43f90-71a2-11ea-9e8b-05a3242b26f2.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;2f987000-71b5-11ea-b94e-47f67ecf8268.png">
-<meta property="og:updated_time" content="2020-03-29T12:59:38.941Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;229c9200-71bf-11ea-b997-9918a5dda011.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;76d99f80-71be-11ea-8bd0-2998ac5bbf7e.png">
+<meta property="og:updated_time" content="2020-03-29T14:07:27.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;df805e70-7191-11ea-b94e-47f67ecf8268.png">
 
@@ -221,7 +223,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-29 14:03:06 / 修改时间：20:59:38" itemprop="dateCreated datePublished" datetime="2020-03-29T14:03:06+08:00">2020-03-29</time>
+              <time title="创建时间：2020-03-29 14:03:06 / 修改时间：22:07:27" itemprop="dateCreated datePublished" datetime="2020-03-29T14:03:06+08:00">2020-03-29</time>
             </span>
 
           
@@ -333,7 +335,7 @@
 <blockquote>
 <p>这里的 input 要设置 disabled 属性禁止input的默认点击事件，为后期制作一个单独的搜索页做准备。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   &lt;!-- 搜索框 --&gt;</span><br><span class="line">&lt;view class=&quot;search&quot;&gt;</span><br><span class="line">	&lt;view class=&quot;search-input&quot;&gt;</span><br><span class="line">		&lt;img src=&quot;../../../static/tab/sousuo.svg&quot; mode=&quot;widthFix&quot;&gt;</span><br><span class="line">		&lt;input type=&quot;text&quot; placeholder=&quot;请输入文字&quot; disabled /&gt;</span><br><span class="line">	&lt;/view&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 搜索框 --&gt;</span><br><span class="line">&lt;view class=&quot;search&quot;&gt;</span><br><span class="line">	&lt;view class=&quot;search-input&quot;&gt;</span><br><span class="line">		&lt;img src=&quot;../../../static/tab/sousuo.svg&quot; mode=&quot;widthFix&quot;&gt;</span><br><span class="line">		&lt;input type=&quot;text&quot; placeholder=&quot;请输入文字&quot; disabled /&gt;</span><br><span class="line">	&lt;/view&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
 <p><strong>轮播组件</strong></p>
 <blockquote>
 <p>uni-app提供了swiper组件，这里列举几个常用的属性</p>
@@ -393,7 +395,44 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 轮播组件 --&gt;</span><br><span class="line">&lt;swiper</span><br><span class="line">:indicator-dots=&quot;true&quot;</span><br><span class="line">:autoplay=&quot;true&quot;</span><br><span class="line">:interval=&quot;3000&quot;</span><br><span class="line">:duration=&quot;1000&quot;</span><br><span class="line">:circular=&quot;true&quot;</span><br><span class="line">indicator-color=&quot;rgba(255,255,255)&quot;</span><br><span class="line">indicator-active-color=&quot;#00ff00&quot;</span><br><span class="line">&gt;</span><br><span class="line">	&lt;swiper-item v-for=&quot;(item,index) in banner&quot; :key=&quot;index&quot;&gt;</span><br><span class="line">		&lt;view class=&quot;swiper-item&quot; id=&quot;swiper-item&quot;&gt;</span><br><span class="line">			&lt;img :src=&quot;item.image&quot; class=&quot;img-url&quot; mode=&quot;aspectFill&quot;&gt;</span><br><span class="line">		&lt;/view&gt;</span><br><span class="line">	&lt;/swiper-item&gt;</span><br><span class="line">&lt;/swiper&gt;</span><br></pre></td></tr></table></figure>
 
 <p><a href="https://github.com/liZhuTao/uniCloud/blob/master/pages/index/components/search.vue" target="_blank" rel="noopener">search组件完整代码</a></p>
-<h4 id="轮播组件的数据请求"><a href="#轮播组件的数据请求" class="headerlink" title="轮播组件的数据请求"></a>轮播组件的数据请求</h4>
+<h4 id="轮播组件的数据上传到uniCloud"><a href="#轮播组件的数据上传到uniCloud" class="headerlink" title="轮播组件的数据上传到uniCloud"></a>轮播组件的数据上传到uniCloud</h4><p><strong>将数据上传至uniCloud云数据库</strong></p>
+<blockquote>
+<p>先将轮播的图片存储到云存储中,云存储会操作生成图片的地址<br><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/229c9200-71bf-11ea-b997-9918a5dda011.png"></p>
+</blockquote>
+<blockquote>
+<p>创建banner集合，并上传数据（上传数据需要按照JSON的格式上传）<br><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/76d99f80-71be-11ea-8bd0-2998ac5bbf7e.png"></p>
+</blockquote>
+<h4 id="云函数操作数据库"><a href="#云函数操作数据库" class="headerlink" title="云函数操作数据库"></a>云函数操作数据库</h4><blockquote>
+<p>uniCloud中不允许前端直接调用云数据库中的数据，必须通过云函数来调用并返回给前端，前端用<a href="https://uniapp.dcloud.io/uniCloud/cf-functions?id=%e5%ae%a2%e6%88%b7%e7%ab%af%e8%b0%83%e7%94%a8%e4%ba%91%e5%87%bd%e6%95%b0" target="_blank" rel="noopener">uniCloud.callFunction</a>调用云函数，并接收返回结果</p>
+</blockquote>
+<p><strong>创建云函数</strong></p>
+<blockquote>
+<p>右键cloudfunction文件夹，选择新建云函数getData</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&apos;use strict&apos;;</span><br><span class="line">//获取数据库</span><br><span class="line">const db = uniCloud.database();</span><br><span class="line"></span><br><span class="line">exports.main = async (event, context) =&gt; &#123;</span><br><span class="line">  //event为客户端上传的参数(用户要以对象的形式上传数据)</span><br><span class="line">  let list = event.list                     //list为前端传来的要操作的集合名称</span><br><span class="line">  const banner = db.collection(list)		// 获取集合的引用</span><br><span class="line">  const res = await banner.get()</span><br><span class="line">  //返回数据给客户端</span><br><span class="line">  return res</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>创建完云函数后，右键getData文件夹，选择上传并运行 就可以将云函数上传并部署到uniCloud服务空间上（注意在IDE中运行，云函数可能会报错或者event返回空对象，先将项目运行到微信小程序上，再到<a href="https://unicloud.dcloud.net.cn/" target="_blank" rel="noopener">uniCloud</a>中找到对应的云函数，打开日志，在前端触发一下云函数，在看是否会报错或者event为空）</p>
+</blockquote>
+<p><strong>前端操作云函数</strong></p>
+<blockquote>
+<p>在项目根目录中创建 common公共组件目录，并在其中创建一个的公共组件cloudFun，用于获取与函数返回的数据库信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let getData = function(list) &#123;</span><br><span class="line">	let mylist = list</span><br><span class="line">	return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">		uniCloud.callFunction(&#123;</span><br><span class="line">				name: &apos;getData&apos;,</span><br><span class="line">				data: &#123;</span><br><span class="line">					&quot;list&quot;: mylist</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;)</span><br><span class="line">			.then(res =&gt; &#123;</span><br><span class="line">				resolve(res)</span><br><span class="line">			&#125;)</span><br><span class="line">			.catch(err =&gt; &#123;</span><br><span class="line">				reject(err)</span><br><span class="line">			&#125;)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://github.com/liZhuTao/uniCloud/blob/master/common/cloudFun.js" target="_blank" rel="noopener">cloudFun源码</a></p>
+<blockquote>
+<p>在index.vue中的 created 生命周期中获取数据</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">data()&#123;</span><br><span class="line">    return &#123; banner:[] &#125;</span><br><span class="line">&#125;</span><br><span class="line">created()&#123;</span><br><span class="line">    //请求数据</span><br><span class="line">    let banner = &quot;banner&quot;</span><br><span class="line">    getData(banner)</span><br><span class="line">    .then(res=&gt;&#123;</span><br><span class="line">        this.banner = res.result.data</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(err=&gt;&#123;</span><br><span class="line">        console.log(err)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>将数据传给search组件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Search :banner=&quot;banner&quot;&gt;&lt;/Search&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在search中接收数据,就可以直接将数据遍历到轮播图</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">export default&#123;</span><br><span class="line">		name:&apos;search&apos;,</span><br><span class="line">		props:&#123;</span><br><span class="line">			banner:Array</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
     </div>
 
     
@@ -464,7 +503,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目成果展示"><span class="nav-number">1.</span> <span class="nav-text">项目成果展示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uni-app简介"><span class="nav-number">2.</span> <span class="nav-text">uni-app简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uniCloud简介"><span class="nav-number">3.</span> <span class="nav-text">uniCloud简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前端环境搭建"><span class="nav-number">4.</span> <span class="nav-text">前端环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页实现"><span class="nav-number">5.</span> <span class="nav-text">首页实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索框-轮播图（search）组件"><span class="nav-number">5.1.</span> <span class="nav-text">搜索框+轮播图（search）组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轮播组件的数据请求"><span class="nav-number">5.2.</span> <span class="nav-text">轮播组件的数据请求</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#项目成果展示"><span class="nav-number">1.</span> <span class="nav-text">项目成果展示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uni-app简介"><span class="nav-number">2.</span> <span class="nav-text">uni-app简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uniCloud简介"><span class="nav-number">3.</span> <span class="nav-text">uniCloud简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前端环境搭建"><span class="nav-number">4.</span> <span class="nav-text">前端环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首页实现"><span class="nav-number">5.</span> <span class="nav-text">首页实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索框-轮播图（search）组件"><span class="nav-number">5.1.</span> <span class="nav-text">搜索框+轮播图（search）组件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#轮播组件的数据上传到uniCloud"><span class="nav-number">5.2.</span> <span class="nav-text">轮播组件的数据上传到uniCloud</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#云函数操作数据库"><span class="nav-number">5.3.</span> <span class="nav-text">云函数操作数据库</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

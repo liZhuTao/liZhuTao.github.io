@@ -38,8 +38,8 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -51,7 +51,7 @@
 </script>
 
   <meta name="description" content="项目成果展示 项目说明：该项目用于毕业设计，未经同意不得转载">
-<meta name="keywords" content="项目说明书">
+<meta name="keywords" content="项目笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="湖工二手go项目笔记">
 <meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;03&#x2F;29&#x2F;2020-03-29-%E6%B9%96%E5%B7%A5%E4%BA%8C%E6%89%8Bgo%E9%A1%B9%E7%9B%AE-md&#x2F;index.html">
@@ -71,7 +71,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;4350e4b0-724b-11ea-8bd0-2998ac5bbf7e.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;29ec6d30-724d-11ea-8a36-ebb87efcf8c0.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;ee8f2bf0-724d-11ea-b244-a9f5e5565f30.png">
-<meta property="og:updated_time" content="2020-03-30T06:55:05.044Z">
+<meta property="og:updated_time" content="2020-04-01T07:20:21.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;df805e70-7191-11ea-b94e-47f67ecf8268.png">
 
@@ -177,9 +177,34 @@
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -188,6 +213,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 
     <main class="main">
@@ -233,8 +259,19 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-30 14:55:05" itemprop="dateModified" datetime="2020-03-30T14:55:05+08:00">2020-03-30</time>
+                <time title="修改时间：2020-04-01 15:20:21" itemprop="dateModified" datetime="2020-04-01T15:20:21+08:00">2020-04-01</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">项目笔记</span>
+                  </a>
+                </span>
+            </span>
 
           
 
@@ -555,7 +592,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E9%A1%B9%E7%9B%AE%E8%AF%B4%E6%98%8E%E4%B9%A6/" rel="tag"># 项目说明书</a>
+              <a href="/tags/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" rel="tag"># 项目笔记</a>
           </div>
 
         
@@ -629,6 +666,11 @@
           <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
@@ -709,6 +751,8 @@
 
 
 
+
+  <script src="/js/local-search.js"></script>
 
 
 

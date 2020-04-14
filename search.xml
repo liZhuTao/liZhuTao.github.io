@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>封装queryURLParams函数</title>
-    <url>/2019/11/26/2019-11-26-queryURLParams-md/</url>
-    <content><![CDATA[<h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><a id="more"></a>
-<h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>JS函数</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数组去重</title>
     <url>/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/</url>
     <content><![CDATA[<h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2><a id="more"></a>
@@ -45,53 +30,6 @@
       </tags>
   </entry>
   <entry>
-    <title>formatTime</title>
-    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
-    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
-<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
-</blockquote>
-<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性好，但是输出格式固定</p>
-</blockquote>
-<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>基于模板和数据的渲染，能够按理想格式输出</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>JS函数</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jQuery源码解读（三）</title>
-    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
-
-<blockquote>
-<p>extend:向JQ中继续拓展方法</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>源码</category>
-      </categories>
-      <tags>
-        <tag>jQuery</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JS实现冒泡、插入、快速排序</title>
     <url>/2019/12/06/2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md/</url>
     <content><![CDATA[<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><blockquote>
@@ -115,6 +53,31 @@
       </categories>
       <tags>
         <tag>function</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>formatTime</title>
+    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
+    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
+<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
+</blockquote>
+<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性好，但是输出格式固定</p>
+</blockquote>
+<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>基于模板和数据的渲染，能够按理想格式输出</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>JS函数</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -165,6 +128,259 @@
       </categories>
       <tags>
         <tag>jQuery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>封装queryURLParams函数</title>
+    <url>/2019/11/26/2019-11-26-queryURLParams-md/</url>
+    <content><![CDATA[<h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><a id="more"></a>
+<h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>JS函数</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（三）</title>
+    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
+
+<blockquote>
+<p>extend:向JQ中继续拓展方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vuex</title>
+    <url>/2020/03/30/2020-03-30-vuex-md/</url>
+    <content><![CDATA[<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><blockquote>
+<p>官网上介绍，Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="状态管理模式"><a href="#状态管理模式" class="headerlink" title="状态管理模式"></a>状态管理模式</h3><blockquote>
+<p>如果你熟悉vue.js开发，那么你一定对各组件之间传值的问题倍感头疼，而vuex就是用来解决各个组件之间共用值得传递问题</p>
+</blockquote>
+<p>– 1. 在你的项目中安装vuex</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
+
+<p>– 2. 在src文件目录中新建store文件夹，再在这个文件夹下创建一个index.js文件并输入以下代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">//使用vuex</span><br><span class="line">Vue.use(Vuex);</span><br><span class="line">//创建Vuex.Store实例保存到变量store中</span><br><span class="line">const store = new Vuex.Store();</span><br><span class="line"> </span><br><span class="line">export default store;       //导出store</span><br></pre></td></tr></table></figure>
+<p>– 3. 在main.js文件中引用该对象,这样就可以在任何一个组件里面使用this.$store了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  store,//使用store</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;,</span><br><span class="line">  components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="vuex核心"><a href="#vuex核心" class="headerlink" title="vuex核心"></a>vuex核心</h2><blockquote>
+<p>官网图片</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
+
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><blockquote>
+<p>store相当于一个商店，不同的组件可以来商店来获取自己想要的商品，而state就相当于商店的货架，组件可以通多store.state.XXX获取需要的状态</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 创建一个 Counter 组件</span><br><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>– 每当 store.state.count变化的时候, 都会重新求取计算属性，并且触发更新相关联的 DOM。然而，这种模式导致组件依赖全局状态单例。Vuex 通过 store 选项，提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）：</p>
+<p>– 通过在根实例中注册 store 选项，该 store 实例会注入到根组件下的所有子组件中，且子组件能通过 this.$store 访问到。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return this.$store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="mapState辅助函数"><a href="#mapState辅助函数" class="headerlink" title="mapState辅助函数"></a>mapState辅助函数</h4><blockquote>
+<p>当组件需要获取多个状态的时候，将这些状态都声明为计算属性会有些重复和冗余。mapState辅助函数帮助我们生成计算属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    // 箭头函数可使代码更简练</span><br><span class="line">    count: state =&gt; state.count,</span><br><span class="line"></span><br><span class="line">    // 传字符串参数 &apos;count&apos; 等同于 `state =&gt; state.count`</span><br><span class="line">    countAlias: &apos;count&apos;,</span><br><span class="line"></span><br><span class="line">    // 为了能够使用 `this` 获取局部状态，必须使用常规函数</span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      return state.count + this.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对象展开运算符"><a href="#对象展开运算符" class="headerlink" title="对象展开运算符"></a>对象展开运算符</h4><blockquote>
+<p>mapState函数返回的是一个对象。通常，我们可以在<strong>computed</strong>使用<strong><a href="https://github.com/tc39/proposal-object-rest-spread" target="_blank" rel="noopener">对象展开运算符</a></strong>，将多个对象合并成一个</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; </span><br><span class="line">    // ... </span><br><span class="line">  &#125;,</span><br><span class="line">  // 使用对象展开运算符将此对象混入到外部对象中</span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h3><blockquote>
+<p>如果我们将state看做store的data属性，那么getter就可以被看做store的computed属性（getter的返回值根据他的依赖被缓存起来，当依赖改变时会被重新计算）。</p>
+</blockquote>
+<p>– getter 接受 state 作为其第一个参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; id: 1, text: &apos;...&apos;, done: true &#125;,</span><br><span class="line">      &#123; id: 2, text: &apos;...&apos;, done: false &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: state =&gt; &#123;</span><br><span class="line">      return state.todos.filter(todo =&gt; todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.getters.doneTodos // -&gt; [&#123; id: 1, text: &apos;...&apos;, done: true &#125;]</span><br></pre></td></tr></table></figure>
+<p>– Getter 也可以接受其他 getter 作为第二个参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">getters: &#123;</span><br><span class="line">  // ...</span><br><span class="line">  doneTodosCount: (state, getters) =&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.getters.doneTodosCount // -&gt; 1</span><br></pre></td></tr></table></figure>
+<h4 id="mapGetter辅助函数"><a href="#mapGetter辅助函数" class="headerlink" title="mapGetter辅助函数"></a>mapGetter辅助函数</h4><blockquote>
+<p>mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: &#123;</span><br><span class="line">  // 使用对象展开运算符将 getter 混入 computed 对象中</span><br><span class="line">    ...mapGetters([&apos;doneTodosCount&apos;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><blockquote>
+<p>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,Vuex 中的 mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      // 变更状态</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>– 调用此函数,需要以相应的 type 调用 store.commit 方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
+<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）"></a>载荷（Payload）</h4><p>– store&gt;store.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, 10)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>大多数情况下，载荷应该是一个对象，这样可以包含多个字段并且记录的 mutation 会更易读：</p>
+</blockquote>
+<p>– xxx.vue</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="使用常量替代-Mutation-事件类型"><a href="#使用常量替代-Mutation-事件类型" class="headerlink" title="使用常量替代 Mutation 事件类型"></a>使用常量替代 Mutation 事件类型</h4><blockquote>
+<p>使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：</p>
+</blockquote>
+<p>– mutation-types.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export const SOME_MUTATION = &apos;SOME_MUTATION&apos;</span><br></pre></td></tr></table></figure>
+<p>– store.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">import &#123; SOME_MUTATION &#125; from &apos;./mutation-types&apos;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    // 我们可以使用 ES2015 风格的计算属性命名功能来使用一个常量作为函数名</span><br><span class="line">    [SOME_MUTATION] (state) &#123;</span><br><span class="line">      // mutate state</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="在组件中提交-Mutation"><a href="#在组件中提交-Mutation" class="headerlink" title="在组件中提交 Mutation"></a>在组件中提交 Mutation</h4><blockquote>
+<p>可以在组件中使用 this.$store.commit(‘xxx’) 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 store.commit 调用（需要在根节点注入 store）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapMutations([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapMutations` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapMutations(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意一条重要的原则就是要记住 mutation 必须是同步函数,在 mutation 中混合异步调用会导致你的程序很难调试。</strong></p>
+</blockquote>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><blockquote>
+<p>Action 类似于 mutation，不同在于：</p>
+</blockquote>
+<ul>
+<li>Action 提交的是 mutation，而不是直接变更状态。</li>
+<li>Action 可以包含任意异步操作。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (&#123; commit &#125;) &#123;    //参数解构来简化代码</span><br><span class="line">        commit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="分发-Action"><a href="#分发-Action" class="headerlink" title="分发 Action"></a>分发 Action</h4><blockquote>
+<p>Action 通过store.dispatch方法触发：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.dispatch(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>action 内部可以执行异步操作</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      commit(&apos;increment&apos;)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="mapActions辅助函数"><a href="#mapActions辅助函数" class="headerlink" title="mapActions辅助函数"></a>mapActions辅助函数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapActions([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapActions` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapActions(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="vuex中mutation和action的详细区别"><a href="#vuex中mutation和action的详细区别" class="headerlink" title="vuex中mutation和action的详细区别"></a>vuex中mutation和action的详细区别</h4></li>
+</ul>
+<ol>
+<li>流程顺序</li>
+</ol>
+<p>“相应视图—&gt;修改State”拆分成两部分，视图触发Action，Action再触发Mutation。</p>
+<ol start="2">
+<li>角色定位</li>
+</ol>
+<p>基于流程顺序，二者扮演不同的角色。</p>
+<pre><code>Mutation：专注于修改State，理论上是修改State的唯一途径。
+
+Action：业务代码、异步请求。</code></pre><ol start="3">
+<li>限制</li>
+</ol>
+<p>角色不同，二者有不同的限制。</p>
+<pre><code>Mutation：必须同步执行。
+
+Action：可以异步，但不能直接操作State。</code></pre><blockquote>
+<p>他两者之间不是功能的不同，而是编程思想的不同，按照官方规定书写代码高效、易维护、逻辑清晰</p>
+</blockquote>
+<h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><blockquote>
+<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;,</span><br><span class="line">  getters: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const moduleB = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a // -&gt; moduleA 的状态</span><br><span class="line">store.state.b // -&gt; moduleB 的状态</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>参考文献</strong></p>
+<p><a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">vuex是什么</a></p>
+<p><a href="https://segmentfault.com/a/1190000015782272" target="_blank" rel="noopener">VueJS中学习使用Vuex详解</a></p>
+<p><a href="https://blog.csdn.net/weixin_38483133/article/details/89327362" target="_blank" rel="noopener">vuex中mutation和action的详细区别</a></p>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>闭包</title>
+    <url>/2020/03/29/2020-03-29-%E9%97%AD%E5%8C%85-md/</url>
+    <content><![CDATA[<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
+<p>一般来说闭包就是能够读取其他函数内部变量的函数</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p>从内存的角度来说函数执行形成不能被释放的私有栈内存，就是闭包</p>
+</blockquote>
+<blockquote>
+<p>从机制的角度来说函数执行形成私有栈内存，保护私有作用域中的变量不与外界产生联系，这种保护机制就是闭包</p>
+</blockquote>
+<h4 id="闭包的作用"><a href="#闭包的作用" class="headerlink" title="闭包的作用"></a>闭包的作用</h4><ul>
+<li><strong>保护（私有变量与外界没有必然联系）</strong></li>
+<li><strong>保存（形成不销毁的栈内存，里面的私有变量就保存下来了）</strong></li>
+</ul>
+<h3 id="闭包作用域"><a href="#闭包作用域" class="headerlink" title="闭包作用域"></a>闭包作用域</h3><ol>
+<li>创建函数<ul>
+<li>开辟一个堆内存</li>
+<li>把函数体中的代码以字符串的形式存储进去</li>
+<li>把堆内存的地址赋值给函数名或变量名</li>
+<li>函数在哪创建，那么它执行时的上级作用域就是谁</li>
+</ul>
+</li>
+<li>函数执行<ul>
+<li>形成一个全新的私有作用域、执行上下文、私有栈内存（执行一次形成一个，多个之间不会产生影响）</li>
+<li>形参赋值&amp;变量提升</li>
+<li>代码执行（把所属堆内存中的代码字符串拿出来一行一行执行）</li>
+<li>遇到一个变量，首先看他是否为私有变量（形参和在私有作用域中声明的变量属于私有变量），私有变量就操作自己的变量即可，不是私有的则向上级作用域中查找，一直找到全局作用域为止=&gt;<strong>作用域链查找机制</strong></li>
+<li>私有变量被私有栈内存保护起来了，所以与外界变量没有必然的联系，这就是闭包的保护机制<h3 id="堆栈内存释放问题（以webkit为例）"><a href="#堆栈内存释放问题（以webkit为例）" class="headerlink" title="堆栈内存释放问题（以webkit为例）"></a>堆栈内存释放问题（以webkit为例）</h3><h4 id="堆内存释放"><a href="#堆内存释放" class="headerlink" title="堆内存释放"></a>堆内存释放</h4><blockquote>
+<p>创建一个引用类型值就会产生一个堆内存</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<p>如果当前创建的堆内存不被占用，则会释放（浏览器会在会在空闲的时候查找每一个内存引用状况，不被占用的会被回收释放掉）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let obj=&#123;</span><br><span class="line">  name:&apos;堆内存&apos;</span><br><span class="line">&#125;</span><br><span class="line">let oop=obj；</span><br><span class="line">//此时obj和oop都占用着对象的堆内存，想要释放堆内存，需要手动解除变量和值的关联(null：空对象指针)</span><br><span class="line">obj=null;</span><br><span class="line">oop=null;</span><br></pre></td></tr></table></figure>
+
+<h4 id="栈内存释放问题"><a href="#栈内存释放问题" class="headerlink" title="栈内存释放问题"></a>栈内存释放问题</h4><blockquote>
+<p>栈内存形成的条件</p>
+</blockquote>
+<ul>
+<li>运行浏览器时形成的全局作用域</li>
+<li>手动执行函数形成的私有作用域</li>
+<li>let和const形成的块级作用域</li>
+</ul>
+<blockquote>
+<p>栈内存的销毁</p>
+</blockquote>
+<ul>
+<li><p>全局栈内存：关闭的时候才会销毁（刷新页面时，销毁旧的栈内存，再生成新的栈内存）</p>
+</li>
+<li><p>私有栈内存：</p>
+<blockquote>
+<p>一般情况下，函数只要执行完成，形成的私有栈内存就会被销毁释放掉（排除出现无限递归或死循环的情况）</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br><span class="line">fn()    //函数执行形成栈内存、执行完成栈内存被销毁</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>但是栈内存中的某些东西（如堆地址）被私有作用域以外的事物占用时，则当前栈内存不能立即被释放销毁（导致私有作用域外的私有变量等信息也保留下来了）</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let f = fn()    //f占用了fn执行时形成的栈内存中返回函数对应的堆，使得x执行形成的栈内存不能被释放</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>参考文献：</p>
+<blockquote>
+<p> –<a href="https://www.bilibili.com/video/BV1J4411B7Pa" target="_blank" rel="noopener">珠峰前端公开课</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -469,6 +685,52 @@
       </tags>
   </entry>
   <entry>
+    <title>new操作符</title>
+    <url>/2020/04/12/2020-04-12-new%E6%93%8D%E4%BD%9C%E7%AC%A6-md/</url>
+    <content><![CDATA[<h2 id="new操作符"><a href="#new操作符" class="headerlink" title="new操作符"></a>new操作符</h2><blockquote>
+<p><strong>语法</strong></p>
+</blockquote><pre><code>new constructor[([arguments])]</code></pre><p><strong>constructor</strong></p><p>  一个指定对象实例的类型的类或函数。</p><p><strong>arguments</strong></p><p>  一个用于被 constructor 调用的参数列表。</p><a id="more"></a>
+
+
+
+
+<blockquote>
+<p>创建一个用户自定义的对象一般有两个步骤：</p>
+</blockquote>
+<ol>
+<li>通过编写函数来定义对象类型</li>
+<li>通过 new 来创建对象实例。</li>
+</ol>
+<p><strong>如果你没有使用 new 运算符， 构造函数会像其他的常规函数一样被调用， 并不会创建一个对象。在这种情况下， this 的指向也是不一样的。</strong></p>
+<h2 id="new-操作符具体干了什么？"><a href="#new-操作符具体干了什么？" class="headerlink" title="new 操作符具体干了什么？"></a>new 操作符具体干了什么？</h2><blockquote>
+<p>new 共经历了四个过程</p>
+</blockquote>
+<ol>
+<li>首先创建了一个空对象</li>
+<li>设置原型、将对象的原型设置为函数的prototype对象</li>
+<li>让函数的 this 指向这个对象，执行构造函数的代码，为这个新对象添加属性</li>
+<li>判断函数的返回值，如果是值类型，返回创建的对象。如果是引用类型，就返回这个引用类型的对象。</li>
+</ol>
+<p><strong>代码实现</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function objectFactory()&#123;</span><br><span class="line">    let newObject = null,</span><br><span class="line">    constructor = Array.prototype.shift.call(arguments),</span><br><span class="line">    result = null;</span><br><span class="line">    </span><br><span class="line">    //参数判断</span><br><span class="line">    if(typeof constructor !== &quot;function&quot;)&#123;</span><br><span class="line">        console.error(&quot;type error&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //新建一个空对象，对象的原型为构造函数的 prototype 对象</span><br><span class="line">    newObject = Object.create(constructor.prototype);</span><br><span class="line">    </span><br><span class="line">    //将this指向新建对象，并执行函数</span><br><span class="line">    result = constructor.apply(newObject,arguments);</span><br><span class="line">    </span><br><span class="line">    //判断返回对象</span><br><span class="line">    let flag = result &amp;&amp; (typeof result === &quot;object&quot; || typeof result === &quot;function&quot;);</span><br><span class="line">    </span><br><span class="line">    //判断返回结果</span><br><span class="line">    return flag ? result : newObject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用方法</span><br><span class="line">// objectFactory(构造函数,初始化参数)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<p><strong>参考文献</strong></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new" target="_blank" rel="noopener">new 运算符</a></p>
+<p><a href="https://segmentfault.com/a/1190000008576048" target="_blank" rel="noopener">new 操作符具体干了什么？</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>函数的防抖和节流</title>
     <url>/2020/04/13/2020-04-13-%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81-md/</url>
     <content><![CDATA[<blockquote>
@@ -493,287 +755,6 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>闭包</title>
-    <url>/2020/03/29/2020-03-29-%E9%97%AD%E5%8C%85-md/</url>
-    <content><![CDATA[<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
-<p>一般来说闭包就是能够读取其他函数内部变量的函数</p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p>从内存的角度来说函数执行形成不能被释放的私有栈内存，就是闭包</p>
-</blockquote>
-<blockquote>
-<p>从机制的角度来说函数执行形成私有栈内存，保护私有作用域中的变量不与外界产生联系，这种保护机制就是闭包</p>
-</blockquote>
-<h4 id="闭包的作用"><a href="#闭包的作用" class="headerlink" title="闭包的作用"></a>闭包的作用</h4><ul>
-<li><strong>保护（私有变量与外界没有必然联系）</strong></li>
-<li><strong>保存（形成不销毁的栈内存，里面的私有变量就保存下来了）</strong></li>
-</ul>
-<h3 id="闭包作用域"><a href="#闭包作用域" class="headerlink" title="闭包作用域"></a>闭包作用域</h3><ol>
-<li>创建函数<ul>
-<li>开辟一个堆内存</li>
-<li>把函数体中的代码以字符串的形式存储进去</li>
-<li>把堆内存的地址赋值给函数名或变量名</li>
-<li>函数在哪创建，那么它执行时的上级作用域就是谁</li>
-</ul>
-</li>
-<li>函数执行<ul>
-<li>形成一个全新的私有作用域、执行上下文、私有栈内存（执行一次形成一个，多个之间不会产生影响）</li>
-<li>形参赋值&amp;变量提升</li>
-<li>代码执行（把所属堆内存中的代码字符串拿出来一行一行执行）</li>
-<li>遇到一个变量，首先看他是否为私有变量（形参和在私有作用域中声明的变量属于私有变量），私有变量就操作自己的变量即可，不是私有的则向上级作用域中查找，一直找到全局作用域为止=&gt;<strong>作用域链查找机制</strong></li>
-<li>私有变量被私有栈内存保护起来了，所以与外界变量没有必然的联系，这就是闭包的保护机制<h3 id="堆栈内存释放问题（以webkit为例）"><a href="#堆栈内存释放问题（以webkit为例）" class="headerlink" title="堆栈内存释放问题（以webkit为例）"></a>堆栈内存释放问题（以webkit为例）</h3><h4 id="堆内存释放"><a href="#堆内存释放" class="headerlink" title="堆内存释放"></a>堆内存释放</h4><blockquote>
-<p>创建一个引用类型值就会产生一个堆内存</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ol>
-<p>如果当前创建的堆内存不被占用，则会释放（浏览器会在会在空闲的时候查找每一个内存引用状况，不被占用的会被回收释放掉）</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let obj=&#123;</span><br><span class="line">  name:&apos;堆内存&apos;</span><br><span class="line">&#125;</span><br><span class="line">let oop=obj；</span><br><span class="line">//此时obj和oop都占用着对象的堆内存，想要释放堆内存，需要手动解除变量和值的关联(null：空对象指针)</span><br><span class="line">obj=null;</span><br><span class="line">oop=null;</span><br></pre></td></tr></table></figure>
-
-<h4 id="栈内存释放问题"><a href="#栈内存释放问题" class="headerlink" title="栈内存释放问题"></a>栈内存释放问题</h4><blockquote>
-<p>栈内存形成的条件</p>
-</blockquote>
-<ul>
-<li>运行浏览器时形成的全局作用域</li>
-<li>手动执行函数形成的私有作用域</li>
-<li>let和const形成的块级作用域</li>
-</ul>
-<blockquote>
-<p>栈内存的销毁</p>
-</blockquote>
-<ul>
-<li><p>全局栈内存：关闭的时候才会销毁（刷新页面时，销毁旧的栈内存，再生成新的栈内存）</p>
-</li>
-<li><p>私有栈内存：</p>
-<blockquote>
-<p>一般情况下，函数只要执行完成，形成的私有栈内存就会被销毁释放掉（排除出现无限递归或死循环的情况）</p>
-</blockquote>
-  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br><span class="line">fn()    //函数执行形成栈内存、执行完成栈内存被销毁</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>但是栈内存中的某些东西（如堆地址）被私有作用域以外的事物占用时，则当前栈内存不能立即被释放销毁（导致私有作用域外的私有变量等信息也保留下来了）</p>
-</blockquote>
-  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">let f = fn()    //f占用了fn执行时形成的栈内存中返回函数对应的堆，使得x执行形成的栈内存不能被释放</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>参考文献：</p>
-<blockquote>
-<p> –<a href="https://www.bilibili.com/video/BV1J4411B7Pa" target="_blank" rel="noopener">珠峰前端公开课</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>模块化开发</title>
-    <url>/2020/04/13/2020-04-13-%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91-md/</url>
-    <content><![CDATA[<h2 id="模块化开发"><a href="#模块化开发" class="headerlink" title="模块化开发"></a>模块化开发</h2><blockquote>
-<p>现在的前端开发，不仅仅是完成浏览器的基本需求。并且通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程会加载越来越多的JavaScript代码。如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器快速、优雅的加载和更新，就需要一个模块化系统</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h3><blockquote>
-<p>模块化是实现一组特定功能的一组方法</p>
-</blockquote>
-<p>最开始由于函数具有独立作用域的特点，所以使用<strong>函数</strong>来作为模块，但是这种方法容易造成全局变量污染，并且模块之间没有联系。后面提出了<strong>对象写法</strong>，通过函数作为一个对象的方法来实现，遮掩虽然解决了直接使用函数模块的缺点，但是这种方法会暴露所有的模块成员，从而导致外部代码可以修改内部代码。所以现在常用的时使用立即执行函数的写法，通过<strong>闭包</strong>来实现模块私有作用域的建立，同时不会对全局作用域造成污染。</p>
-<h3 id="JS常见的模块规范"><a href="#JS常见的模块规范" class="headerlink" title="JS常见的模块规范"></a>JS常见的模块规范</h3><h4 id="高级单例模式"><a href="#高级单例模式" class="headerlink" title="高级单例模式"></a>高级单例模式</h4><blockquote>
-<p>高级单例模式：创建一个命名空间（模块名），接收一个闭包中返回的相关信息，实现把比保重的某些信息暴露出来，供其他闭包调用。（可以参考jQuery源码）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let module1 = (function()&#123;</span><br><span class="line">    let name = &quot;小明&quot;;</span><br><span class="line">    </span><br><span class="line">    function query()&#123;</span><br><span class="line">        console.log(&quot;query&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return &#123; query:query &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">let module2 = (function()&#123;</span><br><span class="line">    function fn()&#123;</span><br><span class="line">        console.log(&quot;fn&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //调用module1中的query方法</span><br><span class="line">    module.query();</span><br><span class="line">    </span><br><span class="line">    return &#123; fn:fn &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
-
-<h4 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h4><blockquote>
-<p>Node.js 是 CommonJS 规范的主要实践者，在node.js中每个js文件就是一个模块，他有四个重要的环境变量：==module==、==exports==、==require==、==global==。实际使用时，使用==module.exports==定义当前模块对外输出的接口（不推荐直接使用==exports==），用==require==加载模块。</p>
-</blockquote>
-<p><strong>定义模块math.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var basicNum = 0;</span><br><span class="line">function add(a, b) &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//在这里写上需要向外暴露的函数、变量</span><br><span class="line">module.exports = &#123; </span><br><span class="line">  add: add,</span><br><span class="line">  basicNum: basicNum</span><br><span class="line">&#125;</span><br><span class="line">//ES6中对象的key和value相等可以简写为</span><br><span class="line">// module.exports = &#123; add,basicNum &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>引用自定义的模块时，参数包含路径，可省略.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var math = require(&apos;./math&apos;);</span><br><span class="line">math.add(2, 5);</span><br></pre></td></tr></table></figure>
-
-<p><strong>引用核心模块时，不需要带路径</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line">http.createService(...).listen(3000);</span><br></pre></td></tr></table></figure>
-<p>CommonJS 用同步的方法加载模块。在服务端，模块组件都存在本地磁盘，读取非常快。但是在浏览器端，由于网络的限制，所以使用异步加载更加合理。</p>
-<h4 id="AMD和require-js"><a href="#AMD和require-js" class="headerlink" title="AMD和require.js"></a>AMD和require.js</h4><blockquote>
-<p>AMD规范采用异步加载模块，模块的加载不影响它后面语句的执行。所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个会掉函数再执行。AMD规范的模块化是由==require.js==实现的。用==require.config==()指定应用路径、用define()定义模块、用==require==()加载模块。</p>
-</blockquote>
-<p><strong>网页中引入 require.js 及 main.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>main.js 入口文件/主模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">    baseUrl:&quot;js/lib&quot;,</span><br><span class="line">    paths:&#123;</span><br><span class="line">        &quot;jquery&quot;:&quot;jquery.min&quot;,  //实际路径 js/lib/jquery.min.js</span><br><span class="line">        &quot;underscore&quot;:&quot;underscore.min&quot;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//执行基本操作</span><br><span class="line">require([&quot;jquery&quot;,&quot;underscore&quot;],function($,_)&#123;</span><br><span class="line">    //code</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>引用模块的时候，我们将模块名放在[]中作为reqiure()的第一参数；如果我们定义的模块本身也依赖其他模块,那就需要将它们放在[]中作为define()的第一参数。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//定义math.js模块</span><br><span class="line">define(function()&#123;</span><br><span class="line">    var basicNum = 0;</span><br><span class="line">    var add = function(x,y)&#123;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        add:add,</span><br><span class="line">        basicNum:basicNum</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//定义提个依赖underscroe.js模块</span><br><span class="line">define([&apos;underscore&apos;],function()&#123;</span><br><span class="line">    var classify = function(list)&#123;</span><br><span class="line">    _.countBy(list,function(num)&#123;</span><br><span class="line">      return num &gt; 30 ? &apos;old&apos; : &apos;young&apos;;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">  return &#123;</span><br><span class="line">    classify :classify</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 引用模块，将模块放在[]内</span><br><span class="line">require([&apos;jquery&apos;, &apos;math&apos;],function($, math)&#123;</span><br><span class="line">  var sum = math.add(10,20);</span><br><span class="line">  $(&quot;#sum&quot;).html(sum);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="CMD和sea-js"><a href="#CMD和sea-js" class="headerlink" title="CMD和sea.js"></a>CMD和sea.js</h4><blockquote>
-<p>CMD是另一种js模块化方案，它与AMD很类似，不同点在于：AMD 推崇依赖前置、提前执行，CMD推崇依赖就近、延迟执行。此规范其实是在sea.js推广过程中产生的。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** AMD写法 **/</span><br><span class="line">define([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;], function(a, b, c, d, e, f) &#123; </span><br><span class="line">     // 等于在最前面声明并初始化了要用到的所有模块</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        // 即便没用到某个模块 b，但 b 还是提前执行了</span><br><span class="line">        b.doSomething()</span><br><span class="line">    &#125; </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** CMD写法 **/</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var a = require(&apos;./a&apos;); //在需要时申明</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        var b = require(&apos;./b&apos;);</span><br><span class="line">        b.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** sea.js **/</span><br><span class="line">// 定义模块 math.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var $ = require(&apos;jquery.js&apos;);</span><br><span class="line">    var add = function(a,b)&#123;</span><br><span class="line">        return a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    exports.add = add;</span><br><span class="line">&#125;);</span><br><span class="line">// 加载模块</span><br><span class="line">seajs.use([&apos;math.js&apos;], function(math)&#123;</span><br><span class="line">    var sum = math.add(1+2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h4><blockquote>
-<p>ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，旨在成为浏览器和服务器通用的模块解决方案。其模块功能主要由两个命令构成：==export==和==import==。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** 定义模块 math.js **/</span><br><span class="line">var basicNum = 0;</span><br><span class="line">var add = function (a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123; basicNum, add &#125;;</span><br><span class="line"></span><br><span class="line">/** 引用模块 **/</span><br><span class="line">import &#123; basicNum, add &#125; from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = add(99 + basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上例所示，使用import命令的时候，用户需要知道所要加载的变量名或函数名。其实ES6还提供了export default命令，为模块指定默认输出，对应的import语句不需要使用大括号。这也更趋近于ADM的引用写法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** export default **/</span><br><span class="line">//定义输出</span><br><span class="line">export default &#123; basicNum, add &#125;;</span><br><span class="line">//引入</span><br><span class="line">import math from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = math.add(99 + math.basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ES6的模块不是对象，import命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，所以无法实现条件加载。也正因为这个，使得静态分析成为可能。</p>
-<h3 id="ES6-模块与-CommonJS-模块的差异"><a href="#ES6-模块与-CommonJS-模块的差异" class="headerlink" title="ES6 模块与 CommonJS 模块的差异"></a>ES6 模块与 CommonJS 模块的差异</h3><p><strong>1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</strong></p>
-<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。</p>
-<p><strong>2. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</strong></p>
-<p>CommonJS 模块就是对象，即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
-<p><strong>参考文献</strong></p>
-<p><a href="https://juejin.im/post/5ab378c46fb9a028ce7b824f" target="_blank" rel="noopener">浅谈模块化开发</a></p>
-<p><a href="https://juejin.im/post/5aaa37c8f265da23945f365c" target="_blank" rel="noopener">前端模块化</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vuex</title>
-    <url>/2020/03/30/2020-03-30-vuex-md/</url>
-    <content><![CDATA[<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><blockquote>
-<p>官网上介绍，Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="状态管理模式"><a href="#状态管理模式" class="headerlink" title="状态管理模式"></a>状态管理模式</h3><blockquote>
-<p>如果你熟悉vue.js开发，那么你一定对各组件之间传值的问题倍感头疼，而vuex就是用来解决各个组件之间共用值得传递问题</p>
-</blockquote>
-<p>– 1. 在你的项目中安装vuex</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
-
-<p>– 2. 在src文件目录中新建store文件夹，再在这个文件夹下创建一个index.js文件并输入以下代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">//使用vuex</span><br><span class="line">Vue.use(Vuex);</span><br><span class="line">//创建Vuex.Store实例保存到变量store中</span><br><span class="line">const store = new Vuex.Store();</span><br><span class="line"> </span><br><span class="line">export default store;       //导出store</span><br></pre></td></tr></table></figure>
-<p>– 3. 在main.js文件中引用该对象,这样就可以在任何一个组件里面使用this.$store了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  store,//使用store</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;,</span><br><span class="line">  components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="vuex核心"><a href="#vuex核心" class="headerlink" title="vuex核心"></a>vuex核心</h2><blockquote>
-<p>官网图片</p>
-</blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
-
-<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><blockquote>
-<p>store相当于一个商店，不同的组件可以来商店来获取自己想要的商品，而state就相当于商店的货架，组件可以通多store.state.XXX获取需要的状态</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 创建一个 Counter 组件</span><br><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>– 每当 store.state.count变化的时候, 都会重新求取计算属性，并且触发更新相关联的 DOM。然而，这种模式导致组件依赖全局状态单例。Vuex 通过 store 选项，提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）：</p>
-<p>– 通过在根实例中注册 store 选项，该 store 实例会注入到根组件下的所有子组件中，且子组件能通过 this.$store 访问到。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return this.$store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="mapState辅助函数"><a href="#mapState辅助函数" class="headerlink" title="mapState辅助函数"></a>mapState辅助函数</h4><blockquote>
-<p>当组件需要获取多个状态的时候，将这些状态都声明为计算属性会有些重复和冗余。mapState辅助函数帮助我们生成计算属性</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    // 箭头函数可使代码更简练</span><br><span class="line">    count: state =&gt; state.count,</span><br><span class="line"></span><br><span class="line">    // 传字符串参数 &apos;count&apos; 等同于 `state =&gt; state.count`</span><br><span class="line">    countAlias: &apos;count&apos;,</span><br><span class="line"></span><br><span class="line">    // 为了能够使用 `this` 获取局部状态，必须使用常规函数</span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      return state.count + this.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="对象展开运算符"><a href="#对象展开运算符" class="headerlink" title="对象展开运算符"></a>对象展开运算符</h4><blockquote>
-<p>mapState函数返回的是一个对象。通常，我们可以在<strong>computed</strong>使用<strong><a href="https://github.com/tc39/proposal-object-rest-spread" target="_blank" rel="noopener">对象展开运算符</a></strong>，将多个对象合并成一个</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; </span><br><span class="line">    // ... </span><br><span class="line">  &#125;,</span><br><span class="line">  // 使用对象展开运算符将此对象混入到外部对象中</span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h3><blockquote>
-<p>如果我们将state看做store的data属性，那么getter就可以被看做store的computed属性（getter的返回值根据他的依赖被缓存起来，当依赖改变时会被重新计算）。</p>
-</blockquote>
-<p>– getter 接受 state 作为其第一个参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; id: 1, text: &apos;...&apos;, done: true &#125;,</span><br><span class="line">      &#123; id: 2, text: &apos;...&apos;, done: false &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: state =&gt; &#123;</span><br><span class="line">      return state.todos.filter(todo =&gt; todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.getters.doneTodos // -&gt; [&#123; id: 1, text: &apos;...&apos;, done: true &#125;]</span><br></pre></td></tr></table></figure>
-<p>– Getter 也可以接受其他 getter 作为第二个参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">getters: &#123;</span><br><span class="line">  // ...</span><br><span class="line">  doneTodosCount: (state, getters) =&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.getters.doneTodosCount // -&gt; 1</span><br></pre></td></tr></table></figure>
-<h4 id="mapGetter辅助函数"><a href="#mapGetter辅助函数" class="headerlink" title="mapGetter辅助函数"></a>mapGetter辅助函数</h4><blockquote>
-<p>mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: &#123;</span><br><span class="line">  // 使用对象展开运算符将 getter 混入 computed 对象中</span><br><span class="line">    ...mapGetters([&apos;doneTodosCount&apos;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><blockquote>
-<p>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,Vuex 中的 mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      // 变更状态</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>– 调用此函数,需要以相应的 type 调用 store.commit 方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
-<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）"></a>载荷（Payload）</h4><p>– store&gt;store.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>你可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, 10)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>大多数情况下，载荷应该是一个对象，这样可以包含多个字段并且记录的 mutation 会更易读：</p>
-</blockquote>
-<p>– xxx.vue</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="使用常量替代-Mutation-事件类型"><a href="#使用常量替代-Mutation-事件类型" class="headerlink" title="使用常量替代 Mutation 事件类型"></a>使用常量替代 Mutation 事件类型</h4><blockquote>
-<p>使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：</p>
-</blockquote>
-<p>– mutation-types.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export const SOME_MUTATION = &apos;SOME_MUTATION&apos;</span><br></pre></td></tr></table></figure>
-<p>– store.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">import &#123; SOME_MUTATION &#125; from &apos;./mutation-types&apos;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    // 我们可以使用 ES2015 风格的计算属性命名功能来使用一个常量作为函数名</span><br><span class="line">    [SOME_MUTATION] (state) &#123;</span><br><span class="line">      // mutate state</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="在组件中提交-Mutation"><a href="#在组件中提交-Mutation" class="headerlink" title="在组件中提交 Mutation"></a>在组件中提交 Mutation</h4><blockquote>
-<p>可以在组件中使用 this.$store.commit(‘xxx’) 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 store.commit 调用（需要在根节点注入 store）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapMutations([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapMutations` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapMutations(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意一条重要的原则就是要记住 mutation 必须是同步函数,在 mutation 中混合异步调用会导致你的程序很难调试。</strong></p>
-</blockquote>
-<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><blockquote>
-<p>Action 类似于 mutation，不同在于：</p>
-</blockquote>
-<ul>
-<li>Action 提交的是 mutation，而不是直接变更状态。</li>
-<li>Action 可以包含任意异步操作。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (&#123; commit &#125;) &#123;    //参数解构来简化代码</span><br><span class="line">        commit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="分发-Action"><a href="#分发-Action" class="headerlink" title="分发 Action"></a>分发 Action</h4><blockquote>
-<p>Action 通过store.dispatch方法触发：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.dispatch(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>action 内部可以执行异步操作</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      commit(&apos;increment&apos;)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="mapActions辅助函数"><a href="#mapActions辅助函数" class="headerlink" title="mapActions辅助函数"></a>mapActions辅助函数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapActions([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapActions` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapActions(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="vuex中mutation和action的详细区别"><a href="#vuex中mutation和action的详细区别" class="headerlink" title="vuex中mutation和action的详细区别"></a>vuex中mutation和action的详细区别</h4></li>
-</ul>
-<ol>
-<li>流程顺序</li>
-</ol>
-<p>“相应视图—&gt;修改State”拆分成两部分，视图触发Action，Action再触发Mutation。</p>
-<ol start="2">
-<li>角色定位</li>
-</ol>
-<p>基于流程顺序，二者扮演不同的角色。</p>
-<pre><code>Mutation：专注于修改State，理论上是修改State的唯一途径。
-
-Action：业务代码、异步请求。</code></pre><ol start="3">
-<li>限制</li>
-</ol>
-<p>角色不同，二者有不同的限制。</p>
-<pre><code>Mutation：必须同步执行。
-
-Action：可以异步，但不能直接操作State。</code></pre><blockquote>
-<p>他两者之间不是功能的不同，而是编程思想的不同，按照官方规定书写代码高效、易维护、逻辑清晰</p>
-</blockquote>
-<h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><blockquote>
-<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;,</span><br><span class="line">  getters: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const moduleB = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a // -&gt; moduleA 的状态</span><br><span class="line">store.state.b // -&gt; moduleB 的状态</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>参考文献</strong></p>
-<p><a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">vuex是什么</a></p>
-<p><a href="https://segmentfault.com/a/1190000015782272" target="_blank" rel="noopener">VueJS中学习使用Vuex详解</a></p>
-<p><a href="https://blog.csdn.net/weixin_38483133/article/details/89327362" target="_blank" rel="noopener">vuex中mutation和action的详细区别</a></p>
-]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -866,49 +847,88 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
-    <title>new操作符</title>
-    <url>/2020/04/12/2020-04-12-new%E6%93%8D%E4%BD%9C%E7%AC%A6-md/</url>
-    <content><![CDATA[<h2 id="new操作符"><a href="#new操作符" class="headerlink" title="new操作符"></a>new操作符</h2><blockquote>
-<p><strong>语法</strong></p>
-</blockquote><pre><code>new constructor[([arguments])]</code></pre><p><strong>constructor</strong></p><p>  一个指定对象实例的类型的类或函数。</p><p><strong>arguments</strong></p><p>  一个用于被 constructor 调用的参数列表。</p><a id="more"></a>
-
-
-
-
-<blockquote>
-<p>创建一个用户自定义的对象一般有两个步骤：</p>
+    <title>模块化开发</title>
+    <url>/2020/04/13/2020-04-13-%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91-md/</url>
+    <content><![CDATA[<h2 id="模块化开发"><a href="#模块化开发" class="headerlink" title="模块化开发"></a>模块化开发</h2><blockquote>
+<p>现在的前端开发，不仅仅是完成浏览器的基本需求。并且通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程会加载越来越多的JavaScript代码。如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器快速、优雅的加载和更新，就需要一个模块化系统</p>
 </blockquote>
-<ol>
-<li>通过编写函数来定义对象类型</li>
-<li>通过 new 来创建对象实例。</li>
-</ol>
-<p><strong>如果你没有使用 new 运算符， 构造函数会像其他的常规函数一样被调用， 并不会创建一个对象。在这种情况下， this 的指向也是不一样的。</strong></p>
-<h2 id="new-操作符具体干了什么？"><a href="#new-操作符具体干了什么？" class="headerlink" title="new 操作符具体干了什么？"></a>new 操作符具体干了什么？</h2><blockquote>
-<p>new 共经历了四个过程</p>
+<a id="more"></a>
+<h3 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h3><blockquote>
+<p>模块化是实现一组特定功能的一组方法</p>
 </blockquote>
-<ol>
-<li>首先创建了一个空对象</li>
-<li>设置原型、将对象的原型设置为函数的prototype对象</li>
-<li>让函数的 this 指向这个对象，执行构造函数的代码，为这个新对象添加属性</li>
-<li>判断函数的返回值，如果是值类型，返回创建的对象。如果是引用类型，就返回这个引用类型的对象。</li>
-</ol>
-<p><strong>代码实现</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function objectFactory()&#123;</span><br><span class="line">    let newObject = null,</span><br><span class="line">    constructor = Array.prototype.shift.call(arguments),</span><br><span class="line">    result = null;</span><br><span class="line">    </span><br><span class="line">    //参数判断</span><br><span class="line">    if(typeof constructor !== &quot;function&quot;)&#123;</span><br><span class="line">        console.error(&quot;type error&quot;);</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //新建一个空对象，对象的原型为构造函数的 prototype 对象</span><br><span class="line">    newObject = Object.create(constructor.prototype);</span><br><span class="line">    </span><br><span class="line">    //将this指向新建对象，并执行函数</span><br><span class="line">    result = constructor.apply(newObject,arguments);</span><br><span class="line">    </span><br><span class="line">    //判断返回对象</span><br><span class="line">    let flag = result &amp;&amp; (typeof result === &quot;object&quot; || typeof result === &quot;function&quot;);</span><br><span class="line">    </span><br><span class="line">    //判断返回结果</span><br><span class="line">    return flag ? result : newObject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用方法</span><br><span class="line">// objectFactory(构造函数,初始化参数)</span><br></pre></td></tr></table></figure>
+<p>最开始由于函数具有独立作用域的特点，所以使用<strong>函数</strong>来作为模块，但是这种方法容易造成全局变量污染，并且模块之间没有联系。后面提出了<strong>对象写法</strong>，通过函数作为一个对象的方法来实现，遮掩虽然解决了直接使用函数模块的缺点，但是这种方法会暴露所有的模块成员，从而导致外部代码可以修改内部代码。所以现在常用的时使用立即执行函数的写法，通过<strong>闭包</strong>来实现模块私有作用域的建立，同时不会对全局作用域造成污染。</p>
+<h3 id="JS常见的模块规范"><a href="#JS常见的模块规范" class="headerlink" title="JS常见的模块规范"></a>JS常见的模块规范</h3><h4 id="高级单例模式"><a href="#高级单例模式" class="headerlink" title="高级单例模式"></a>高级单例模式</h4><blockquote>
+<p>高级单例模式：创建一个命名空间（模块名），接收一个闭包中返回的相关信息，实现把比保重的某些信息暴露出来，供其他闭包调用。（可以参考jQuery源码）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let module1 = (function()&#123;</span><br><span class="line">    let name = &quot;小明&quot;;</span><br><span class="line">    </span><br><span class="line">    function query()&#123;</span><br><span class="line">        console.log(&quot;query&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return &#123; query:query &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">let module2 = (function()&#123;</span><br><span class="line">    function fn()&#123;</span><br><span class="line">        console.log(&quot;fn&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //调用module1中的query方法</span><br><span class="line">    module.query();</span><br><span class="line">    </span><br><span class="line">    return &#123; fn:fn &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
 
 
+<h4 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h4><blockquote>
+<p>Node.js 是 CommonJS 规范的主要实践者，在node.js中每个js文件就是一个模块，他有四个重要的环境变量：==module==、==exports==、==require==、==global==。实际使用时，使用==module.exports==定义当前模块对外输出的接口（不推荐直接使用==exports==），用==require==加载模块。</p>
+</blockquote>
+<p><strong>定义模块math.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var basicNum = 0;</span><br><span class="line">function add(a, b) &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//在这里写上需要向外暴露的函数、变量</span><br><span class="line">module.exports = &#123; </span><br><span class="line">  add: add,</span><br><span class="line">  basicNum: basicNum</span><br><span class="line">&#125;</span><br><span class="line">//ES6中对象的key和value相等可以简写为</span><br><span class="line">// module.exports = &#123; add,basicNum &#125;</span><br></pre></td></tr></table></figure>
 
+<p><strong>引用自定义的模块时，参数包含路径，可省略.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var math = require(&apos;./math&apos;);</span><br><span class="line">math.add(2, 5);</span><br></pre></td></tr></table></figure>
 
+<p><strong>引用核心模块时，不需要带路径</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line">http.createService(...).listen(3000);</span><br></pre></td></tr></table></figure>
+<p>CommonJS 用同步的方法加载模块。在服务端，模块组件都存在本地磁盘，读取非常快。但是在浏览器端，由于网络的限制，所以使用异步加载更加合理。</p>
+<h4 id="AMD和require-js"><a href="#AMD和require-js" class="headerlink" title="AMD和require.js"></a>AMD和require.js</h4><blockquote>
+<p>AMD规范采用异步加载模块，模块的加载不影响它后面语句的执行。所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个会掉函数再执行。AMD规范的模块化是由==require.js==实现的。用==require.config==()指定应用路径、用define()定义模块、用==require==()加载模块。</p>
+</blockquote>
+<p><strong>网页中引入 require.js 及 main.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>main.js 入口文件/主模块</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">    baseUrl:&quot;js/lib&quot;,</span><br><span class="line">    paths:&#123;</span><br><span class="line">        &quot;jquery&quot;:&quot;jquery.min&quot;,  //实际路径 js/lib/jquery.min.js</span><br><span class="line">        &quot;underscore&quot;:&quot;underscore.min&quot;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//执行基本操作</span><br><span class="line">require([&quot;jquery&quot;,&quot;underscore&quot;],function($,_)&#123;</span><br><span class="line">    //code</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>引用模块的时候，我们将模块名放在[]中作为reqiure()的第一参数；如果我们定义的模块本身也依赖其他模块,那就需要将它们放在[]中作为define()的第一参数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//定义math.js模块</span><br><span class="line">define(function()&#123;</span><br><span class="line">    var basicNum = 0;</span><br><span class="line">    var add = function(x,y)&#123;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        add:add,</span><br><span class="line">        basicNum:basicNum</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//定义提个依赖underscroe.js模块</span><br><span class="line">define([&apos;underscore&apos;],function()&#123;</span><br><span class="line">    var classify = function(list)&#123;</span><br><span class="line">    _.countBy(list,function(num)&#123;</span><br><span class="line">      return num &gt; 30 ? &apos;old&apos; : &apos;young&apos;;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">  return &#123;</span><br><span class="line">    classify :classify</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 引用模块，将模块放在[]内</span><br><span class="line">require([&apos;jquery&apos;, &apos;math&apos;],function($, math)&#123;</span><br><span class="line">  var sum = math.add(10,20);</span><br><span class="line">  $(&quot;#sum&quot;).html(sum);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-
+<h4 id="CMD和sea-js"><a href="#CMD和sea-js" class="headerlink" title="CMD和sea.js"></a>CMD和sea.js</h4><blockquote>
+<p>CMD是另一种js模块化方案，它与AMD很类似，不同点在于：AMD 推崇依赖前置、提前执行，CMD推崇依赖就近、延迟执行。此规范其实是在sea.js推广过程中产生的。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** AMD写法 **/</span><br><span class="line">define([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;], function(a, b, c, d, e, f) &#123; </span><br><span class="line">     // 等于在最前面声明并初始化了要用到的所有模块</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        // 即便没用到某个模块 b，但 b 还是提前执行了</span><br><span class="line">        b.doSomething()</span><br><span class="line">    &#125; </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** CMD写法 **/</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var a = require(&apos;./a&apos;); //在需要时申明</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        var b = require(&apos;./b&apos;);</span><br><span class="line">        b.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** sea.js **/</span><br><span class="line">// 定义模块 math.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var $ = require(&apos;jquery.js&apos;);</span><br><span class="line">    var add = function(a,b)&#123;</span><br><span class="line">        return a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    exports.add = add;</span><br><span class="line">&#125;);</span><br><span class="line">// 加载模块</span><br><span class="line">seajs.use([&apos;math.js&apos;], function(math)&#123;</span><br><span class="line">    var sum = math.add(1+2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h4><blockquote>
+<p>ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，旨在成为浏览器和服务器通用的模块解决方案。其模块功能主要由两个命令构成：==export==和==import==。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** 定义模块 math.js **/</span><br><span class="line">var basicNum = 0;</span><br><span class="line">var add = function (a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123; basicNum, add &#125;;</span><br><span class="line"></span><br><span class="line">/** 引用模块 **/</span><br><span class="line">import &#123; basicNum, add &#125; from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = add(99 + basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上例所示，使用import命令的时候，用户需要知道所要加载的变量名或函数名。其实ES6还提供了export default命令，为模块指定默认输出，对应的import语句不需要使用大括号。这也更趋近于ADM的引用写法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** export default **/</span><br><span class="line">//定义输出</span><br><span class="line">export default &#123; basicNum, add &#125;;</span><br><span class="line">//引入</span><br><span class="line">import math from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = math.add(99 + math.basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES6的模块不是对象，import命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，所以无法实现条件加载。也正因为这个，使得静态分析成为可能。</p>
+<h3 id="ES6-模块与-CommonJS-模块的差异"><a href="#ES6-模块与-CommonJS-模块的差异" class="headerlink" title="ES6 模块与 CommonJS 模块的差异"></a>ES6 模块与 CommonJS 模块的差异</h3><p><strong>1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</strong></p>
+<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。</p>
+<p><strong>2. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</strong></p>
+<p>CommonJS 模块就是对象，即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
 <p><strong>参考文献</strong></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/new" target="_blank" rel="noopener">new 运算符</a></p>
-<p><a href="https://segmentfault.com/a/1190000008576048" target="_blank" rel="noopener">new 操作符具体干了什么？</a></p>
+<p><a href="https://juejin.im/post/5ab378c46fb9a028ce7b824f" target="_blank" rel="noopener">浅谈模块化开发</a></p>
+<p><a href="https://juejin.im/post/5aaa37c8f265da23945f365c" target="_blank" rel="noopener">前端模块化</a></p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（一）</title>
+    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
+<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
+<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
+
+<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
       </tags>
   </entry>
   <entry>
@@ -1038,23 +1058,56 @@ tag与branch的操作基本一致，因为tag就是一个仅可读的branch</cod
       </tags>
   </entry>
   <entry>
-    <title>jQuery源码解读（一）</title>
-    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
-<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
-<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
+    <title>什么是Ajax</title>
+    <url>/2020/04/14/2020-04-14-Ajax-md/</url>
+    <content><![CDATA[<h2 id="什么是AJAX"><a href="#什么是AJAX" class="headerlink" title="什么是AJAX"></a>什么是AJAX</h2><blockquote>
+<p>2005 年 2 月，AJAX 这个词第一次正式提出，它是 Asynchronous JavaScript and XML 的缩写，指的是通过 JavaScript 的 异步通信，从服务器获取 XML 文档从中提取数据，再更新当前网页的对应部分，而不用刷新整个网页。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="如何创建Ajax"><a href="#如何创建Ajax" class="headerlink" title="如何创建Ajax"></a>如何创建Ajax</h2><blockquote>
+<p>创建Ajax包括以下步骤：</p>
+</blockquote>
+<ol>
+<li>实例化一个XMLHttpRequest对象</li>
+<li>使用open方法创建一个http请求， <strong>open([请求方法],[请求地址],[是否异步和用户的认证信息])</strong></li>
+<li>设置监听HTTP请求状态变化的函数</li>
+<li>发送HTTP请求</li>
+<li>获取异步调用返回的数据</li>
+<li>使用JavaScript和DOM实现局部刷新</li>
+</ol>
+<p><strong>回调函数实现的方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const SERVER_URL = &quot;/server&quot;;</span><br><span class="line"></span><br><span class="line">let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">// 创建 Http 请求</span><br><span class="line">xhr.open(&quot;GET&quot;, SERVER_URL, true);</span><br><span class="line"></span><br><span class="line">// 设置状态监听函数</span><br><span class="line">xhr.onreadystatechange = function() &#123;</span><br><span class="line">  if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">  // 当请求成功时</span><br><span class="line">  if (this.status === 200) &#123;</span><br><span class="line">    handle(this.response);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    console.error(this.statusText);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求失败时的监听函数</span><br><span class="line">xhr.onerror = function() &#123;</span><br><span class="line">  console.error(this.statusText);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求头信息</span><br><span class="line">xhr.responseType = &quot;json&quot;;</span><br><span class="line">xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">// 发送 Http 请求</span><br><span class="line">xhr.send(null);</span><br></pre></td></tr></table></figure>
 
-<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<p><strong>基于promise封装实现</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getJSON(url) &#123;</span><br><span class="line">  // 创建一个 promise 对象</span><br><span class="line">  let promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">    let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">    // 新建一个 http 请求</span><br><span class="line">    xhr.open(&quot;GET&quot;, url, true);</span><br><span class="line"></span><br><span class="line">    // 设置状态的监听函数</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">      if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">      // 当请求成功或失败时，改变 promise 的状态</span><br><span class="line">      if (this.status === 200) &#123;</span><br><span class="line">        resolve(this.response);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        reject(new Error(this.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置错误监听函数</span><br><span class="line">    xhr.onerror = function() &#123;</span><br><span class="line">      reject(new Error(this.statusText));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置响应的数据类型</span><br><span class="line">    xhr.responseType = &quot;json&quot;;</span><br><span class="line"></span><br><span class="line">    // 设置请求头信息</span><br><span class="line">    xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">    // 发送 http 请求</span><br><span class="line">    xhr.send(null);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return promise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="HTTP的请求方法"><a href="#HTTP的请求方法" class="headerlink" title="HTTP的请求方法"></a>HTTP的请求方法</h3><ol>
+<li><code>get</code></li>
+<li><code>post</code> </li>
+<li><code>head</code></li>
+<li><code>put</code></li>
+<li><code>delete</code></li>
+<li><code>connect</code></li>
+<li><code>options</code></li>
+<li><code>trace</code></li>
+</ol>
+<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><ul>
+<li><code>200</code> <strong>服务器正常</strong></li>
+<li><code>301</code> <strong>永久移动</strong></li>
+<li><code>302</code> <strong>暂时移动</strong></li>
+<li><code>304</code> <strong>未修改</strong></li>
+<li><code>307</code> <strong>暂时重定向</strong></li>
+<li><code>401</code> <strong>未授权</strong></li>
+<li><code>403</code> <strong>禁止访问</strong></li>
+<li><code>404</code> <strong>未发现指定网址</strong></li>
+<li><code>500</code> <strong>服务器错误</strong></li>
+</ul>
+]]></content>
       <categories>
-        <category>源码</category>
+        <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>jQuery</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
 </search>

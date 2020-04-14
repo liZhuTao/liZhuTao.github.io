@@ -16,31 +16,6 @@
       </tags>
   </entry>
   <entry>
-    <title>formatTime</title>
-    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
-    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
-<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
-</blockquote>
-<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性好，但是输出格式固定</p>
-</blockquote>
-<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>基于模板和数据的渲染，能够按理想格式输出</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>JS函数</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数组去重</title>
     <url>/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/</url>
     <content><![CDATA[<h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2><a id="more"></a>
@@ -62,6 +37,31 @@
 <p>ES6新增的一种新的数据结构，类似于数组，但成员是唯一的且无序的，没有重复值。Set本身是一种构造函数，用来生成Set数据结构。Set对象允许你存储任何类型的唯一值，无论是原始值还是对象引用。</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let ary1 = [...new Set(ary)];  //使用剩余参数转数组</span><br><span class="line">console.log(ary1);</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>JS函数</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>formatTime</title>
+    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
+    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
+<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
+</blockquote>
+<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性好，但是输出格式固定</p>
+</blockquote>
+<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>基于模板和数据的渲染，能够按理想格式输出</p>
+</blockquote>
+]]></content>
       <categories>
         <category>JS函数</category>
       </categories>
@@ -244,6 +244,54 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS盒子模型</title>
+    <url>/2020/04/01/2020-04-01-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B-md/</url>
+    <content><![CDATA[<h2 id="CSS盒子模型简介"><a href="#CSS盒子模型简介" class="headerlink" title="CSS盒子模型简介"></a>CSS盒子模型简介</h2><blockquote>
+<p>当我们对文档进行布局的时候，浏览器的渲染引擎会根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener"> CSS 基础框盒模型（CSS basic box model）</a>标准，将所有元素渲染成一个个矩形的盒子，且通过CSS决定盒子的大小、位置以及属性等属性。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>每个盒子有四个部分组成</strong></p>
+<ul>
+<li>内容边界 Content edge</li>
+<li>内边距边界 Padding Edge</li>
+<li>框边界 Border Edge</li>
+<li>外边框边界 Margin Edge</li>
+</ul>
+<p>MDN 官网图片<br><img src="https://mdn.mozillademos.org/files/8685/boxmodel-(3).png" ></p>
+<h2 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h2><blockquote>
+<p>CSS 中的 box-sizing 属性定义了 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/User_agent" target="_blank" rel="noopener">user agent</a> 应该如何计算一个元素的总宽度和总高度。</p>
+</blockquote>
+<h3 id="W3C标准盒模型（content-box）"><a href="#W3C标准盒模型（content-box）" class="headerlink" title="W3C标准盒模型（content-box）"></a>W3C标准盒模型（content-box）</h3><blockquote>
+<p>默认值，标准盒子模型。 width 与 height 只包括内容的宽和高，不包括边框（border），内边距（padding），外边距（margin）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="https://user-gold-cdn.xitu.io/2017/10/25/9cb491d4bd5d326aeb16632280411283?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+
+<h3 id="IE盒模型（border-box）"><a href="#IE盒模型（border-box）" class="headerlink" title="IE盒模型（border-box）"></a>IE盒模型（border-box）</h3><blockquote>
+<p>width 和 height 属性包括内容，内边距和边框，但<strong>不包括外边距(margin)</strong>。</p>
+</blockquote>
+<p><strong>尺寸计算公式</strong>：</p>
+<p>width = border + padding + 内容的宽度</p>
+<p>height = border + padding + 内容的高度</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">    padding:20px;</span><br><span class="line">    border:10px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="https://user-gold-cdn.xitu.io/2017/10/25/cfff88aff482f7dd89d60d7498695450?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
+<p>我们在编写页面代码时应尽量使用标准的W3C模型(需在页面中声明DOCTYPE类型)，这样可以避免多个浏览器对同一页面的不兼容。因为若不声明DOCTYPE类型，IE浏览器会将盒子模型解释为IE盒子模型，FireFox等会将其解释为W3C盒子模型；若在页面中声明了DOCTYPE类型，所有的浏览器都会把盒模型解释为W3C盒模型。</p>
+</blockquote>
+<p><strong>参考文献</strong></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">CSS 基础框盒模型介绍</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-sizing" target="_blank" rel="noopener">box-sizing</a></p>
+<p><a href="https://juejin.im/post/59ef72f5f265da4320026f76" target="_blank" rel="noopener">CSS盒模型详解</a></p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
       </tags>
   </entry>
   <entry>
@@ -685,95 +733,6 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
-    <title>垂直居中布局</title>
-    <url>/2020/04/01/2020-04-01-%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%B8%83%E5%B1%80-md/</url>
-    <content><![CDATA[<h3 id="margin-绝对定位"><a href="#margin-绝对定位" class="headerlink" title="margin+绝对定位"></a>margin+绝对定位</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  width: 300px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  margin: auto;</span><br><span class="line">  top: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  background-color: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a>
-
-<h3 id="绝度定位"><a href="#绝度定位" class="headerlink" title="绝度定位"></a>绝度定位</h3><blockquote>
-<p>确定容器的宽高,设置div的负外边距</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">position:absolute;/*绝对定位*/</span><br><span class="line">width:500px;</span><br><span class="line">height:300px;</span><br><span class="line">top:50%;</span><br><span class="line">left:50%;</span><br><span class="line">margin:-150px -250px;/*外边距为自身宽高的一半*/</span><br><span class="line">background-color:pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h3><blockquote>
-<p>未知容器的宽高，利用<code>transform</code>属性</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">  position: relative; /*相对定位或绝对定位均可*/</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  top: 50%;</span><br><span class="line">  left: 50%;</span><br><span class="line">  transform: translate(-50%, -50%);</span><br><span class="line">  background-color: pink; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="flex弹性布局"><a href="#flex弹性布局" class="headerlink" title="flex弹性布局"></a>flex弹性布局</h3><blockquote>
-<p>利用flex布局实际使用时应考虑兼容性</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center; /*垂直居中*/</span><br><span class="line">  justify-content: center; /*水平居中*/</span><br><span class="line">&#125;</span><br><span class="line">.container div &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  background-color: pink; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="text-align和vertical-align"><a href="#text-align和vertical-align" class="headerlink" title="text-align和vertical-align"></a>text-align和vertical-align</h3><blockquote>
-<p>利用text-align:center和vertical-align:middle属性</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">container &#123;</span><br><span class="line">  position: fixed;</span><br><span class="line">  top: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  background: rgba(0, 0, 0, 0.5);</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-size: 0;</span><br><span class="line">  white-space: nowrap;</span><br><span class="line">  overflow: auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.container::after &#123;</span><br><span class="line">  content: &quot;&quot;;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  height: 100%;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 400px;</span><br><span class="line">  background-color: pink;</span><br><span class="line">  white-space: normal;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一般常见的几种居中的方法有：</p>
-<p>对于宽高固定的元素</p>
-<p>（1）我们可以利用margin:0auto来实现元素的水平居中。</p>
-<p>（2）利用绝对定位，设置四个方向的值都为0，并将margin设置为auto，由于宽高固定，因此对应方向实现平分，可以实现水<br>平和垂直方向上的居中。</p>
-<p>（3）利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过margin负值来调整元素<br>的中心点到页面的中心。</p>
-<p>（4）利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过translate来调整元素<br>的中心点到页面的中心。</p>
-<p>（5）使用flex布局，通过align-items:center和justify-content:center设置容器的垂直和水平方向上为居中对<br>齐，然后它的子元素也可以实现垂直和水平的居中。</p>
-<p>对于宽高不定的元素，上面的后面两种方法，可以实现元素的垂直和水平的居中。</p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CSS盒子模型</title>
-    <url>/2020/04/01/2020-04-01-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B-md/</url>
-    <content><![CDATA[<h2 id="CSS盒子模型简介"><a href="#CSS盒子模型简介" class="headerlink" title="CSS盒子模型简介"></a>CSS盒子模型简介</h2><blockquote>
-<p>当我们对文档进行布局的时候，浏览器的渲染引擎会根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener"> CSS 基础框盒模型（CSS basic box model）</a>标准，将所有元素渲染成一个个矩形的盒子，且通过CSS决定盒子的大小、位置以及属性等属性。</p>
-</blockquote>
-<a id="more"></a>
-<p><strong>每个盒子有四个部分组成</strong></p>
-<ul>
-<li>内容边界 Content edge</li>
-<li>内边距边界 Padding Edge</li>
-<li>框边界 Border Edge</li>
-<li>外边框边界 Margin Edge</li>
-</ul>
-<p>MDN 官网图片<br><img src="https://mdn.mozillademos.org/files/8685/boxmodel-(3).png" ></p>
-<h2 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h2><blockquote>
-<p>CSS 中的 box-sizing 属性定义了 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/User_agent" target="_blank" rel="noopener">user agent</a> 应该如何计算一个元素的总宽度和总高度。</p>
-</blockquote>
-<h3 id="W3C标准盒模型（content-box）"><a href="#W3C标准盒模型（content-box）" class="headerlink" title="W3C标准盒模型（content-box）"></a>W3C标准盒模型（content-box）</h3><blockquote>
-<p>默认值，标准盒子模型。 width 与 height 只包括内容的宽和高，不包括边框（border），内边距（padding），外边距（margin）。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="https://user-gold-cdn.xitu.io/2017/10/25/9cb491d4bd5d326aeb16632280411283?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
-
-<h3 id="IE盒模型（border-box）"><a href="#IE盒模型（border-box）" class="headerlink" title="IE盒模型（border-box）"></a>IE盒模型（border-box）</h3><blockquote>
-<p>width 和 height 属性包括内容，内边距和边框，但<strong>不包括外边距(margin)</strong>。</p>
-</blockquote>
-<p><strong>尺寸计算公式</strong>：</p>
-<p>width = border + padding + 内容的宽度</p>
-<p>height = border + padding + 内容的高度</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">    padding:20px;</span><br><span class="line">    border:10px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="https://user-gold-cdn.xitu.io/2017/10/25/cfff88aff482f7dd89d60d7498695450?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
-
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
-<p>我们在编写页面代码时应尽量使用标准的W3C模型(需在页面中声明DOCTYPE类型)，这样可以避免多个浏览器对同一页面的不兼容。因为若不声明DOCTYPE类型，IE浏览器会将盒子模型解释为IE盒子模型，FireFox等会将其解释为W3C盒子模型；若在页面中声明了DOCTYPE类型，所有的浏览器都会把盒模型解释为W3C盒模型。</p>
-</blockquote>
-<p><strong>参考文献</strong></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">CSS 基础框盒模型介绍</a></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-sizing" target="_blank" rel="noopener">box-sizing</a></p>
-<p><a href="https://juejin.im/post/59ef72f5f265da4320026f76" target="_blank" rel="noopener">CSS盒模型详解</a></p>
-]]></content>
-      <categories>
-        <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>CSS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>new操作符</title>
     <url>/2020/04/12/2020-04-12-new%E6%93%8D%E4%BD%9C%E7%AC%A6-md/</url>
     <content><![CDATA[<h2 id="new操作符"><a href="#new操作符" class="headerlink" title="new操作符"></a>new操作符</h2><blockquote>
@@ -820,6 +779,47 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
+    <title>垂直居中布局</title>
+    <url>/2020/04/01/2020-04-01-%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%B8%83%E5%B1%80-md/</url>
+    <content><![CDATA[<h3 id="margin-绝对定位"><a href="#margin-绝对定位" class="headerlink" title="margin+绝对定位"></a>margin+绝对定位</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  width: 300px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  margin: auto;</span><br><span class="line">  top: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  background-color: pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+<h3 id="绝度定位"><a href="#绝度定位" class="headerlink" title="绝度定位"></a>绝度定位</h3><blockquote>
+<p>确定容器的宽高,设置div的负外边距</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div&#123;</span><br><span class="line">position:absolute;/*绝对定位*/</span><br><span class="line">width:500px;</span><br><span class="line">height:300px;</span><br><span class="line">top:50%;</span><br><span class="line">left:50%;</span><br><span class="line">margin:-150px -250px;/*外边距为自身宽高的一半*/</span><br><span class="line">background-color:pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="相对定位"><a href="#相对定位" class="headerlink" title="相对定位"></a>相对定位</h3><blockquote>
+<p>未知容器的宽高，利用<code>transform</code>属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">  position: relative; /*相对定位或绝对定位均可*/</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 300px;</span><br><span class="line">  top: 50%;</span><br><span class="line">  left: 50%;</span><br><span class="line">  transform: translate(-50%, -50%);</span><br><span class="line">  background-color: pink; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="flex弹性布局"><a href="#flex弹性布局" class="headerlink" title="flex弹性布局"></a>flex弹性布局</h3><blockquote>
+<p>利用flex布局实际使用时应考虑兼容性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.container &#123;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center; /*垂直居中*/</span><br><span class="line">  justify-content: center; /*水平居中*/</span><br><span class="line">&#125;</span><br><span class="line">.container div &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  background-color: pink; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="text-align和vertical-align"><a href="#text-align和vertical-align" class="headerlink" title="text-align和vertical-align"></a>text-align和vertical-align</h3><blockquote>
+<p>利用text-align:center和vertical-align:middle属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">container &#123;</span><br><span class="line">  position: fixed;</span><br><span class="line">  top: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  background: rgba(0, 0, 0, 0.5);</span><br><span class="line">  text-align: center;</span><br><span class="line">  font-size: 0;</span><br><span class="line">  white-space: nowrap;</span><br><span class="line">  overflow: auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.container::after &#123;</span><br><span class="line">  content: &quot;&quot;;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  height: 100%;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  width: 500px;</span><br><span class="line">  height: 400px;</span><br><span class="line">  background-color: pink;</span><br><span class="line">  white-space: normal;</span><br><span class="line">  vertical-align: middle;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一般常见的几种居中的方法有：</p>
+<p>对于宽高固定的元素</p>
+<p>（1）我们可以利用margin:0auto来实现元素的水平居中。</p>
+<p>（2）利用绝对定位，设置四个方向的值都为0，并将margin设置为auto，由于宽高固定，因此对应方向实现平分，可以实现水<br>平和垂直方向上的居中。</p>
+<p>（3）利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过margin负值来调整元素<br>的中心点到页面的中心。</p>
+<p>（4）利用绝对定位，先将元素的左上角通过top:50%和left:50%定位到页面的中心，然后再通过translate来调整元素<br>的中心点到页面的中心。</p>
+<p>（5）使用flex布局，通过align-items:center和justify-content:center设置容器的垂直和水平方向上为居中对<br>齐，然后它的子元素也可以实现垂直和水平的居中。</p>
+<p>对于宽高不定的元素，上面的后面两种方法，可以实现元素的垂直和水平的居中。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>函数的防抖和节流</title>
     <url>/2020/04/13/2020-04-13-%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81-md/</url>
     <content><![CDATA[<blockquote>
@@ -844,21 +844,6 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>:2020-:04-:14-:Promise.md</title>
-    <url>/2020/04/14/2020-04-14-Promise-md/</url>
-    <content><![CDATA[<h2 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h2><blockquote>
-<p>Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一个 Promise 所必须具有的特性。</p>
-</blockquote><a id="more"></a>
-<p><code>Promise</code> 是一个<strong>构造函数</strong>，==接收一个函数作为参数==，返回一个 <strong>Promise 实例</strong>。一个 Promise 实例有三种状态，分别是 <code>pending</code>、<code>resolved</code> 和 <code>rejected</code>，分别代表了==进行中==、==已成==功和==已失败==。++实例的状态只能由 pending 转变 resolved 或者 rejected 状态，并且状态一经改变，就凝固了，无法再被改变了++。==状态的改变是通过 resolve() 和 reject() 函数来实现==的，我们<br>可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 <code>then</code> 方法，使用这个 ++then 方法可以为两个状态的改变注册回调函数++。这个回调函数属于微任务，会在本轮事件循环的末尾执行。</p>
-<h2 id="手写一个Promise"><a href="#手写一个Promise" class="headerlink" title="手写一个Promise"></a>手写一个Promise</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const PENDING = &quot;pending&quot;;</span><br><span class="line">const RESOLVED = &quot;resolved&quot;;</span><br><span class="line">const REJECTED = &quot;rejected&quot;;</span><br><span class="line"></span><br><span class="line">function MyPromise(fn) &#123;</span><br><span class="line">  // 保存初始化状态</span><br><span class="line">  var self = this;</span><br><span class="line"></span><br><span class="line">  // 初始化状态</span><br><span class="line">  this.state = PENDING;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 或者 rejected 传入的值</span><br><span class="line">  this.value = null;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 的回调函数</span><br><span class="line">  this.resolvedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 用于保存 reject 的回调函数</span><br><span class="line">  this.rejectedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 状态转变为 resolved 方法</span><br><span class="line">  function resolve(value) &#123;</span><br><span class="line">    // 判断传入元素是否为 Promise 值，如果是，则状态改变必须等待前一个状态改变后再进行改变</span><br><span class="line">    if (value instanceof MyPromise) &#123;</span><br><span class="line">      return value.then(resolve, reject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变，</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = RESOLVED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.resolvedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 状态转变为 rejected 方法</span><br><span class="line">  function reject(value) &#123;</span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = REJECTED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.rejectedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 将两个方法传入函数执行</span><br><span class="line">  try &#123;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    // 遇到错误时，捕获错误，执行 reject 函数</span><br><span class="line">    reject(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyPromise.prototype.then = function(onResolved, onRejected) &#123;</span><br><span class="line">  // 首先判断两个参数是否为函数类型，因为这两个参数是可选参数</span><br><span class="line">  onResolved =</span><br><span class="line">    typeof onResolved === &quot;function&quot;</span><br><span class="line">      ? onResolved</span><br><span class="line">      : function(value) &#123;</span><br><span class="line">          return value;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  onRejected =</span><br><span class="line">    typeof onRejected === &quot;function&quot;</span><br><span class="line">      ? onRejected</span><br><span class="line">      : function(error) &#123;</span><br><span class="line">          throw error;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  // 如果是等待状态，则将函数加入对应列表中</span><br><span class="line">  if (this.state === PENDING) &#123;</span><br><span class="line">    this.resolvedCallbacks.push(onResolved);</span><br><span class="line">    this.rejectedCallbacks.push(onRejected);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 如果状态已经凝固，则直接执行对应状态的函数</span><br><span class="line"></span><br><span class="line">  if (this.state === RESOLVED) &#123;</span><br><span class="line">    onResolved(this.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (this.state === REJECTED) &#123;</span><br><span class="line">    onRejected(this.value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>ECMAScript6</category>
-      </categories>
-      <tags>
-        <tag>ECMAScript6</tag>
       </tags>
   </entry>
   <entry>
@@ -977,6 +962,41 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（一）</title>
+    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
+<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
+<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
+
+<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Promise</title>
+    <url>/2020/04/14/2020-04-14-Promise-md/</url>
+    <content><![CDATA[<h2 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h2><blockquote>
+<p>Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一个 Promise 所必须具有的特性。</p>
+</blockquote><a id="more"></a>
+<p><code>Promise</code> 是一个<strong>构造函数</strong>，==接收一个函数作为参数==，返回一个 <strong>Promise 实例</strong>。一个 Promise 实例有三种状态，分别是 <code>pending</code>、<code>resolved</code> 和 <code>rejected</code>，分别代表了==进行中==、==已成==功和==已失败==。++实例的状态只能由 pending 转变 resolved 或者 rejected 状态，并且状态一经改变，就凝固了，无法再被改变了++。==状态的改变是通过 resolve() 和 reject() 函数来实现==的，我们<br>可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 <code>then</code> 方法，使用这个 ++then 方法可以为两个状态的改变注册回调函数++。这个回调函数属于微任务，会在本轮事件循环的末尾执行。</p>
+<h2 id="手写一个Promise"><a href="#手写一个Promise" class="headerlink" title="手写一个Promise"></a>手写一个Promise</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const PENDING = &quot;pending&quot;;</span><br><span class="line">const RESOLVED = &quot;resolved&quot;;</span><br><span class="line">const REJECTED = &quot;rejected&quot;;</span><br><span class="line"></span><br><span class="line">function MyPromise(fn) &#123;</span><br><span class="line">  // 保存初始化状态</span><br><span class="line">  var self = this;</span><br><span class="line"></span><br><span class="line">  // 初始化状态</span><br><span class="line">  this.state = PENDING;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 或者 rejected 传入的值</span><br><span class="line">  this.value = null;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 的回调函数</span><br><span class="line">  this.resolvedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 用于保存 reject 的回调函数</span><br><span class="line">  this.rejectedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 状态转变为 resolved 方法</span><br><span class="line">  function resolve(value) &#123;</span><br><span class="line">    // 判断传入元素是否为 Promise 值，如果是，则状态改变必须等待前一个状态改变后再进行改变</span><br><span class="line">    if (value instanceof MyPromise) &#123;</span><br><span class="line">      return value.then(resolve, reject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变，</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = RESOLVED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.resolvedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 状态转变为 rejected 方法</span><br><span class="line">  function reject(value) &#123;</span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = REJECTED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.rejectedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 将两个方法传入函数执行</span><br><span class="line">  try &#123;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    // 遇到错误时，捕获错误，执行 reject 函数</span><br><span class="line">    reject(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyPromise.prototype.then = function(onResolved, onRejected) &#123;</span><br><span class="line">  // 首先判断两个参数是否为函数类型，因为这两个参数是可选参数</span><br><span class="line">  onResolved =</span><br><span class="line">    typeof onResolved === &quot;function&quot;</span><br><span class="line">      ? onResolved</span><br><span class="line">      : function(value) &#123;</span><br><span class="line">          return value;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  onRejected =</span><br><span class="line">    typeof onRejected === &quot;function&quot;</span><br><span class="line">      ? onRejected</span><br><span class="line">      : function(error) &#123;</span><br><span class="line">          throw error;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  // 如果是等待状态，则将函数加入对应列表中</span><br><span class="line">  if (this.state === PENDING) &#123;</span><br><span class="line">    this.resolvedCallbacks.push(onResolved);</span><br><span class="line">    this.rejectedCallbacks.push(onRejected);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 如果状态已经凝固，则直接执行对应状态的函数</span><br><span class="line"></span><br><span class="line">  if (this.state === RESOLVED) &#123;</span><br><span class="line">    onResolved(this.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (this.state === REJECTED) &#123;</span><br><span class="line">    onRejected(this.value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>ECMAScript6</category>
+      </categories>
+      <tags>
+        <tag>ECMAScript6</tag>
       </tags>
   </entry>
   <entry>
@@ -1103,26 +1123,6 @@ tag与branch的操作基本一致，因为tag就是一个仅可读的branch</cod
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jQuery源码解读（一）</title>
-    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
-<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
-<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
-
-<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>源码</category>
-      </categories>
-      <tags>
-        <tag>jQuery</tag>
       </tags>
   </entry>
 </search>

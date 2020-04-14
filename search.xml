@@ -16,31 +16,6 @@
       </tags>
   </entry>
   <entry>
-    <title>formatTime</title>
-    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
-    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
-<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
-</blockquote>
-<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>容错性好，但是输出格式固定</p>
-</blockquote>
-<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>基于模板和数据的渲染，能够按理想格式输出</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>JS函数</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数组去重</title>
     <url>/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/</url>
     <content><![CDATA[<h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2><a id="more"></a>
@@ -67,6 +42,53 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>formatTime</title>
+    <url>/2019/11/28/2019-11-28-formatTime-md/</url>
+    <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
+<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
+</blockquote>
+<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>容错性好，但是输出格式固定</p>
+</blockquote>
+<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>基于模板和数据的渲染，能够按理想格式输出</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>JS函数</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（三）</title>
+    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
+
+<blockquote>
+<p>extend:向JQ中继续拓展方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
       </tags>
   </entry>
   <entry>
@@ -138,28 +160,6 @@
     $box.css();
     $box.attr();
     $box.click();</code></pre>]]></content>
-      <categories>
-        <category>源码</category>
-      </categories>
-      <tags>
-        <tag>jQuery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jQuery源码解读（三）</title>
-    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
-
-<blockquote>
-<p>extend:向JQ中继续拓展方法</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
-]]></content>
       <categories>
         <category>源码</category>
       </categories>
@@ -469,6 +469,33 @@
       </tags>
   </entry>
   <entry>
+    <title>函数的防抖和节流</title>
+    <url>/2020/04/13/2020-04-13-%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81-md/</url>
+    <content><![CDATA[<blockquote>
+<p>函数的防抖和节流都是为了限制函数的执行次数，以解决函数触发频率过高导致浏览器的响应速度跟不上造成的卡顿和延迟现象，也就是前端所谓的性能优化。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="函数的防抖"><a href="#函数的防抖" class="headerlink" title="函数的防抖"></a>函数的防抖</h2><blockquote>
+<p>函数防抖是指在事件被触发 n 秒后再执行回调，如果在这 n 秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//函数防抖的实现</span><br><span class="line">function(fn,wait)&#123;</span><br><span class="line">    var timer = null;</span><br><span class="line">    </span><br><span class="line">    return function()&#123;</span><br><span class="line">        var context = this,</span><br><span class="line">            args = arguments;</span><br><span class="line">        //如果此时存在定时器的话，则取消之前的定时器重新记时</span><br><span class="line">         if (timer) &#123;</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = null;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 设置定时器，使事件间隔指定事件后执行</span><br><span class="line">        timer = setTimeout(() =&gt; &#123;</span><br><span class="line">            fn.apply(context, args);</span><br><span class="line">        &#125;, wait);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="函数的节流"><a href="#函数的节流" class="headerlink" title="函数的节流"></a>函数的节流</h2><blockquote>
+<p>函数节流是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。(游戏里的技能冷却)</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 函数节流的实现;</span><br><span class="line">function throttle(fn, delay) &#123;</span><br><span class="line">    var preTime = Date.now();</span><br><span class="line"></span><br><span class="line">    return function() &#123;</span><br><span class="line">        var context = this,</span><br><span class="line">            args = arguments,</span><br><span class="line">            nowTime = Date.now();</span><br><span class="line"></span><br><span class="line">        // 如果两次时间间隔超过了指定时间，则执行函数。</span><br><span class="line">        if (nowTime - preTime &gt;= delay) &#123;</span><br><span class="line">            preTime = Date.now();</span><br><span class="line">            return fn.apply(context, args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参考文献</strong></p>
+<p><a href="https://juejin.im/post/5a35ed25f265da431d3cc1b1" target="_blank" rel="noopener">轻松理解JS函数节流和函数防抖</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>闭包</title>
     <url>/2020/03/29/2020-03-29-%E9%97%AD%E5%8C%85-md/</url>
     <content><![CDATA[<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
@@ -539,6 +566,71 @@
 <blockquote>
 <p> –<a href="https://www.bilibili.com/video/BV1J4411B7Pa" target="_blank" rel="noopener">珠峰前端公开课</a></p>
 </blockquote>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>模块化开发</title>
+    <url>/2020/04/13/2020-04-13-%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91-md/</url>
+    <content><![CDATA[<h2 id="模块化开发"><a href="#模块化开发" class="headerlink" title="模块化开发"></a>模块化开发</h2><blockquote>
+<p>现在的前端开发，不仅仅是完成浏览器的基本需求。并且通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程会加载越来越多的JavaScript代码。如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器快速、优雅的加载和更新，就需要一个模块化系统</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h3><blockquote>
+<p>模块化是实现一组特定功能的一组方法</p>
+</blockquote>
+<p>最开始由于函数具有独立作用域的特点，所以使用<strong>函数</strong>来作为模块，但是这种方法容易造成全局变量污染，并且模块之间没有联系。后面提出了<strong>对象写法</strong>，通过函数作为一个对象的方法来实现，遮掩虽然解决了直接使用函数模块的缺点，但是这种方法会暴露所有的模块成员，从而导致外部代码可以修改内部代码。所以现在常用的时使用立即执行函数的写法，通过<strong>闭包</strong>来实现模块私有作用域的建立，同时不会对全局作用域造成污染。</p>
+<h3 id="JS常见的模块规范"><a href="#JS常见的模块规范" class="headerlink" title="JS常见的模块规范"></a>JS常见的模块规范</h3><h4 id="高级单例模式"><a href="#高级单例模式" class="headerlink" title="高级单例模式"></a>高级单例模式</h4><blockquote>
+<p>高级单例模式：创建一个命名空间（模块名），接收一个闭包中返回的相关信息，实现把比保重的某些信息暴露出来，供其他闭包调用。（可以参考jQuery源码）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let module1 = (function()&#123;</span><br><span class="line">    let name = &quot;小明&quot;;</span><br><span class="line">    </span><br><span class="line">    function query()&#123;</span><br><span class="line">        console.log(&quot;query&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return &#123; query:query &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">let module2 = (function()&#123;</span><br><span class="line">    function fn()&#123;</span><br><span class="line">        console.log(&quot;fn&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //调用module1中的query方法</span><br><span class="line">    module.query();</span><br><span class="line">    </span><br><span class="line">    return &#123; fn:fn &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h4><blockquote>
+<p>Node.js 是 CommonJS 规范的主要实践者，在node.js中每个js文件就是一个模块，他有四个重要的环境变量：==module==、==exports==、==require==、==global==。实际使用时，使用==module.exports==定义当前模块对外输出的接口（不推荐直接使用==exports==），用==require==加载模块。</p>
+</blockquote>
+<p><strong>定义模块math.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var basicNum = 0;</span><br><span class="line">function add(a, b) &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//在这里写上需要向外暴露的函数、变量</span><br><span class="line">module.exports = &#123; </span><br><span class="line">  add: add,</span><br><span class="line">  basicNum: basicNum</span><br><span class="line">&#125;</span><br><span class="line">//ES6中对象的key和value相等可以简写为</span><br><span class="line">// module.exports = &#123; add,basicNum &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>引用自定义的模块时，参数包含路径，可省略.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var math = require(&apos;./math&apos;);</span><br><span class="line">math.add(2, 5);</span><br></pre></td></tr></table></figure>
+
+<p><strong>引用核心模块时，不需要带路径</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line">http.createService(...).listen(3000);</span><br></pre></td></tr></table></figure>
+<p>CommonJS 用同步的方法加载模块。在服务端，模块组件都存在本地磁盘，读取非常快。但是在浏览器端，由于网络的限制，所以使用异步加载更加合理。</p>
+<h4 id="AMD和require-js"><a href="#AMD和require-js" class="headerlink" title="AMD和require.js"></a>AMD和require.js</h4><blockquote>
+<p>AMD规范采用异步加载模块，模块的加载不影响它后面语句的执行。所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个会掉函数再执行。AMD规范的模块化是由==require.js==实现的。用==require.config==()指定应用路径、用define()定义模块、用==require==()加载模块。</p>
+</blockquote>
+<p><strong>网页中引入 require.js 及 main.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>main.js 入口文件/主模块</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">    baseUrl:&quot;js/lib&quot;,</span><br><span class="line">    paths:&#123;</span><br><span class="line">        &quot;jquery&quot;:&quot;jquery.min&quot;,  //实际路径 js/lib/jquery.min.js</span><br><span class="line">        &quot;underscore&quot;:&quot;underscore.min&quot;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//执行基本操作</span><br><span class="line">require([&quot;jquery&quot;,&quot;underscore&quot;],function($,_)&#123;</span><br><span class="line">    //code</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>引用模块的时候，我们将模块名放在[]中作为reqiure()的第一参数；如果我们定义的模块本身也依赖其他模块,那就需要将它们放在[]中作为define()的第一参数。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//定义math.js模块</span><br><span class="line">define(function()&#123;</span><br><span class="line">    var basicNum = 0;</span><br><span class="line">    var add = function(x,y)&#123;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        add:add,</span><br><span class="line">        basicNum:basicNum</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//定义提个依赖underscroe.js模块</span><br><span class="line">define([&apos;underscore&apos;],function()&#123;</span><br><span class="line">    var classify = function(list)&#123;</span><br><span class="line">    _.countBy(list,function(num)&#123;</span><br><span class="line">      return num &gt; 30 ? &apos;old&apos; : &apos;young&apos;;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">  return &#123;</span><br><span class="line">    classify :classify</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 引用模块，将模块放在[]内</span><br><span class="line">require([&apos;jquery&apos;, &apos;math&apos;],function($, math)&#123;</span><br><span class="line">  var sum = math.add(10,20);</span><br><span class="line">  $(&quot;#sum&quot;).html(sum);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="CMD和sea-js"><a href="#CMD和sea-js" class="headerlink" title="CMD和sea.js"></a>CMD和sea.js</h4><blockquote>
+<p>CMD是另一种js模块化方案，它与AMD很类似，不同点在于：AMD 推崇依赖前置、提前执行，CMD推崇依赖就近、延迟执行。此规范其实是在sea.js推广过程中产生的。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** AMD写法 **/</span><br><span class="line">define([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;], function(a, b, c, d, e, f) &#123; </span><br><span class="line">     // 等于在最前面声明并初始化了要用到的所有模块</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        // 即便没用到某个模块 b，但 b 还是提前执行了</span><br><span class="line">        b.doSomething()</span><br><span class="line">    &#125; </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** CMD写法 **/</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var a = require(&apos;./a&apos;); //在需要时申明</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        var b = require(&apos;./b&apos;);</span><br><span class="line">        b.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** sea.js **/</span><br><span class="line">// 定义模块 math.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var $ = require(&apos;jquery.js&apos;);</span><br><span class="line">    var add = function(a,b)&#123;</span><br><span class="line">        return a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    exports.add = add;</span><br><span class="line">&#125;);</span><br><span class="line">// 加载模块</span><br><span class="line">seajs.use([&apos;math.js&apos;], function(math)&#123;</span><br><span class="line">    var sum = math.add(1+2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h4><blockquote>
+<p>ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，旨在成为浏览器和服务器通用的模块解决方案。其模块功能主要由两个命令构成：==export==和==import==。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** 定义模块 math.js **/</span><br><span class="line">var basicNum = 0;</span><br><span class="line">var add = function (a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123; basicNum, add &#125;;</span><br><span class="line"></span><br><span class="line">/** 引用模块 **/</span><br><span class="line">import &#123; basicNum, add &#125; from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = add(99 + basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如上例所示，使用import命令的时候，用户需要知道所要加载的变量名或函数名。其实ES6还提供了export default命令，为模块指定默认输出，对应的import语句不需要使用大括号。这也更趋近于ADM的引用写法。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** export default **/</span><br><span class="line">//定义输出</span><br><span class="line">export default &#123; basicNum, add &#125;;</span><br><span class="line">//引入</span><br><span class="line">import math from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = math.add(99 + math.basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ES6的模块不是对象，import命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，所以无法实现条件加载。也正因为这个，使得静态分析成为可能。</p>
+<h3 id="ES6-模块与-CommonJS-模块的差异"><a href="#ES6-模块与-CommonJS-模块的差异" class="headerlink" title="ES6 模块与 CommonJS 模块的差异"></a>ES6 模块与 CommonJS 模块的差异</h3><p><strong>1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</strong></p>
+<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。</p>
+<p><strong>2. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</strong></p>
+<p>CommonJS 模块就是对象，即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
+<p><strong>参考文献</strong></p>
+<p><a href="https://juejin.im/post/5ab378c46fb9a028ce7b824f" target="_blank" rel="noopener">浅谈模块化开发</a></p>
+<p><a href="https://juejin.im/post/5aaa37c8f265da23945f365c" target="_blank" rel="noopener">前端模块化</a></p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -820,118 +912,6 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
-    <title>函数的防抖和节流</title>
-    <url>/2020/04/13/2020-04-13-%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81-md/</url>
-    <content><![CDATA[<blockquote>
-<p>函数的防抖和节流都是为了限制函数的执行次数，以解决函数触发频率过高导致浏览器的响应速度跟不上造成的卡顿和延迟现象，也就是前端所谓的性能优化。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="函数的防抖"><a href="#函数的防抖" class="headerlink" title="函数的防抖"></a>函数的防抖</h2><blockquote>
-<p>函数防抖是指在事件被触发 n 秒后再执行回调，如果在这 n 秒内事件又被触发，则重新计时。这可以使用在一些点击请求的事件上，避免因为用户的多次点击向后端发送多次请求。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//函数防抖的实现</span><br><span class="line">function(fn,wait)&#123;</span><br><span class="line">    var timer = null;</span><br><span class="line">    </span><br><span class="line">    return function()&#123;</span><br><span class="line">        var context = this,</span><br><span class="line">            args = arguments;</span><br><span class="line">        //如果此时存在定时器的话，则取消之前的定时器重新记时</span><br><span class="line">         if (timer) &#123;</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = null;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 设置定时器，使事件间隔指定事件后执行</span><br><span class="line">        timer = setTimeout(() =&gt; &#123;</span><br><span class="line">            fn.apply(context, args);</span><br><span class="line">        &#125;, wait);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="函数的节流"><a href="#函数的节流" class="headerlink" title="函数的节流"></a>函数的节流</h2><blockquote>
-<p>函数节流是指规定一个单位时间，在这个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，只有一次能生效。节流可以使用在 scroll 函数的事件监听上，通过事件节流来降低事件调用的频率。(游戏里的技能冷却)</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 函数节流的实现;</span><br><span class="line">function throttle(fn, delay) &#123;</span><br><span class="line">    var preTime = Date.now();</span><br><span class="line"></span><br><span class="line">    return function() &#123;</span><br><span class="line">        var context = this,</span><br><span class="line">            args = arguments,</span><br><span class="line">            nowTime = Date.now();</span><br><span class="line"></span><br><span class="line">        // 如果两次时间间隔超过了指定时间，则执行函数。</span><br><span class="line">        if (nowTime - preTime &gt;= delay) &#123;</span><br><span class="line">            preTime = Date.now();</span><br><span class="line">            return fn.apply(context, args);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>参考文献</strong></p>
-<p><a href="https://juejin.im/post/5a35ed25f265da431d3cc1b1" target="_blank" rel="noopener">轻松理解JS函数节流和函数防抖</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>模块化开发</title>
-    <url>/2020/04/13/2020-04-13-%E6%A8%A1%E5%9D%97%E5%8C%96%E5%BC%80%E5%8F%91-md/</url>
-    <content><![CDATA[<h2 id="模块化开发"><a href="#模块化开发" class="headerlink" title="模块化开发"></a>模块化开发</h2><blockquote>
-<p>现在的前端开发，不仅仅是完成浏览器的基本需求。并且通常是一个单页面应用，每一个视图通过异步的方式加载，这导致页面初始化和使用过程会加载越来越多的JavaScript代码。如何在开发环境组织好这些碎片化的代码和资源，并且保证他们在浏览器快速、优雅的加载和更新，就需要一个模块化系统</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="什么是模块化"><a href="#什么是模块化" class="headerlink" title="什么是模块化"></a>什么是模块化</h3><blockquote>
-<p>模块化是实现一组特定功能的一组方法</p>
-</blockquote>
-<p>最开始由于函数具有独立作用域的特点，所以使用<strong>函数</strong>来作为模块，但是这种方法容易造成全局变量污染，并且模块之间没有联系。后面提出了<strong>对象写法</strong>，通过函数作为一个对象的方法来实现，遮掩虽然解决了直接使用函数模块的缺点，但是这种方法会暴露所有的模块成员，从而导致外部代码可以修改内部代码。所以现在常用的时使用立即执行函数的写法，通过<strong>闭包</strong>来实现模块私有作用域的建立，同时不会对全局作用域造成污染。</p>
-<h3 id="JS常见的模块规范"><a href="#JS常见的模块规范" class="headerlink" title="JS常见的模块规范"></a>JS常见的模块规范</h3><h4 id="高级单例模式"><a href="#高级单例模式" class="headerlink" title="高级单例模式"></a>高级单例模式</h4><blockquote>
-<p>高级单例模式：创建一个命名空间（模块名），接收一个闭包中返回的相关信息，实现把比保重的某些信息暴露出来，供其他闭包调用。（可以参考jQuery源码）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let module1 = (function()&#123;</span><br><span class="line">    let name = &quot;小明&quot;;</span><br><span class="line">    </span><br><span class="line">    function query()&#123;</span><br><span class="line">        console.log(&quot;query&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return &#123; query:query &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">let module2 = (function()&#123;</span><br><span class="line">    function fn()&#123;</span><br><span class="line">        console.log(&quot;fn&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    //调用module1中的query方法</span><br><span class="line">    module.query();</span><br><span class="line">    </span><br><span class="line">    return &#123; fn:fn &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-
-
-<h4 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h4><blockquote>
-<p>Node.js 是 CommonJS 规范的主要实践者，在node.js中每个js文件就是一个模块，他有四个重要的环境变量：==module==、==exports==、==require==、==global==。实际使用时，使用==module.exports==定义当前模块对外输出的接口（不推荐直接使用==exports==），用==require==加载模块。</p>
-</blockquote>
-<p><strong>定义模块math.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var basicNum = 0;</span><br><span class="line">function add(a, b) &#123;</span><br><span class="line">  return a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//在这里写上需要向外暴露的函数、变量</span><br><span class="line">module.exports = &#123; </span><br><span class="line">  add: add,</span><br><span class="line">  basicNum: basicNum</span><br><span class="line">&#125;</span><br><span class="line">//ES6中对象的key和value相等可以简写为</span><br><span class="line">// module.exports = &#123; add,basicNum &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>引用自定义的模块时，参数包含路径，可省略.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var math = require(&apos;./math&apos;);</span><br><span class="line">math.add(2, 5);</span><br></pre></td></tr></table></figure>
-
-<p><strong>引用核心模块时，不需要带路径</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var http = require(&apos;http&apos;);</span><br><span class="line">http.createService(...).listen(3000);</span><br></pre></td></tr></table></figure>
-<p>CommonJS 用同步的方法加载模块。在服务端，模块组件都存在本地磁盘，读取非常快。但是在浏览器端，由于网络的限制，所以使用异步加载更加合理。</p>
-<h4 id="AMD和require-js"><a href="#AMD和require-js" class="headerlink" title="AMD和require.js"></a>AMD和require.js</h4><blockquote>
-<p>AMD规范采用异步加载模块，模块的加载不影响它后面语句的执行。所有依赖这个模块的语句，都定义在一个回调函数中，等到加载完成之后，这个会掉函数再执行。AMD规范的模块化是由==require.js==实现的。用==require.config==()指定应用路径、用define()定义模块、用==require==()加载模块。</p>
-</blockquote>
-<p><strong>网页中引入 require.js 及 main.js</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><strong>main.js 入口文件/主模块</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">require.config(&#123;</span><br><span class="line">    baseUrl:&quot;js/lib&quot;,</span><br><span class="line">    paths:&#123;</span><br><span class="line">        &quot;jquery&quot;:&quot;jquery.min&quot;,  //实际路径 js/lib/jquery.min.js</span><br><span class="line">        &quot;underscore&quot;:&quot;underscore.min&quot;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">//执行基本操作</span><br><span class="line">require([&quot;jquery&quot;,&quot;underscore&quot;],function($,_)&#123;</span><br><span class="line">    //code</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>引用模块的时候，我们将模块名放在[]中作为reqiure()的第一参数；如果我们定义的模块本身也依赖其他模块,那就需要将它们放在[]中作为define()的第一参数。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//定义math.js模块</span><br><span class="line">define(function()&#123;</span><br><span class="line">    var basicNum = 0;</span><br><span class="line">    var add = function(x,y)&#123;</span><br><span class="line">        return x + y;</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        add:add,</span><br><span class="line">        basicNum:basicNum</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//定义提个依赖underscroe.js模块</span><br><span class="line">define([&apos;underscore&apos;],function()&#123;</span><br><span class="line">    var classify = function(list)&#123;</span><br><span class="line">    _.countBy(list,function(num)&#123;</span><br><span class="line">      return num &gt; 30 ? &apos;old&apos; : &apos;young&apos;;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;;</span><br><span class="line">  return &#123;</span><br><span class="line">    classify :classify</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 引用模块，将模块放在[]内</span><br><span class="line">require([&apos;jquery&apos;, &apos;math&apos;],function($, math)&#123;</span><br><span class="line">  var sum = math.add(10,20);</span><br><span class="line">  $(&quot;#sum&quot;).html(sum);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="CMD和sea-js"><a href="#CMD和sea-js" class="headerlink" title="CMD和sea.js"></a>CMD和sea.js</h4><blockquote>
-<p>CMD是另一种js模块化方案，它与AMD很类似，不同点在于：AMD 推崇依赖前置、提前执行，CMD推崇依赖就近、延迟执行。此规范其实是在sea.js推广过程中产生的。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** AMD写法 **/</span><br><span class="line">define([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;], function(a, b, c, d, e, f) &#123; </span><br><span class="line">     // 等于在最前面声明并初始化了要用到的所有模块</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        // 即便没用到某个模块 b，但 b 还是提前执行了</span><br><span class="line">        b.doSomething()</span><br><span class="line">    &#125; </span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** CMD写法 **/</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var a = require(&apos;./a&apos;); //在需要时申明</span><br><span class="line">    a.doSomething();</span><br><span class="line">    if (false) &#123;</span><br><span class="line">        var b = require(&apos;./b&apos;);</span><br><span class="line">        b.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">/** sea.js **/</span><br><span class="line">// 定义模块 math.js</span><br><span class="line">define(function(require, exports, module) &#123;</span><br><span class="line">    var $ = require(&apos;jquery.js&apos;);</span><br><span class="line">    var add = function(a,b)&#123;</span><br><span class="line">        return a+b;</span><br><span class="line">    &#125;</span><br><span class="line">    exports.add = add;</span><br><span class="line">&#125;);</span><br><span class="line">// 加载模块</span><br><span class="line">seajs.use([&apos;math.js&apos;], function(math)&#123;</span><br><span class="line">    var sum = math.add(1+2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="ES6-Module"><a href="#ES6-Module" class="headerlink" title="ES6 Module"></a>ES6 Module</h4><blockquote>
-<p>ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，旨在成为浏览器和服务器通用的模块解决方案。其模块功能主要由两个命令构成：==export==和==import==。export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** 定义模块 math.js **/</span><br><span class="line">var basicNum = 0;</span><br><span class="line">var add = function (a, b) &#123;</span><br><span class="line">    return a + b;</span><br><span class="line">&#125;;</span><br><span class="line">export &#123; basicNum, add &#125;;</span><br><span class="line"></span><br><span class="line">/** 引用模块 **/</span><br><span class="line">import &#123; basicNum, add &#125; from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = add(99 + basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上例所示，使用import命令的时候，用户需要知道所要加载的变量名或函数名。其实ES6还提供了export default命令，为模块指定默认输出，对应的import语句不需要使用大括号。这也更趋近于ADM的引用写法。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/** export default **/</span><br><span class="line">//定义输出</span><br><span class="line">export default &#123; basicNum, add &#125;;</span><br><span class="line">//引入</span><br><span class="line">import math from &apos;./math&apos;;</span><br><span class="line">function test(ele) &#123;</span><br><span class="line">    ele.textContent = math.add(99 + math.basicNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>ES6的模块不是对象，import命令会被 JavaScript 引擎静态分析，在编译时就引入模块代码，而不是在代码运行时加载，所以无法实现条件加载。也正因为这个，使得静态分析成为可能。</p>
-<h3 id="ES6-模块与-CommonJS-模块的差异"><a href="#ES6-模块与-CommonJS-模块的差异" class="headerlink" title="ES6 模块与 CommonJS 模块的差异"></a>ES6 模块与 CommonJS 模块的差异</h3><p><strong>1. CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</strong></p>
-<p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。</p>
-<p><strong>2. CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</strong></p>
-<p>CommonJS 模块就是对象，即在输入时是先加载整个模块，生成一个对象，然后再从这个对象上面读取方法，这种加载称为“运行时加载”。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p>
-<p><strong>参考文献</strong></p>
-<p><a href="https://juejin.im/post/5ab378c46fb9a028ce7b824f" target="_blank" rel="noopener">浅谈模块化开发</a></p>
-<p><a href="https://juejin.im/post/5aaa37c8f265da23945f365c" target="_blank" rel="noopener">前端模块化</a></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jQuery源码解读（一）</title>
-    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
-<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
-<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
-
-<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>源码</category>
-      </categories>
-      <tags>
-        <tag>jQuery</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git常用命令</title>
     <url>/2020/01/31/2020-1-31-git-md/</url>
     <content><![CDATA[<h3 id="git简介"><a href="#git简介" class="headerlink" title="git简介"></a>git简介</h3><blockquote>
@@ -1055,6 +1035,26 @@ tag与branch的操作基本一致，因为tag就是一个仅可读的branch</cod
       </categories>
       <tags>
         <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（一）</title>
+    <url>/2020/02/03/2020-2-3-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%80%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery源码解读（一）"><a href="#jQuery源码解读（一）" class="headerlink" title="jQuery源码解读（一）"></a>jQuery源码解读（一）</h3><a id="more"></a>
+<h4 id="JQ的基本概括"><a href="#JQ的基本概括" class="headerlink" title="JQ的基本概括"></a>JQ的基本概括</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    &quot;use strict&quot;</span><br><span class="line">    if(typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;)&#123;</span><br><span class="line">        //......</span><br><span class="line">        //支持CommonJS模块规范的执行</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        //可以理解为浏览器环境或者（Web-view）环境</span><br><span class="line">        //浏览器环境中 global===window</span><br><span class="line">        // factory === function(window,noGlobal)&#123;&#125;</span><br><span class="line">        factory(global);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(typeof window !== &quot;undefind&quot; ? window :this, function (window,noGlobal)&#123;</span><br><span class="line">    //window === window</span><br><span class="line">    //noGlobal === undefined</span><br><span class="line">    &quot;use strict&quot;;</span><br><span class="line">    //......</span><br><span class="line">    </span><br><span class="line">    var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">    //jQuery 是一个类，jQuery是给原型设置一个别名</span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        //公共属性和方法</span><br><span class="line">        jquery: version,</span><br><span class="line">        constructor: jQuery,    //保证类的完整性</span><br><span class="line">        length:0，</span><br><span class="line">        </span><br><span class="line">        //转化为数组的方法</span><br><span class="line">        toArray: function()&#123;</span><br><span class="line">            //this ：一般指向当前类的jQuery实例</span><br><span class="line">            return slice.call(this);</span><br><span class="line">        &#125;,</span><br><span class="line">        </span><br><span class="line">        //把JQ对象转化为原生JS对象</span><br><span class="line">        get:function(num)&#123;</span><br><span class="line">            if(num == null)&#123;</span><br><span class="line">                return slice.call(this);</span><br><span class="line">            &#125;</span><br><span class="line">            return num &lt; 0 ? this[num + this.length]: this[num];</span><br><span class="line">        &#125;,</span><br><span class="line">        //jQ中的遍历方法</span><br><span class="line">         each:function()&#123;</span><br><span class="line">            return jQuery.each(this,callback);</span><br><span class="line">        &#125;,</span><br><span class="line">        //eq方法</span><br><span class="line">        eq:function(i)&#123;</span><br><span class="line">            var len = this.length,</span><br><span class="line">                j = +i + ( i &lt; 0 ? len :0);</span><br><span class="line">                return this.pushStack( j &gt;= 0 &amp;&amp; j &lt; len ? [this[j]] ; []);</span><br><span class="line">        &#125;,</span><br><span class="line">        //......</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    //jQuery是一个普通对象</span><br><span class="line">    jQuery.ajax = function(url,options)&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;；</span><br><span class="line">    </span><br><span class="line">    if(!noGlobal)&#123;</span><br><span class="line">        //把jQuery赋值给window下的jQuery和$</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="jQuery上的方法"><a href="#jQuery上的方法" class="headerlink" title="jQuery上的方法"></a>jQuery上的方法</h4><blockquote>
+<p>jQuery 的方法写在了两个位置上：一个将它当成类是写在它的原型上，一个是将它当成普通对象写在它的对象上，所以调用方法也不一样。对象上用 jQuery.或者$. 就可以调用，原型上要基于实例调用。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//1.原型上 jQuery.prototype = &#123;...&#125;</span><br><span class="line">//      $().get()       只有jQuery实例才可以调用</span><br><span class="line">//2.对象上 jQuery.ajax = ...</span><br><span class="line">//      $.ajax()      直接调用</span><br><span class="line">// 所以实例不能调用ajax()方法</span><br></pre></td></tr></table></figure>
+
+<h4 id="JQ的each方法"><a href="#JQ的each方法" class="headerlink" title="JQ的each方法"></a>JQ的each方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">/*JQ 中只有一个each 方法，用来遍历数组、对象、类数组的每一项</span><br><span class="line"> *  each:function()&#123;</span><br><span class="line"> *      return jQuery.each(this,callback);</span><br><span class="line"> *&#125;,</span><br><span class="line"> *</span><br><span class="line"> *  $a.each()最后还是会转化为 $.each($a) 这种模式</span><br><span class="line"> */</span><br><span class="line">$navList.each(function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br><span class="line">$.each($navList,function(index,item)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h5 id="each-源码"><a href="#each-源码" class="headerlink" title="each()源码"></a>each()源码</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">each:function()&#123;</span><br><span class="line">    var length,i = 0;</span><br><span class="line">    </span><br><span class="line">    if(isArrayLike(obj))&#123;</span><br><span class="line">        length = obj.length;</span><br><span class="line">        for(;i &lt; length; i++)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(i in obj)&#123;</span><br><span class="line">            if(callback.call(obj[i],i,obj[i] === false)&#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="检测当前对象是数组还是类数组的方法"><a href="#检测当前对象是数组还是类数组的方法" class="headerlink" title="检测当前对象是数组还是类数组的方法"></a>检测当前对象是数组还是类数组的方法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function isArrayLike(obj)&#123;</span><br><span class="line">    var length = !!obj &amp;&amp; &quot;length&quot; in obj &amp;&amp; obj.length,</span><br><span class="line">        type = toType(obj);</span><br><span class="line">        </span><br><span class="line">    if(ifFunction(obj) || isWindow(obj))&#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return type === &quot;array&quot; || length === 0 || typeof length === &quot;number&quot; &amp;&amp; length &gt; 0 &amp;&amp; (length - 1) in obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
       </tags>
   </entry>
 </search>

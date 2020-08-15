@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="数据类型转换的核心把其他数据类型转换成 Number 类型1. 特定需要转换为Number的  Number([val]) 12345678910console.log(Number(&amp;apos;&amp;apos;));            &#x2F;&#x2F; 0console.log(Number(&amp;apos;10&amp;apos;));          &#x2F;&#x2F; 10console.log(Number(&amp;apos;1">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content=":2020-:08-:15-:数据类型转换.md">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;08&#x2F;15&#x2F;2020-08-15-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="数据类型转换的核心把其他数据类型转换成 Number 类型1. 特定需要转换为Number的  Number([val]) 12345678910console.log(Number(&amp;apos;&amp;apos;));            &#x2F;&#x2F; 0console.log(Number(&amp;apos;10&amp;apos;));          &#x2F;&#x2F; 10console.log(Number(&amp;apos;1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-15T10:04:10.081Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/08/15/2020-08-15-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>:2020-:08-:15-:数据类型转换.md | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/08/15/2020-08-15-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          :2020-:08-:15-:数据类型转换.md
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-15 18:03:20 / 修改时间：18:04:10" itemprop="dateCreated datePublished" datetime="2020-08-15T18:03:20+08:00">2020-08-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="数据类型转换的核心"><a href="#数据类型转换的核心" class="headerlink" title="数据类型转换的核心"></a>数据类型转换的核心</h3><h4 id="把其他数据类型转换成-Number-类型"><a href="#把其他数据类型转换成-Number-类型" class="headerlink" title="把其他数据类型转换成 Number 类型"></a>把其他数据类型转换成 Number 类型</h4><p><strong>1. 特定需要转换为Number的</strong> </p><ul>
+<li>Number([val])</li>
+</ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">console.log(Number(&apos;&apos;));            // 0</span><br><span class="line">console.log(Number(&apos;10&apos;));          // 10</span><br><span class="line">console.log(Number(&apos;10px&apos;));        // NaN</span><br><span class="line">console.log(Number(true));          // 1</span><br><span class="line">console.log(Number(false));         // 0</span><br><span class="line">console.log(Number(null));          // 0</span><br><span class="line">console.log(Number(undefined));     // NaN</span><br><span class="line">console.log(Number(Symbol(10));     // 报错</span><br><span class="line">console.log(Number(BigInt(10)));    // 10</span><br><span class="line">// 对象变为数字，应该先valueOf,没有原始值再toString变为字符串，最后把字符串转换为数字</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+<ul>
+<li>parseInt/parseFloat([val])</li>
+</ul>
+<blockquote>
+<p>parseInt机制：从字符串左侧第一个字符开始，查找有效字符（遇到非有效字符停止查找，不论后面是否还有数字字符），把找到的数字字符转化为数字，如果一个都没找到结果就是NaN（parseFloat多识别一个字符串）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">parseInt(&quot;&quot;)    //NaN</span><br><span class="line">Number(&quot;&quot;)      // 0</span><br><span class="line">isNaN(&quot;&quot;)       //false</span><br><span class="line">parseInt(&quot;null&quot;)        //NaN</span><br><span class="line">Number(&quot;null&quot;)          // 0</span><br><span class="line">isNaN(&quot;null&quot;)           //false</span><br><span class="line">parseInt(&quot;12px&quot;)        //12</span><br><span class="line">Number(&quot;12px&quot;)          //NaN</span><br><span class="line">isNaN(&quot;12px&quot;)           //true</span><br><span class="line">parseFloat(&quot;1.6px&quot;) + parseInt(&quot;1.2px&quot;) + typeof parseInt(null)       //2.6number</span><br><span class="line">isNaN(Number(!!Number(parseInt(&quot;0.8&quot;))))        //false</span><br><span class="line">typeof !parseInt(null) + !isNaN(null)       //booleantrue</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 隐式转换（浏览器内部默认先转换为Number在进行计算的）</strong></p>
+<ul>
+<li>isNaN([val])</li>
+<li>数学运算（特殊情况：+ 在出现字符串的情况下不是数学运算，是字符串拼接）</li>
+<li>在 == 比较的时候，有些值需要转换为数字再进行比较</li>
+<li>…</li>
+</ul>
+<h4 id="把其他数据类型转换成-String-类型"><a href="#把其他数据类型转换成-String-类型" class="headerlink" title="把其他数据类型转换成 String 类型"></a>把其他数据类型转换成 String 类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
+<ul>
+<li>toString()</li>
+</ul>
+<blockquote>
+<p>把其他类型转换为字符串，一般都是直接用“”包起来，只有 { } 普通对象调取toString是调取Object.prototype.toString()方法，对象原型上的toString方法不是用来转换字符串的，而是用来检测数据类型的，返回结果为”[object Object]”</p>
+</blockquote>
+<ul>
+<li>String()</li>
+</ul>
+<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
+<ul>
+<li>加号运算的时候，如果某一边出现了字符串，则是字符串拼接</li>
+<li>把对象转化为数字，需要先toString（）转为字符串，再转为数字</li>
+<li>基于alert/confirm/prompt/document.write…这些方式输出内容，把内容先转化为字符串，然后在输出</li>
+<li>…</li>
+</ul>
+<h4 id="把其他数据类型转换成-Boolean-串类型"><a href="#把其他数据类型转换成-Boolean-串类型" class="headerlink" title="把其他数据类型转换成 Boolean 串类型"></a>把其他数据类型转换成 Boolean 串类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
+<ul>
+<li>! 转换成布尔值之后再取反</li>
+<li>!! 转换成布尔值</li>
+<li>Boolean([val])</li>
+</ul>
+<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
+<ul>
+<li>在循环或条件判断中，条件处理的结果就是布尔类型值</li>
+<li>…</li>
+</ul>
+<blockquote>
+<p>只有‘0、NaN、null、undefined、空字符串’这几个值会变成布尔的false,其余值都是true</p>
+</blockquote>
+<h4 id="在等号转换过程中，数据转换的规则"><a href="#在等号转换过程中，数据转换的规则" class="headerlink" title="在等号转换过程中，数据转换的规则"></a>在等号转换过程中，数据转换的规则</h4><p><strong>1. 类型一样的几个特殊点</strong></p>
+<ul>
+<li>{} == {}   false  对象比较的是堆内存引用地址</li>
+<li>[] == []   false</li>
+<li>NaN == NaN false </li>
+</ul>
+<p><strong>2. 类型不一样的转换规则</strong></p>
+<ul>
+<li>null == undefined 的结果为true，但是换成===的结果是false（因为类型不一致），剩下null、undefined和其他任何数据类型值都不相等</li>
+<li>字符串 == 对象 ，要把对象转换成字符串</li>
+<li>剩下如果两边数据类型不一致，都需要转换为数字在进行比较</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>实例1</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">console.log([] == false);</span><br><span class="line">console.log(![] == false);</span><br><span class="line"></span><br><span class="line">// =&gt;  true true</span><br><span class="line"></span><br><span class="line">/*  console.log([] == false)</span><br><span class="line"> *  对象 == 布尔  类型不一致，都转换成数字比较</span><br><span class="line"> *  []对象转换成数字之前需要使用toString（）转换成字符串</span><br><span class="line"> *  即  [] =&gt; &apos;&apos; =&gt; 0 ，  false  =&gt; 0</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> *</span><br><span class="line"> *  console.log(![] == false)</span><br><span class="line"> *  先计算 ![] 的值,将[]转为boolean再取反  =&gt; false</span><br><span class="line"> *  即  false == false</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<p><strong>实例2</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let result = 10 + false +undefined + [] + &quot;Tencent&quot; + null + true + &#123;&#125;;</span><br><span class="line">console.log(result)</span><br><span class="line"></span><br><span class="line">// 10 + false =&gt; 10</span><br><span class="line">// 10 + undefined =&gt; NaN        任何数字加上NaN都是NaN</span><br><span class="line">// NaN + [] =&gt; &quot;NaN&quot;</span><br><span class="line">// &quot;NaN&quot; + &quot;Tencent&quot; =&gt; &quot;NaNTencent&quot;</span><br><span class="line">// 后面都是字符串拼接</span><br><span class="line">// &quot;NaNTencentnulltrue[object Object]&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>实例3</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//加号即使笔辩出现字符串或者对象，也不一定是字符串拼接： ++i/i++/+i 这种情况下是数学运算</span><br><span class="line">let n = &quot;10&quot;;</span><br><span class="line">console.log(++n);   // 11</span><br><span class="line">console.log(+n);    // 10</span><br><span class="line"></span><br><span class="line">// &#123;&#125; + 0</span><br><span class="line">// 在这中情况下，左边的&#123;&#125;会被识别成一个代码块，不参与运算</span><br><span class="line">// 类似于function fn()&#123;&#125; + 0</span><br><span class="line">// 运算值处理 +0 =&gt; 0</span><br><span class="line"></span><br><span class="line">// (&#123;&#125; + 0)参与到数学运算中 &quot;[object Object]0&quot;</span><br><span class="line"></span><br><span class="line">// 0+&#123;&#125; 是数学运算中 &quot;0[object Object]&quot;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/08/13/2020-08-13-%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87-md/" rel="next" title="变量提升">
+                  <i class="fa fa-chevron-left"></i> 变量提升
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型转换的核心"><span class="nav-number">1.</span> <span class="nav-text">数据类型转换的核心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#把其他数据类型转换成-Number-类型"><span class="nav-number">1.1.</span> <span class="nav-text">把其他数据类型转换成 Number 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把其他数据类型转换成-String-类型"><span class="nav-number">1.2.</span> <span class="nav-text">把其他数据类型转换成 String 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#把其他数据类型转换成-Boolean-串类型"><span class="nav-number">1.3.</span> <span class="nav-text">把其他数据类型转换成 Boolean 串类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在等号转换过程中，数据转换的规则"><span class="nav-number">1.4.</span> <span class="nav-text">在等号转换过程中，数据转换的规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">2.</span> <span class="nav-text">实例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

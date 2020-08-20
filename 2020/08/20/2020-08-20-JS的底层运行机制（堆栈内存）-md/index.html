@@ -50,18 +50,21 @@
   };
 </script>
 
-  <meta name="description" content="格式化时间字符串">
+  <meta name="description" content="JS的底层运行机制JS的运行环境 浏览器(引擎) node(V8引擎) webview(V8引擎)">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="formatTime">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;28&#x2F;2019-11-28-formatTime-md&#x2F;index.html">
+<meta property="og:title" content="JS的底层运行机制（堆栈内存）">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;08&#x2F;20&#x2F;2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="格式化时间字符串">
+<meta property="og:description" content="JS的底层运行机制JS的运行环境 浏览器(引擎) node(V8引擎) webview(V8引擎)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T07:24:48.156Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
+<meta property="og:updated_time" content="2020-08-20T07:15:34.016Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/28/2019-11-28-formatTime-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/08/20/2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md/">
 
 
 <script id="page-configurations">
@@ -75,7 +78,7 @@
   };
 </script>
 
-  <title>formatTime | Bsmall</title>
+  <title>JS的底层运行机制（堆栈内存） | Bsmall</title>
   
 
 
@@ -215,7 +218,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/28/2019-11-28-formatTime-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/08/20/2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -228,7 +231,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          formatTime
+          JS的底层运行机制（堆栈内存）
         </h1>
 
         <div class="post-meta">
@@ -237,24 +240,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-28 19:47:13" itemprop="dateCreated datePublished" datetime="2019-11-28T19:47:13+08:00">2019-11-28</time>
+              <time title="创建时间：2020-08-20 15:13:38 / 修改时间：15:15:34" itemprop="dateCreated datePublished" datetime="2020-08-20T15:13:38+08:00">2020-08-20</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-01 15:24:48" itemprop="dateModified" datetime="2020-04-01T15:24:48+08:00">2020-04-01</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JS%E5%87%BD%E6%95%B0/" itemprop="url" rel="index">
-                    <span itemprop="name">JS函数</span>
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
                   </a>
                 </span>
             </span>
@@ -270,20 +267,72 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
-<h3 id="实现一个不足两位补零函数"><a href="#实现一个不足两位补零函数" class="headerlink" title="实现一个不足两位补零函数"></a>实现一个不足两位补零函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let addZero = val =&gt; &#123;</span><br><span class="line">	val = Number(val);</span><br><span class="line">	return val &lt; 10 ? &apos;0&apos; + val : val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="方法一：基于String方法实现"><a href="#方法一：基于String方法实现" class="headerlink" title="方法一：基于String方法实现"></a>方法一：基于String方法实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let time = &apos;2019-11-28 12:0:0&apos;;</span><br><span class="line"></span><br><span class="line">/* </span><br><span class="line"> *formatTime:格式化时间字符串</span><br><span class="line"> *  @params:time</span><br><span class="line"> *      未处理的时间字符串</span><br><span class="line"> *  @return:result</span><br><span class="line"> *      格式化处理的时间字符串</span><br><span class="line"> */</span><br><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.获取年月日等信息</span><br><span class="line">	let ary = time.split(&apos; &apos;),</span><br><span class="line">		aryLeft = ary[0].split(&apos;-&apos;),</span><br><span class="line">		aryRight = ary[1].split(&apos;:&apos;);</span><br><span class="line">	ary = aryLeft.concat(aryRight);</span><br><span class="line">	//2.拼接字符串格式</span><br><span class="line">	let result = ary[0] + &apos;年&apos; + addZero(ary[1]) + &apos;月&apos; + addZero(ary[2]) + &apos;日&apos;;</span><br><span class="line">	result += &apos; &apos; + addZero(ary[3]) + &apos;:&apos; + addZero(ary[4]) + &apos;:&apos; + addZero(ary[5]);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+        <h3 id="JS的底层运行机制"><a href="#JS的底层运行机制" class="headerlink" title="JS的底层运行机制"></a>JS的底层运行机制</h3><h4 id="JS的运行环境"><a href="#JS的运行环境" class="headerlink" title="JS的运行环境"></a>JS的运行环境</h4><ol>
+<li>浏览器(引擎)</li>
+<li>node(V8引擎)</li>
+<li>webview(V8引擎)</li>
+</ol>
+<a id="more"></a>
+<h4 id="代码执行的环境–ECStack"><a href="#代码执行的环境–ECStack" class="headerlink" title="代码执行的环境–ECStack"></a>代码执行的环境–ECStack</h4><ul>
+<li>ECStack(Execution Context Stack)</li>
+</ul>
 <blockquote>
-<p>容错性不好，当未处理的日期传入不完整时，会报错</p>
+<p>ECStack(Execution Context Stack)执行环境栈=&gt;栈内存（从内存条中分配出来的一块内存）</p>
 </blockquote>
-<h3 id="方法二-基于时间对象处理"><a href="#方法二-基于时间对象处理" class="headerlink" title="方法二:基于时间对象处理"></a>方法二:基于时间对象处理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function formatTime(time) &#123;</span><br><span class="line">	//1.把时间字符串转化为标准日期对象</span><br><span class="line">	time = time.replace(/-/g, &apos;/&apos;);</span><br><span class="line">	time = new Date(time);</span><br><span class="line">	//基于日期对象分别获取时间信息</span><br><span class="line">	let year = time.getFullYear(),</span><br><span class="line">		month = addZero(time.getMonth() + 1),</span><br><span class="line">		day = addZero(time.getDate()),</span><br><span class="line">		hours = addZero(time.getHours()),</span><br><span class="line">		minutes = addZero(time.getMinutes()),</span><br><span class="line">		second = addZero(time.getSeconds());</span><br><span class="line">	//格式化字符串</span><br><span class="line">	return year+&apos;年&apos;+month+&apos;月&apos;+day+&apos;日&apos;+&apos; &apos;+hours+&apos;:&apos;+minutes+&apos;:&apos;+second;</span><br><span class="line">&#125;</span><br><span class="line">let newTime = formatTime(time);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>EC(Execution context)</p>
 <blockquote>
-<p>容错性好，但是输出格式固定</p>
+<p>在编程语言中，代码执行时，为了区分全局和函数所执行所处的不同的作用域（目的是为了区分每个词法作用域下代码的独立性），浏览器会创建EC(Execution context)执行上下文（代码所在的词法作用域，或代码执行的范围）</p>
 </blockquote>
-<h3 id="方法三：公用时间字符串处理"><a href="#方法三：公用时间字符串处理" class="headerlink" title="方法三：公用时间字符串处理"></a>方法三：公用时间字符串处理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String.prototype.formatTime = function formatTime(template) &#123;</span><br><span class="line">	//初始化模板</span><br><span class="line">	typeof template === &apos;undefined&apos; ? template = &quot;&#123;0&#125;年&#123;1&#125;月&#123;2&#125;日 &#123;3&#125;:&#123;4&#125;:&#123;5&#125;&quot; : null;</span><br><span class="line">	//this:要处理的字符串</span><br><span class="line">	//获取日期字符串中的数字信息</span><br><span class="line">	let matchAry = this.match(/\d+/g);</span><br><span class="line">	//模板和数据的渲染</span><br><span class="line">	template = template.replace(/\&#123;(\d+)\&#125;/g, (x, y) =&gt; &#123;</span><br><span class="line">		let val = matchAry[y] || &apos;00&apos;;</span><br><span class="line">		val.length &lt; 2 ? val = &apos;0&apos; + val : null;</span><br><span class="line">		return val;</span><br><span class="line">	&#125;);</span><br><span class="line">	return template;</span><br><span class="line">&#125;</span><br><span class="line">console.log(time.formatTime());</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>GO(Global Object)</p>
 <blockquote>
-<p>基于模板和数据的渲染，能够按理想格式输出</p>
+<p>浏览器会将供JS调用的属性和方法存放在GO中（内置对象），浏览器会创建一个名为window的变量指向这个对象。</p>
 </blockquote>
+</li>
+<li><p>VO(Variable Object)</p>
+<blockquote>
+<p>代码执行时，会创建变量，VO就是用来存储这些变量的空间。VO通常用来存储全局变量(因为全局变量一般不释放)，而私有上下文中的变量存储在AO(active object)中，AO是VO的一种(AO活动对象，通常是指的进栈出栈创建比较频繁的对象)。</p>
+</blockquote>
+</li>
+</ul>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
+
+<h4 id="函数的创建和执行"><a href="#函数的创建和执行" class="headerlink" title="函数的创建和执行"></a>函数的创建和执行</h4><blockquote>
+<p>函数创建时，会新建一个堆内存来存储代码块。在函数执行时，会取出存放在堆中的代码，同时创建一个EC（函数的执行上下文）来供代码执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var x =[12,23]</span><br><span class="line">function fn(y)&#123;</span><br><span class="line">    y[0] = 100;</span><br><span class="line">    y = [100];</span><br><span class="line">    y[1] = 200;</span><br><span class="line">    console.log(y);</span><br><span class="line">&#125;</span><br><span class="line">fn(x);</span><br><span class="line">console.log(x);</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
+
+<p><strong>创建函数</strong></p>
+<ol>
+<li>开辟堆内存（16进制得到内存地址）</li>
+<li>声明当前函数的作用域（函数创建的上下文才是他的作用域，和在那执行的无关）</li>
+<li>把函数的代码以字符串的形式存储在堆内存中（函数再不执行的情况下，只是存储在堆内存中的字符串）</li>
+<li>将函数堆的地址，放在栈中供变量调用（函数名）</li>
+</ol>
+<p><strong>执行函数</strong></p>
+<ol>
+<li>会形成一个全新的执行上下文EC(xx)（目的是供函数体中的代码执行），然后进栈（ECStack执行环境栈）执行</li>
+<li>在私有上下文中有一个存放变量的变量对象AO(xx)</li>
+<li>代码执行之前需要做的事<ul>
+<li>初始化作用域链&lt;自己的上下文，函数的作用域&gt;</li>
+<li>初始化this（箭头函数没有this）</li>
+<li>初始化arguments实参集合（箭头函数没有arguments）</li>
+<li>形参赋值（形参变量是函数的私有变量，需要存储在AO中）（<a href="">新版浏览器形参赋值的坑</a>）</li>
+<li>变量提升（在私有上下文中声明的变量都是私有变量）</li>
+<li>……</li>
+</ul>
+</li>
+<li>代码执行（把之前在函数堆中存储的字符串拿过来在当前上下文中执行）</li>
+</ol>
+<blockquote>
+<p>作用域链的查找机制，在代码执行过程中，遇到一个变量，首先查看是否是自己的私有变量，如果是自己的私有变量，就直接操作私有变量，如果不是自己的私有变量，则按照<code>scope-chain</code>,向上级上下文查找，如果上级有则拿过来操作，没有则一直向上查找，直到EC(G)</p>
+</blockquote>
+<ol start="5">
+<li>根据实际情况判断当前上下文是否出栈释放</li>
+</ol>
 
     </div>
 
@@ -309,17 +358,14 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/26/2019-11-26-queryURLParams-md/" rel="next" title="封装queryURLParams函数">
-                  <i class="fa fa-chevron-left"></i> 封装queryURLParams函数
+                <a href="/2020/08/19/2020-08-19-parseInt%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%8F%82%E6%95%B0-md/" rel="next" title="parseInt的第二个参数">
+                  <i class="fa fa-chevron-left"></i> parseInt的第二个参数
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/12/06/2019-12-6-%E5%86%92%E6%B3%A1%E3%80%81%E6%8F%92%E5%85%A5%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-md/" rel="prev" title="JS实现冒泡、插入、快速排序">
-                  JS实现冒泡、插入、快速排序 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -358,7 +404,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#格式化时间字符串"><span class="nav-number">1.</span> <span class="nav-text">格式化时间字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现一个不足两位补零函数"><span class="nav-number">1.1.</span> <span class="nav-text">实现一个不足两位补零函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：基于String方法实现"><span class="nav-number">1.2.</span> <span class="nav-text">方法一：基于String方法实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二-基于时间对象处理"><span class="nav-number">1.3.</span> <span class="nav-text">方法二:基于时间对象处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三：公用时间字符串处理"><span class="nav-number">1.4.</span> <span class="nav-text">方法三：公用时间字符串处理</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS的底层运行机制"><span class="nav-number">1.</span> <span class="nav-text">JS的底层运行机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JS的运行环境"><span class="nav-number">1.1.</span> <span class="nav-text">JS的运行环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码执行的环境–ECStack"><span class="nav-number">1.2.</span> <span class="nav-text">代码执行的环境–ECStack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数的创建和执行"><span class="nav-number">1.3.</span> <span class="nav-text">函数的创建和执行</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

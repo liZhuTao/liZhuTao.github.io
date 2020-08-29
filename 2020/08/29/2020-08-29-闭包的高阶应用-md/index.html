@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="单例设计模式 在没有对象和函数情况下，编写代码，会出现全局变量污染,为了防止全局变量污染，我们可以使用以下方法来处理。 方案一： 闭包123456&#x2F;&#x2F;利用闭包的保护机制(function()&amp;#123;    let name = &amp;quot;张三&amp;quot;；    let age = 21;    let sex = &amp;quot;男&amp;quot;；&amp;#125;)()；">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包的高阶应用">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;08&#x2F;29&#x2F;2020-08-29-%E9%97%AD%E5%8C%85%E7%9A%84%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="单例设计模式 在没有对象和函数情况下，编写代码，会出现全局变量污染,为了防止全局变量污染，我们可以使用以下方法来处理。 方案一： 闭包123456&#x2F;&#x2F;利用闭包的保护机制(function()&amp;#123;    let name = &amp;quot;张三&amp;quot;；    let age = 21;    let sex = &amp;quot;男&amp;quot;；&amp;#125;)()；">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-08-29T13:25:29.274Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/08/29/2020-08-29-%E9%97%AD%E5%8C%85%E7%9A%84%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>闭包的高阶应用 | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/08/29/2020-08-29-%E9%97%AD%E5%8C%85%E7%9A%84%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          闭包的高阶应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-29 21:24:43 / 修改时间：21:25:29" itemprop="dateCreated datePublished" datetime="2020-08-29T21:24:43+08:00">2020-08-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="单例设计模式"><a href="#单例设计模式" class="headerlink" title="单例设计模式"></a>单例设计模式</h3><blockquote>
+<p>在没有对象和函数情况下，编写代码，会出现<code>全局变量污染</code>,为了防止全局变量污染，我们可以使用以下方法来处理。</p>
+</blockquote><p><strong>方案一： 闭包</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//利用闭包的保护机制</span><br><span class="line">(function()&#123;</span><br><span class="line">    let name = &quot;张三&quot;；</span><br><span class="line">    let age = 21;</span><br><span class="line">    let sex = &quot;男&quot;；</span><br><span class="line">&#125;)()；</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+
+<p><strong>方案二： 对象</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//利用对象的分组功能，把描述同一事物的属性和方法放置在相同的堆内存空间中</span><br><span class="line">let person1 = &#123;</span><br><span class="line">    name:&quot;李四&quot;，</span><br><span class="line">    age:22,</span><br><span class="line">    sex:&quot;男&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>单例设计模式</strong></p>
+<blockquote>
+<p>在实际开发过程中，我们通常结合<code>闭包保护机制</code>和<code>对象的分组机制</code>，来实现闭包中方法的调用，而这种模式就是我们常说的单例设计模式。单例模式也是最早的模块规范。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">let AModule = (function()&#123;</span><br><span class="line">    let name = &quot;张三&quot;；</span><br><span class="line">    function fn()&#123;console.log(1)&#125;;</span><br><span class="line">    function query()&#123;console.log(2)&#125;</span><br><span class="line">    </span><br><span class="line">    // 当我们想把私有的东西暴露给外界使用</span><br><span class="line">    //1. window.xxx = xxx  缺点：当方法暴露过多时，还是会引发全局变量污染</span><br><span class="line">    </span><br><span class="line">    //2. 基于对象分组的特性，把需要暴露的API，都放置在同一堆内存空间下。</span><br><span class="line">    return &#123;</span><br><span class="line">        fn,</span><br><span class="line">        query,</span><br><span class="line">        init()&#123;</span><br><span class="line">            //控制业务逻辑的执行顺序的“控制命令”</span><br><span class="line">            fn();</span><br><span class="line">            query();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)()；</span><br><span class="line"></span><br><span class="line">Amodule.query()     //2</span><br><span class="line">Amodule.fn()        //1</span><br><span class="line">Amodule.init()      //1  2</span><br></pre></td></tr></table></figure>
+
+<h3 id="惰性函数"><a href="#惰性函数" class="headerlink" title="惰性函数"></a>惰性函数</h3><blockquote>
+<p>能执行一次的，绝对不执行第二次。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function getCss(element,attr)&#123;</span><br><span class="line">    if(window.getComputedStyle)&#123;</span><br><span class="line">        return window.getComputedStyle(element)[attr];</span><br><span class="line">    &#125;</span><br><span class="line">    //IE6~8</span><br><span class="line">    return element.currentStyle[attr];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(getCss(document.body,&apos;width&apos;));</span><br><span class="line">console.log(getCss(document.body,&apos;padding&apos;));</span><br><span class="line">console.log(getCss(document.body,&apos;margin&apos;));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上述函数在第一次执行时，会判断是否兼容，而后的每一次执行方法都会处理兼容。其实，这个操作在第二次执行时就已经没有必要了。</p>
+</blockquote>
+<p><strong>方案一</strong></p>
+<blockquote>
+<p>页面加载时，就把兼容处理了。后期基于变量的返回值即可直接判断</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let isCompatible = &apos;getComputStyle&apos; in window;</span><br><span class="line">function getCss(element,attr)&#123;</span><br><span class="line">    if(isCompatible)&#123;</span><br><span class="line">        return window.getComputedStyle(element)[attr];</span><br><span class="line">    &#125;</span><br><span class="line">    //IE6~8</span><br><span class="line">    return element.currentStyle[attr];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>方案二</strong></p>
+<blockquote>
+<p>惰性思想解决：函数重构</p>
+</blockquote>
+<ul>
+<li>getCss是全局函数</li>
+<li>第一次执行会产生<code>闭包</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function getCss(element,attr)&#123;</span><br><span class="line">    if(window.getComputedStlye)&#123;</span><br><span class="line">        //将全局的getCss重构</span><br><span class="line">        getCss = function(element,attr)&#123;</span><br><span class="line">            return window.getComputedStyle(element)[attr];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        getCss = function(element,attr)&#123;</span><br><span class="line">            return element.currentStyle[attr];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //将会重构后的函数执行，确保第一次执行能够获得结果</span><br><span class="line">    return getCss(element,attr);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(getCss(document.body,&apos;width&apos;));</span><br><span class="line">console.log(getCss(document.body,&apos;padding&apos;));      //函数第二次执行，执行重构后的函数，不需要做兼容判断</span><br><span class="line">console.log(getCss(document.body,&apos;margin&apos;));</span><br></pre></td></tr></table></figure>
+
+<h3 id="柯里化函数"><a href="#柯里化函数" class="headerlink" title="柯里化函数"></a>柯里化函数</h3><blockquote>
+<p>柯里化函数使用的是<code>预处理思想</code>，应用的也是<code>闭包的机制</code>。在第一次执行大函数，形成一个闭包，把一些信息存储在闭包中（传递的实参或者当前闭包中的声明的一些私有变量等信息），等到后面需要执行内部的匿名函数，在遇到非自己私有变量时，则向上级上下文中查找（也就是把之前存储在闭包中的信息获取）；</p>
+</blockquote>
+<p><strong>例题：</strong> 实现以下函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let res = fn(1,2)(3);</span><br><span class="line">console.log(res);  //=&gt; 6   1+2+3</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function fn(...outerArgs)&#123;</span><br><span class="line">    //outerArgs 用于存储外层函数传入的值</span><br><span class="line">    return function(...innerArgs)&#123;</span><br><span class="line">        //innerArgs 用于存储内层函数传入的值</span><br><span class="line">        let arr = [...outerArgs,...innerArgs];</span><br><span class="line">        return arr.reduce(function(total,item)&#123;</span><br><span class="line">            return total + item;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="compose组合函数"><a href="#compose组合函数" class="headerlink" title="compose组合函数"></a>compose组合函数</h3><p><strong>例题：</strong> 实现以下函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">/* </span><br><span class="line">    在函数式编程当中有一个很重要的概念就是函数组合， 实际上就是把处理数据的函数像管道一样连接起来， 然后让数据穿过管道得到最终的结果。 例如：</span><br><span class="line">    const add1 = (x) =&gt; x + 1;</span><br><span class="line">    const mul3 = (x) =&gt; x * 3;</span><br><span class="line">    const div2 = (x) =&gt; x / 2;</span><br><span class="line">    div2(mul3(add1(add1(0)))); //=&gt;3</span><br><span class="line"></span><br><span class="line">    而这样的写法可读性明显太差了，我们可以构建一个compose函数，它接受任意多个函数作为参数（这些函数都只接受一个参数），然后compose返回的也是一个函数，达到以下的效果：</span><br><span class="line">    const operate = compose(div2, mul3, add1, add1)</span><br><span class="line">    operate(0) //=&gt;相当于div2(mul3(add1(add1(0)))) </span><br><span class="line">    operate(2) //=&gt;相当于div2(mul3(add1(add1(2))))</span><br><span class="line"></span><br><span class="line">    简而言之：compose可以把类似于f(g(h(x)))这种写法简化成compose(f, g, h)(x)，请你完成 compose函数的编写 </span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>借用柯里化函数的思想，先将函数集合以数组的形式存储在外层函数的执行上下文中，再在内层函数中接收参数，并在内层函数中循环执行需要操作的函数。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function compose(...args)&#123;</span><br><span class="line">    //args中存储的是需要操作的函数集合，存储在外层函数的上下文中</span><br><span class="line">    return function(val)&#123;</span><br><span class="line">        if(args.lenght === 0) return val;       //没有传函数参数</span><br><span class="line">        if(args.lenght === 1) return args[0](val);       //只传了一个函数参数</span><br><span class="line">        let arr = args.reverse();       //将数组翻转，便于后续操作</span><br><span class="line">        return arr.reduce((N,item)=&gt;&#123;</span><br><span class="line">            return item(N)</span><br><span class="line">        &#125;,val)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>redux源码中compose的实现方式</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function compose(...funcs)&#123;</span><br><span class="line">    if(funcs.lenght === 0)&#123;</span><br><span class="line">        return arg =&gt; arg</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(funcs.lenght === 1)&#123;</span><br><span class="line">        return funcs[0]</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return funcs.reduce((a,b)=&gt;(...args)=&gt;a(b(...args)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数防抖"><a href="#函数防抖" class="headerlink" title="函数防抖"></a>函数防抖</h3><blockquote>
+<p>防止用户在短时间内多次触发，导致函数执行多次，函数防抖是指短时间内多次触发同一事件，只执行最后一次，或者只执行最开始的一次，中间的不执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function debounce(func,wait = 300,immediate = false)&#123;</span><br><span class="line">    let timer = null;</span><br><span class="line">    return function(...params)&#123;</span><br><span class="line">        let new = immediate &amp;&amp; !time;</span><br><span class="line">        clearTimeout(timer);            //触发函数清除定时器</span><br><span class="line">        timer = setTimeout(()=&gt;&#123;        //重新设置一个定时器，监听wait时间内是否发生二次触发</span><br><span class="line">            timer = null;       //手动回归到初始状态</span><br><span class="line">            !new? func.call(this,...params):null;</span><br><span class="line">        &#125;,wait)</span><br><span class="line">        </span><br><span class="line">        //immediate=true 执行第一次触发时返回的结果</span><br><span class="line">        new ? func.call(this,...params):null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h3><blockquote>
+<p>函数节流可以想象成函数的冷却时间，指单位时间内只能执行一次，超过<code>冷却时间</code>才可以再一次执行。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function throttle(func,wait = 300)&#123;</span><br><span class="line">    let timer = null,</span><br><span class="line">        previous = 0;       //记录上一次的操作时间</span><br><span class="line">    return function(...params)&#123;</span><br><span class="line">        let now = new Date(),</span><br><span class="line">            remaining = wait - (now - previous);     //记录还差多少时间触发函数</span><br><span class="line">        if(remaining &lt;= 0)&#123;     //两次操作时间间隔超过wait</span><br><span class="line">            window.clearTimeout(timer);</span><br><span class="line">            timer = null;</span><br><span class="line">            previous = new;</span><br><span class="line">            func.call(this,...params);</span><br><span class="line">        &#125;else if(!timer)&#123;       //!timer设置防止重复设置定时器</span><br><span class="line">            //两次操作时间间隔未超过wait,设置定时器，并传入剩余时间remaining</span><br><span class="line">            timer = setTimeout(()=&gt;&#123;</span><br><span class="line">                timer = null;</span><br><span class="line">                previous = new Date();</span><br><span class="line">                func.call(this,...params);</span><br><span class="line">            &#125;,remaining);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/08/24/2020-08-24-this-md/" rel="next" title="this">
+                  <i class="fa fa-chevron-left"></i> this
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#单例设计模式"><span class="nav-number">1.</span> <span class="nav-text">单例设计模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#惰性函数"><span class="nav-number">2.</span> <span class="nav-text">惰性函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#柯里化函数"><span class="nav-number">3.</span> <span class="nav-text">柯里化函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compose组合函数"><span class="nav-number">4.</span> <span class="nav-text">compose组合函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数防抖"><span class="nav-number">5.</span> <span class="nav-text">函数防抖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数节流"><span class="nav-number">6.</span> <span class="nav-text">函数节流</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

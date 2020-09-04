@@ -71,56 +71,6 @@
       </tags>
   </entry>
   <entry>
-    <title>jQuery源码解读（二）</title>
-    <url>/2020/02/04/2020-02-04-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery实例对象"><a href="#jQuery实例对象" class="headerlink" title="jQuery实例对象"></a>jQuery实例对象</h3><blockquote>
-<p>基于JQ选择器创建出来的是JQ类的一个实例，可以调取jQuery.prototype上的方法。</p>
-</blockquote>
-<a id="more"></a>
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">var init = jQuery.fn.init = function(selector, context, root)&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">init.prototype = jQuery.fn;</span><br><span class="line">//</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>1.创建出来的JQ实例是一个类数组（JQ对象）  基于 makeArray 创建出来的</p>
-</blockquote>
-<blockquote>
-<p>2.selector 支持三种数据格式</p>
-</blockquote>
-<pre><code>1. [string]
-    选择器      $(&apos;.box&apos;)
-    创建元素    $(&apos;&lt;div&gt;...&lt;/div&gt;&apos;)
-2.[元素对象：JS原生对象]
-    把原生JS对象转化为JQ对象（只有这样才能调取JQ中的方法）
-        var box = document.getElementById(&quot;box&quot;);
-        $(&apos;box&apos;)
-    把JQ对象转化为原生JS对象，直接基于索引获取即可，例如：$A[0]
-        在项目中建议使用JQ中自带的get方法实现，因为它更完善，支持负数索引$A.get(0)
-        eq方法也是根据索引集合中的某一项（也支持负数），只不过返回的结果不是原生JS而是JQ的实例
-3.[function]
-    $(function(){})     等待页面中的DOM结构加载完毕再执行函数，等价于$(document).ready(function(){})</code></pre><h4 id="makeArray"><a href="#makeArray" class="headerlink" title="makeArray"></a>makeArray</h4><blockquote>
-<p>创建一个类数组的方法</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">makeArray:function(arr, results)&#123;</span><br><span class="line">    var ret = results || [];</span><br><span class="line">    </span><br><span class="line">    if(arr != null)&#123;</span><br><span class="line">        if(isArrayLike(object(arr)))&#123;</span><br><span class="line">            jQuery.merge(ret,typeof arr === &quot;string&quot; ? [arr] : arr);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            push.call(ret, arr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><blockquote>
-<p>$(“.box”) === $(“.box”) =&gt;false 这是两个实例,引用地址不相同</p>
-</blockquote>
-<pre><code>所以操作的时候不要：
-    $(&quot;box&quot;).css();
-    $(&quot;box&quot;).attr();
-    $(&quot;box&quot;).click();
-正确的操作是：
-    let $box = $(&quot;box&quot;);
-    $box.css();
-    $box.attr();
-    $box.click();</code></pre>]]></content>
-      <categories>
-        <category>源码</category>
-      </categories>
-      <tags>
-        <tag>jQuery</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>formatTime</title>
     <url>/2019/11/28/2019-11-28-formatTime-md/</url>
     <content><![CDATA[<h2 id="格式化时间字符串"><a href="#格式化时间字符串" class="headerlink" title="格式化时间字符串"></a>格式化时间字符串</h2><a id="more"></a>
@@ -143,6 +93,28 @@
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jQuery源码解读（三）</title>
+    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
+
+<blockquote>
+<p>extend:向JQ中继续拓展方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>源码</category>
+      </categories>
+      <tags>
+        <tag>jQuery</tag>
       </tags>
   </entry>
   <entry>
@@ -533,25 +505,190 @@
       </tags>
   </entry>
   <entry>
-    <title>jQuery源码解读（三）</title>
-    <url>/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/</url>
-    <content><![CDATA[<h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
-
-<blockquote>
-<p>extend:向JQ中继续拓展方法</p>
+    <title>jQuery源码解读（二）</title>
+    <url>/2020/02/04/2020-02-04-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89-md/</url>
+    <content><![CDATA[<h3 id="jQuery实例对象"><a href="#jQuery实例对象" class="headerlink" title="jQuery实例对象"></a>jQuery实例对象</h3><blockquote>
+<p>基于JQ选择器创建出来的是JQ类的一个实例，可以调取jQuery.prototype上的方法。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var version =  &quot;3.4.1&quot;,</span><br><span class="line">        jQuery = function (selector,context)&#123;</span><br><span class="line">            return new jQuery.fn.init(selector,context);</span><br><span class="line">        &#125;;</span><br><span class="line">        </span><br><span class="line">var init = jQuery.fn.init = function(selector, context, root)&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">init.prototype = jQuery.fn;</span><br><span class="line">//</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
+<p>1.创建出来的JQ实例是一个类数组（JQ对象）  基于 makeArray 创建出来的</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
-]]></content>
+<blockquote>
+<p>2.selector 支持三种数据格式</p>
+</blockquote>
+<pre><code>1. [string]
+    选择器      $(&apos;.box&apos;)
+    创建元素    $(&apos;&lt;div&gt;...&lt;/div&gt;&apos;)
+2.[元素对象：JS原生对象]
+    把原生JS对象转化为JQ对象（只有这样才能调取JQ中的方法）
+        var box = document.getElementById(&quot;box&quot;);
+        $(&apos;box&apos;)
+    把JQ对象转化为原生JS对象，直接基于索引获取即可，例如：$A[0]
+        在项目中建议使用JQ中自带的get方法实现，因为它更完善，支持负数索引$A.get(0)
+        eq方法也是根据索引集合中的某一项（也支持负数），只不过返回的结果不是原生JS而是JQ的实例
+3.[function]
+    $(function(){})     等待页面中的DOM结构加载完毕再执行函数，等价于$(document).ready(function(){})</code></pre><h4 id="makeArray"><a href="#makeArray" class="headerlink" title="makeArray"></a>makeArray</h4><blockquote>
+<p>创建一个类数组的方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">makeArray:function(arr, results)&#123;</span><br><span class="line">    var ret = results || [];</span><br><span class="line">    </span><br><span class="line">    if(arr != null)&#123;</span><br><span class="line">        if(isArrayLike(object(arr)))&#123;</span><br><span class="line">            jQuery.merge(ret,typeof arr === &quot;string&quot; ? [arr] : arr);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            push.call(ret, arr);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><blockquote>
+<p>$(“.box”) === $(“.box”) =&gt;false 这是两个实例,引用地址不相同</p>
+</blockquote>
+<pre><code>所以操作的时候不要：
+    $(&quot;box&quot;).css();
+    $(&quot;box&quot;).attr();
+    $(&quot;box&quot;).click();
+正确的操作是：
+    let $box = $(&quot;box&quot;);
+    $box.css();
+    $box.attr();
+    $box.click();</code></pre>]]></content>
       <categories>
         <category>源码</category>
       </categories>
       <tags>
         <tag>jQuery</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vuex</title>
+    <url>/2020/03/30/2020-03-30-vuex-md/</url>
+    <content><![CDATA[<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><blockquote>
+<p>官网上介绍，Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="状态管理模式"><a href="#状态管理模式" class="headerlink" title="状态管理模式"></a>状态管理模式</h3><blockquote>
+<p>如果你熟悉vue.js开发，那么你一定对各组件之间传值的问题倍感头疼，而vuex就是用来解决各个组件之间共用值得传递问题</p>
+</blockquote>
+<p>– 1. 在你的项目中安装vuex</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
+
+<p>– 2. 在src文件目录中新建store文件夹，再在这个文件夹下创建一个index.js文件并输入以下代码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">//使用vuex</span><br><span class="line">Vue.use(Vuex);</span><br><span class="line">//创建Vuex.Store实例保存到变量store中</span><br><span class="line">const store = new Vuex.Store();</span><br><span class="line"> </span><br><span class="line">export default store;       //导出store</span><br></pre></td></tr></table></figure>
+<p>– 3. 在main.js文件中引用该对象,这样就可以在任何一个组件里面使用this.$store了</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  store,//使用store</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;,</span><br><span class="line">  components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="vuex核心"><a href="#vuex核心" class="headerlink" title="vuex核心"></a>vuex核心</h2><blockquote>
+<p>官网图片</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
+
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><blockquote>
+<p>store相当于一个商店，不同的组件可以来商店来获取自己想要的商品，而state就相当于商店的货架，组件可以通多store.state.XXX获取需要的状态</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 创建一个 Counter 组件</span><br><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>– 每当 store.state.count变化的时候, 都会重新求取计算属性，并且触发更新相关联的 DOM。然而，这种模式导致组件依赖全局状态单例。Vuex 通过 store 选项，提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）：</p>
+<p>– 通过在根实例中注册 store 选项，该 store 实例会注入到根组件下的所有子组件中，且子组件能通过 this.$store 访问到。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return this.$store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="mapState辅助函数"><a href="#mapState辅助函数" class="headerlink" title="mapState辅助函数"></a>mapState辅助函数</h4><blockquote>
+<p>当组件需要获取多个状态的时候，将这些状态都声明为计算属性会有些重复和冗余。mapState辅助函数帮助我们生成计算属性</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    // 箭头函数可使代码更简练</span><br><span class="line">    count: state =&gt; state.count,</span><br><span class="line"></span><br><span class="line">    // 传字符串参数 &apos;count&apos; 等同于 `state =&gt; state.count`</span><br><span class="line">    countAlias: &apos;count&apos;,</span><br><span class="line"></span><br><span class="line">    // 为了能够使用 `this` 获取局部状态，必须使用常规函数</span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      return state.count + this.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对象展开运算符"><a href="#对象展开运算符" class="headerlink" title="对象展开运算符"></a>对象展开运算符</h4><blockquote>
+<p>mapState函数返回的是一个对象。通常，我们可以在<strong>computed</strong>使用<strong><a href="https://github.com/tc39/proposal-object-rest-spread" target="_blank" rel="noopener">对象展开运算符</a></strong>，将多个对象合并成一个</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; </span><br><span class="line">    // ... </span><br><span class="line">  &#125;,</span><br><span class="line">  // 使用对象展开运算符将此对象混入到外部对象中</span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h3><blockquote>
+<p>如果我们将state看做store的data属性，那么getter就可以被看做store的computed属性（getter的返回值根据他的依赖被缓存起来，当依赖改变时会被重新计算）。</p>
+</blockquote>
+<p>– getter 接受 state 作为其第一个参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; id: 1, text: &apos;...&apos;, done: true &#125;,</span><br><span class="line">      &#123; id: 2, text: &apos;...&apos;, done: false &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: state =&gt; &#123;</span><br><span class="line">      return state.todos.filter(todo =&gt; todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.getters.doneTodos // -&gt; [&#123; id: 1, text: &apos;...&apos;, done: true &#125;]</span><br></pre></td></tr></table></figure>
+<p>– Getter 也可以接受其他 getter 作为第二个参数：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">getters: &#123;</span><br><span class="line">  // ...</span><br><span class="line">  doneTodosCount: (state, getters) =&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.getters.doneTodosCount // -&gt; 1</span><br></pre></td></tr></table></figure>
+<h4 id="mapGetter辅助函数"><a href="#mapGetter辅助函数" class="headerlink" title="mapGetter辅助函数"></a>mapGetter辅助函数</h4><blockquote>
+<p>mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: &#123;</span><br><span class="line">  // 使用对象展开运算符将 getter 混入 computed 对象中</span><br><span class="line">    ...mapGetters([&apos;doneTodosCount&apos;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><blockquote>
+<p>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,Vuex 中的 mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      // 变更状态</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>– 调用此函数,需要以相应的 type 调用 store.commit 方法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
+<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）"></a>载荷（Payload）</h4><p>– store&gt;store.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>你可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, 10)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>大多数情况下，载荷应该是一个对象，这样可以包含多个字段并且记录的 mutation 会更易读：</p>
+</blockquote>
+<p>– xxx.vue</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="使用常量替代-Mutation-事件类型"><a href="#使用常量替代-Mutation-事件类型" class="headerlink" title="使用常量替代 Mutation 事件类型"></a>使用常量替代 Mutation 事件类型</h4><blockquote>
+<p>使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：</p>
+</blockquote>
+<p>– mutation-types.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export const SOME_MUTATION = &apos;SOME_MUTATION&apos;</span><br></pre></td></tr></table></figure>
+<p>– store.js</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">import &#123; SOME_MUTATION &#125; from &apos;./mutation-types&apos;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    // 我们可以使用 ES2015 风格的计算属性命名功能来使用一个常量作为函数名</span><br><span class="line">    [SOME_MUTATION] (state) &#123;</span><br><span class="line">      // mutate state</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="在组件中提交-Mutation"><a href="#在组件中提交-Mutation" class="headerlink" title="在组件中提交 Mutation"></a>在组件中提交 Mutation</h4><blockquote>
+<p>可以在组件中使用 this.$store.commit(‘xxx’) 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 store.commit 调用（需要在根节点注入 store）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapMutations([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapMutations` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapMutations(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意一条重要的原则就是要记住 mutation 必须是同步函数,在 mutation 中混合异步调用会导致你的程序很难调试。</strong></p>
+</blockquote>
+<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><blockquote>
+<p>Action 类似于 mutation，不同在于：</p>
+</blockquote>
+<ul>
+<li>Action 提交的是 mutation，而不是直接变更状态。</li>
+<li>Action 可以包含任意异步操作。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (&#123; commit &#125;) &#123;    //参数解构来简化代码</span><br><span class="line">        commit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="分发-Action"><a href="#分发-Action" class="headerlink" title="分发 Action"></a>分发 Action</h4><blockquote>
+<p>Action 通过store.dispatch方法触发：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.dispatch(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>action 内部可以执行异步操作</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      commit(&apos;increment&apos;)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="mapActions辅助函数"><a href="#mapActions辅助函数" class="headerlink" title="mapActions辅助函数"></a>mapActions辅助函数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapActions([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapActions` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapActions(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="vuex中mutation和action的详细区别"><a href="#vuex中mutation和action的详细区别" class="headerlink" title="vuex中mutation和action的详细区别"></a>vuex中mutation和action的详细区别</h4></li>
+</ul>
+<ol>
+<li>流程顺序</li>
+</ol>
+<p>“相应视图—&gt;修改State”拆分成两部分，视图触发Action，Action再触发Mutation。</p>
+<ol start="2">
+<li>角色定位</li>
+</ol>
+<p>基于流程顺序，二者扮演不同的角色。</p>
+<pre><code>Mutation：专注于修改State，理论上是修改State的唯一途径。
+
+Action：业务代码、异步请求。</code></pre><ol start="3">
+<li>限制</li>
+</ol>
+<p>角色不同，二者有不同的限制。</p>
+<pre><code>Mutation：必须同步执行。
+
+Action：可以异步，但不能直接操作State。</code></pre><blockquote>
+<p>他两者之间不是功能的不同，而是编程思想的不同，按照官方规定书写代码高效、易维护、逻辑清晰</p>
+</blockquote>
+<h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><blockquote>
+<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;,</span><br><span class="line">  getters: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const moduleB = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a // -&gt; moduleA 的状态</span><br><span class="line">store.state.b // -&gt; moduleB 的状态</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>参考文献</strong></p>
+<p><a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">vuex是什么</a></p>
+<p><a href="https://segmentfault.com/a/1190000015782272" target="_blank" rel="noopener">VueJS中学习使用Vuex详解</a></p>
+<p><a href="https://blog.csdn.net/weixin_38483133/article/details/89327362" target="_blank" rel="noopener">vuex中mutation和action的详细区别</a></p>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
       </tags>
   </entry>
   <entry>
@@ -721,6 +858,54 @@
       </tags>
   </entry>
   <entry>
+    <title>CSS盒子模型</title>
+    <url>/2020/04/01/2020-04-01-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B-md/</url>
+    <content><![CDATA[<h2 id="CSS盒子模型简介"><a href="#CSS盒子模型简介" class="headerlink" title="CSS盒子模型简介"></a>CSS盒子模型简介</h2><blockquote>
+<p>当我们对文档进行布局的时候，浏览器的渲染引擎会根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener"> CSS 基础框盒模型（CSS basic box model）</a>标准，将所有元素渲染成一个个矩形的盒子，且通过CSS决定盒子的大小、位置以及属性等属性。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>每个盒子有四个部分组成</strong></p>
+<ul>
+<li>内容边界 Content edge</li>
+<li>内边距边界 Padding Edge</li>
+<li>框边界 Border Edge</li>
+<li>外边框边界 Margin Edge</li>
+</ul>
+<p>MDN 官网图片<br><img src="https://mdn.mozillademos.org/files/8685/boxmodel-(3).png" ></p>
+<h2 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h2><blockquote>
+<p>CSS 中的 box-sizing 属性定义了 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/User_agent" target="_blank" rel="noopener">user agent</a> 应该如何计算一个元素的总宽度和总高度。</p>
+</blockquote>
+<h3 id="W3C标准盒模型（content-box）"><a href="#W3C标准盒模型（content-box）" class="headerlink" title="W3C标准盒模型（content-box）"></a>W3C标准盒模型（content-box）</h3><blockquote>
+<p>默认值，标准盒子模型。 width 与 height 只包括内容的宽和高，不包括边框（border），内边距（padding），外边距（margin）。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="https://user-gold-cdn.xitu.io/2017/10/25/9cb491d4bd5d326aeb16632280411283?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+
+<h3 id="IE盒模型（border-box）"><a href="#IE盒模型（border-box）" class="headerlink" title="IE盒模型（border-box）"></a>IE盒模型（border-box）</h3><blockquote>
+<p>width 和 height 属性包括内容，内边距和边框，但<strong>不包括外边距(margin)</strong>。</p>
+</blockquote>
+<p><strong>尺寸计算公式</strong>：</p>
+<p>width = border + padding + 内容的宽度</p>
+<p>height = border + padding + 内容的高度</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">    padding:20px;</span><br><span class="line">    border:10px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<img src="https://user-gold-cdn.xitu.io/2017/10/25/cfff88aff482f7dd89d60d7498695450?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
+<p>我们在编写页面代码时应尽量使用标准的W3C模型(需在页面中声明DOCTYPE类型)，这样可以避免多个浏览器对同一页面的不兼容。因为若不声明DOCTYPE类型，IE浏览器会将盒子模型解释为IE盒子模型，FireFox等会将其解释为W3C盒子模型；若在页面中声明了DOCTYPE类型，所有的浏览器都会把盒模型解释为W3C盒模型。</p>
+</blockquote>
+<p><strong>参考文献</strong></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">CSS 基础框盒模型介绍</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-sizing" target="_blank" rel="noopener">box-sizing</a></p>
+<p><a href="https://juejin.im/post/59ef72f5f265da4320026f76" target="_blank" rel="noopener">CSS盒模型详解</a></p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>函数的防抖和节流</title>
     <url>/2020/04/13/2020-04-13-%E5%87%BD%E6%95%B0%E7%9A%84%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81-md/</url>
     <content><![CDATA[<blockquote>
@@ -813,285 +998,158 @@
       </tags>
   </entry>
   <entry>
-    <title>CSS盒子模型</title>
-    <url>/2020/04/01/2020-04-01-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B-md/</url>
-    <content><![CDATA[<h2 id="CSS盒子模型简介"><a href="#CSS盒子模型简介" class="headerlink" title="CSS盒子模型简介"></a>CSS盒子模型简介</h2><blockquote>
-<p>当我们对文档进行布局的时候，浏览器的渲染引擎会根据<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener"> CSS 基础框盒模型（CSS basic box model）</a>标准，将所有元素渲染成一个个矩形的盒子，且通过CSS决定盒子的大小、位置以及属性等属性。</p>
-</blockquote>
-<a id="more"></a>
-<p><strong>每个盒子有四个部分组成</strong></p>
+    <title>数据类型转换</title>
+    <url>/2020/08/15/2020-08-15-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-md/</url>
+    <content><![CDATA[<h3 id="数据类型转换的核心"><a href="#数据类型转换的核心" class="headerlink" title="数据类型转换的核心"></a>数据类型转换的核心</h3><a id="more"></a>
+
+<h4 id="把其他数据类型转换成-Number-类型"><a href="#把其他数据类型转换成-Number-类型" class="headerlink" title="把其他数据类型转换成 Number 类型"></a>把其他数据类型转换成 Number 类型</h4><p><strong>1. 特定需要转换为Number的</strong> </p>
 <ul>
-<li>内容边界 Content edge</li>
-<li>内边距边界 Padding Edge</li>
-<li>框边界 Border Edge</li>
-<li>外边框边界 Margin Edge</li>
+<li>Number([val])</li>
 </ul>
-<p>MDN 官网图片<br><img src="https://mdn.mozillademos.org/files/8685/boxmodel-(3).png" ></p>
-<h2 id="box-sizing"><a href="#box-sizing" class="headerlink" title="box-sizing"></a>box-sizing</h2><blockquote>
-<p>CSS 中的 box-sizing 属性定义了 <a href="https://developer.mozilla.org/zh-CN/docs/Glossary/User_agent" target="_blank" rel="noopener">user agent</a> 应该如何计算一个元素的总宽度和总高度。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">console.log(Number(&apos;&apos;));            // 0</span><br><span class="line">console.log(Number(&apos;10&apos;));          // 10</span><br><span class="line">console.log(Number(&apos;10px&apos;));        // NaN</span><br><span class="line">console.log(Number(true));          // 1</span><br><span class="line">console.log(Number(false));         // 0</span><br><span class="line">console.log(Number(null));          // 0</span><br><span class="line">console.log(Number(undefined));     // NaN</span><br><span class="line">console.log(Number(Symbol(10));     // 报错</span><br><span class="line">console.log(Number(BigInt(10)));    // 10</span><br><span class="line">// 对象变为数字，应该先valueOf,没有原始值再toString变为字符串，最后把字符串转换为数字</span><br></pre></td></tr></table></figure>
+<ul>
+<li>parseInt/parseFloat([val])</li>
+</ul>
+<blockquote>
+<p>parseInt机制：从字符串左侧第一个字符开始，查找有效字符（遇到非有效字符停止查找，不论后面是否还有数字字符），把找到的数字字符转化为数字，如果一个都没找到结果就是NaN（parseFloat多识别一个字符串）</p>
 </blockquote>
-<h3 id="W3C标准盒模型（content-box）"><a href="#W3C标准盒模型（content-box）" class="headerlink" title="W3C标准盒模型（content-box）"></a>W3C标准盒模型（content-box）</h3><blockquote>
-<p>默认值，标准盒子模型。 width 与 height 只包括内容的宽和高，不包括边框（border），内边距（padding），外边距（margin）。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="https://user-gold-cdn.xitu.io/2017/10/25/9cb491d4bd5d326aeb16632280411283?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(&quot;&quot;)    //NaN</span><br><span class="line">Number(&quot;&quot;)      // 0</span><br><span class="line">isNaN(&quot;&quot;)       //false</span><br><span class="line">parseInt(&quot;null&quot;)        //NaN</span><br><span class="line">Number(&quot;null&quot;)          // 0</span><br><span class="line">isNaN(&quot;null&quot;)           //false</span><br><span class="line">parseInt(&quot;12px&quot;)        //12</span><br><span class="line">Number(&quot;12px&quot;)          //NaN</span><br><span class="line">isNaN(&quot;12px&quot;)           //true</span><br><span class="line">parseFloat(&quot;1.6px&quot;) + parseInt(&quot;1.2px&quot;) + typeof parseInt(null)       //2.6number</span><br><span class="line">isNaN(Number(!!Number(parseInt(&quot;0.8&quot;))))        //false</span><br><span class="line">typeof !parseInt(null) + !isNaN(null)       //booleantrue</span><br></pre></td></tr></table></figure>
 
-<h3 id="IE盒模型（border-box）"><a href="#IE盒模型（border-box）" class="headerlink" title="IE盒模型（border-box）"></a>IE盒模型（border-box）</h3><blockquote>
-<p>width 和 height 属性包括内容，内边距和边框，但<strong>不包括外边距(margin)</strong>。</p>
+<p><strong>2. 隐式转换（浏览器内部默认先转换为Number在进行计算的）</strong></p>
+<ul>
+<li>isNaN([val])</li>
+<li>数学运算（特殊情况：+ 在出现字符串的情况下不是数学运算，是字符串拼接）</li>
+<li>在 == 比较的时候，有些值需要转换为数字再进行比较</li>
+<li>…</li>
+</ul>
+<h4 id="把其他数据类型转换成-String-类型"><a href="#把其他数据类型转换成-String-类型" class="headerlink" title="把其他数据类型转换成 String 类型"></a>把其他数据类型转换成 String 类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
+<ul>
+<li>toString()</li>
+</ul>
+<blockquote>
+<p>把其他类型转换为字符串，一般都是直接用“”包起来，只有 { } 普通对象调取toString是调取Object.prototype.toString()方法，对象原型上的toString方法不是用来转换字符串的，而是用来检测数据类型的，返回结果为”[object Object]”</p>
 </blockquote>
-<p><strong>尺寸计算公式</strong>：</p>
-<p>width = border + padding + 内容的宽度</p>
-<p>height = border + padding + 内容的高度</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.box&#123;</span><br><span class="line">    width:200px;</span><br><span class="line">    height:200px;</span><br><span class="line">    background-color:blue;</span><br><span class="line">    padding:20px;</span><br><span class="line">    border:10px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<img src="https://user-gold-cdn.xitu.io/2017/10/25/cfff88aff482f7dd89d60d7498695450?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" >
+<ul>
+<li>String()</li>
+</ul>
+<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
+<ul>
+<li>加号运算的时候，如果某一边出现了字符串，则是字符串拼接</li>
+<li>把对象转化为数字，需要先toString（）转为字符串，再转为数字</li>
+<li>基于alert/confirm/prompt/document.write…这些方式输出内容，把内容先转化为字符串，然后在输出</li>
+<li>…</li>
+</ul>
+<h4 id="把其他数据类型转换成-Boolean-串类型"><a href="#把其他数据类型转换成-Boolean-串类型" class="headerlink" title="把其他数据类型转换成 Boolean 串类型"></a>把其他数据类型转换成 Boolean 串类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
+<ul>
+<li>! 转换成布尔值之后再取反</li>
+<li>!! 转换成布尔值</li>
+<li>Boolean([val])</li>
+</ul>
+<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
+<ul>
+<li>在循环或条件判断中，条件处理的结果就是布尔类型值</li>
+<li>…</li>
+</ul>
+<blockquote>
+<p>只有‘0、NaN、null、undefined、空字符串’这几个值会变成布尔的false,其余值都是true</p>
+</blockquote>
+<h4 id="在等号转换过程中，数据转换的规则"><a href="#在等号转换过程中，数据转换的规则" class="headerlink" title="在等号转换过程中，数据转换的规则"></a>在等号转换过程中，数据转换的规则</h4><p><strong>1. 类型一样的几个特殊点</strong></p>
+<ul>
+<li>{} == {}   false  对象比较的是堆内存引用地址</li>
+<li>[] == []   false</li>
+<li>NaN == NaN false </li>
+</ul>
+<p><strong>2. 类型不一样的转换规则</strong></p>
+<ul>
+<li>null == undefined 的结果为true，但是换成===的结果是false（因为类型不一致），剩下null、undefined和其他任何数据类型值都不相等</li>
+<li>字符串 == 对象 ，要把对象转换成字符串</li>
+<li>剩下如果两边数据类型不一致，都需要转换为数字在进行比较</li>
+</ul>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>实例1</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">console.log([] == false);</span><br><span class="line">console.log(![] == false);</span><br><span class="line"></span><br><span class="line">// =&gt;  true true</span><br><span class="line"></span><br><span class="line">/*  console.log([] == false)</span><br><span class="line"> *  对象 == 布尔  类型不一致，都转换成数字比较</span><br><span class="line"> *  []对象转换成数字之前需要使用toString（）转换成字符串</span><br><span class="line"> *  即  [] =&gt; &apos;&apos; =&gt; 0 ，  false  =&gt; 0</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> *</span><br><span class="line"> *  console.log(![] == false)</span><br><span class="line"> *  先计算 ![] 的值,将[]转为boolean再取反  =&gt; false</span><br><span class="line"> *  即  false == false</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
 
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><blockquote>
-<p>我们在编写页面代码时应尽量使用标准的W3C模型(需在页面中声明DOCTYPE类型)，这样可以避免多个浏览器对同一页面的不兼容。因为若不声明DOCTYPE类型，IE浏览器会将盒子模型解释为IE盒子模型，FireFox等会将其解释为W3C盒子模型；若在页面中声明了DOCTYPE类型，所有的浏览器都会把盒模型解释为W3C盒模型。</p>
-</blockquote>
-<p><strong>参考文献</strong></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Introduction_to_the_CSS_box_model" target="_blank" rel="noopener">CSS 基础框盒模型介绍</a></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-sizing" target="_blank" rel="noopener">box-sizing</a></p>
-<p><a href="https://juejin.im/post/59ef72f5f265da4320026f76" target="_blank" rel="noopener">CSS盒模型详解</a></p>
+<p><strong>实例2</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let result = 10 + false +undefined + [] + &quot;Tencent&quot; + null + true + &#123;&#125;;</span><br><span class="line">console.log(result)</span><br><span class="line"></span><br><span class="line">// 10 + false =&gt; 10</span><br><span class="line">// 10 + undefined =&gt; NaN        任何数字加上NaN都是NaN</span><br><span class="line">// NaN + [] =&gt; &quot;NaN&quot;</span><br><span class="line">// &quot;NaN&quot; + &quot;Tencent&quot; =&gt; &quot;NaNTencent&quot;</span><br><span class="line">// 后面都是字符串拼接</span><br><span class="line">// &quot;NaNTencentnulltrue[object Object]&quot;</span><br></pre></td></tr></table></figure>
+
+<p><strong>实例3</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//加号即使笔辩出现字符串或者对象，也不一定是字符串拼接： ++i/i++/+i 这种情况下是数学运算</span><br><span class="line">let n = &quot;10&quot;;</span><br><span class="line">console.log(++n);   // 11</span><br><span class="line">console.log(+n);    // 10</span><br><span class="line"></span><br><span class="line">// &#123;&#125; + 0</span><br><span class="line">// 在这中情况下，左边的&#123;&#125;会被识别成一个代码块，不参与运算</span><br><span class="line">// 类似于function fn()&#123;&#125; + 0</span><br><span class="line">// 运算值处理 +0 =&gt; 0</span><br><span class="line"></span><br><span class="line">// (&#123;&#125; + 0)参与到数学运算中 &quot;[object Object]0&quot;</span><br><span class="line"></span><br><span class="line">// 0+&#123;&#125; 是数学运算中 &quot;0[object Object]&quot;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>CSS</category>
+        <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>CSS</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
-    <title>this</title>
-    <url>/2020/08/24/2020-08-24-this-md/</url>
-    <content><![CDATA[<h3 id="THIS"><a href="#THIS" class="headerlink" title="THIS"></a>THIS</h3><blockquote>
-<p>this:函数的执行主体，和执行上下文不是一个概念</p>
+    <title>原型和原型链</title>
+    <url>/2020/09/04/2020-09-04-%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE-md/</url>
+    <content><![CDATA[<h3 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h3><blockquote>
+<p>1.所有类都是函数数据类型（包含内置类）</p>
+</blockquote><ul>
+<li>所有函数都天生自带一个属性：prototype 原型（显示原型）</li>
+<li>prototype的属性值默认是一个对象数据类型【堆】</li>
+<li>在对象中存储的是供实例调用的所有公共属性和方法</li>
+<li>并且在类的原型对象上默认有个属性：constructor构造函数，属性值是当前类本身</li>
+</ul><a id="more"></a>
+
+<blockquote>
+<p>所有对象数据类型值也天生自带一个属性：<strong>proto</strong> 原型链（隐式原型）</p>
 </blockquote>
 <ul>
-<li>全局的this是window，我们研究的都是函数中的this</li>
-<li>this是谁和函数在哪里执行，以及在哪定义都没有必然联系</li>
-</ul>
-<a id="more"></a>
-<p><strong>判断执行主体的方式：</strong></p>
-<ol>
-<li>给当前元素的某个<code>事件行为绑定方法</code>，<code>事件绑定</code>，<code>执行对应方法</code>，方法中的this是当前元素本身（排除：IE6~8基于attachEvent实现的DOM2事件绑定，绑定的方法中的this不是操作的元素，而是window）</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.body.onclik = function()&#123;</span><br><span class="line">    //this:body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>函数执行，首先看函数名之前是否有‘点’，有‘点’，‘点’前面是谁this就是谁，没有‘点’this就是window（在JS的严格模式下，没有‘点’，方法中的this是undefined）<ul>
-<li>自执行函数中的this一般都是window/undefined</li>
-<li>回调函数中的this一般都是window/undefined（除非特殊处理）</li>
+<li><strong>proto</strong>属性的属性值：当前实例所属类的原型prototype，即=&gt; 实例.<strong>proto</strong> === 类.prototype</li>
+<li>对象数据类型的值有哪些<ul>
+<li>普通对象、数组对象、正则对象、日期对象、类数组对象、DOM对象…</li>
+<li>大部分实例也是对象数据类型（除一些基本数据类型）</li>
+<li>类的原型prototype也是对象类型</li>
+<li>函数也是对象–“函数的三种角色”</li>
+<li>… （JS中万物皆对象）</li>
 </ul>
 </li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">let obj = &#123;</span><br><span class="line">    name:&apos;xxx&apos;,</span><br><span class="line">    fn:fn</span><br><span class="line">&#125;</span><br><span class="line">fn();       //this:window</span><br><span class="line">obj.fn();   //this:obj</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>构造函数中的this是当前实例</li>
-<li>箭头函数没有自己的this，用到的this都是上下文中的this</li>
-<li>基于call、apple、bind可以强制改变this的指向</li>
-</ol>
-<p><strong>实例</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var num = 10;</span><br><span class="line">var obj = &#123;</span><br><span class="line">    num: 20</span><br><span class="line">&#125;;</span><br><span class="line">obj.fn = (function (num) &#123;</span><br><span class="line">    this.num = num * 3;</span><br><span class="line">    num++;</span><br><span class="line">    return function (n) &#123;</span><br><span class="line">        this.num += n;</span><br><span class="line">        num++;</span><br><span class="line">        console.log(num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(obj.num);</span><br><span class="line">var fn = obj.fn;</span><br><span class="line">fn(5);                          //22</span><br><span class="line">obj.fn(10);                     //23</span><br><span class="line">console.log(num, obj.num);      //65  30</span><br></pre></td></tr></table></figure>
-
-<p>画图分析</p>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/f1f356c0-e5d6-11ea-b244-a9f5e5565f30.png">
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vuex</title>
-    <url>/2020/03/30/2020-03-30-vuex-md/</url>
-    <content><![CDATA[<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><blockquote>
-<p>官网上介绍，Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="状态管理模式"><a href="#状态管理模式" class="headerlink" title="状态管理模式"></a>状态管理模式</h3><blockquote>
-<p>如果你熟悉vue.js开发，那么你一定对各组件之间传值的问题倍感头疼，而vuex就是用来解决各个组件之间共用值得传递问题</p>
-</blockquote>
-<p>– 1. 在你的项目中安装vuex</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install vuex --save</span><br></pre></td></tr></table></figure>
-
-<p>– 2. 在src文件目录中新建store文件夹，再在这个文件夹下创建一个index.js文件并输入以下代码</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">//使用vuex</span><br><span class="line">Vue.use(Vuex);</span><br><span class="line">//创建Vuex.Store实例保存到变量store中</span><br><span class="line">const store = new Vuex.Store();</span><br><span class="line"> </span><br><span class="line">export default store;       //导出store</span><br></pre></td></tr></table></figure>
-<p>– 3. 在main.js文件中引用该对象,这样就可以在任何一个组件里面使用this.$store了</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import store from &apos;./store&apos;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &apos;#app&apos;,</span><br><span class="line">  router,</span><br><span class="line">  store,//使用store</span><br><span class="line">  template: &apos;&lt;App/&gt;&apos;,</span><br><span class="line">  components: &#123; App &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h2 id="vuex核心"><a href="#vuex核心" class="headerlink" title="vuex核心"></a>vuex核心</h2><blockquote>
-<p>官网图片</p>
-</blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
-
-<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><blockquote>
-<p>store相当于一个商店，不同的组件可以来商店来获取自己想要的商品，而state就相当于商店的货架，组件可以通多store.state.XXX获取需要的状态</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 创建一个 Counter 组件</span><br><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>– 每当 store.state.count变化的时候, 都会重新求取计算属性，并且触发更新相关联的 DOM。然而，这种模式导致组件依赖全局状态单例。Vuex 通过 store 选项，提供了一种机制将状态从根组件“注入”到每一个子组件中（需调用 Vue.use(Vuex)）：</p>
-<p>– 通过在根实例中注册 store 选项，该 store 实例会注入到根组件下的所有子组件中，且子组件能通过 this.$store 访问到。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const Counter = &#123;</span><br><span class="line">  template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`,</span><br><span class="line">  computed: &#123;</span><br><span class="line">    count () &#123;</span><br><span class="line">      return this.$store.state.count</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="mapState辅助函数"><a href="#mapState辅助函数" class="headerlink" title="mapState辅助函数"></a>mapState辅助函数</h4><blockquote>
-<p>当组件需要获取多个状态的时候，将这些状态都声明为计算属性会有些重复和冗余。mapState辅助函数帮助我们生成计算属性</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: mapState(&#123;</span><br><span class="line">    // 箭头函数可使代码更简练</span><br><span class="line">    count: state =&gt; state.count,</span><br><span class="line"></span><br><span class="line">    // 传字符串参数 &apos;count&apos; 等同于 `state =&gt; state.count`</span><br><span class="line">    countAlias: &apos;count&apos;,</span><br><span class="line"></span><br><span class="line">    // 为了能够使用 `this` 获取局部状态，必须使用常规函数</span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      return state.count + this.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="对象展开运算符"><a href="#对象展开运算符" class="headerlink" title="对象展开运算符"></a>对象展开运算符</h4><blockquote>
-<p>mapState函数返回的是一个对象。通常，我们可以在<strong>computed</strong>使用<strong><a href="https://github.com/tc39/proposal-object-rest-spread" target="_blank" rel="noopener">对象展开运算符</a></strong>，将多个对象合并成一个</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  localComputed () &#123; </span><br><span class="line">    // ... </span><br><span class="line">  &#125;,</span><br><span class="line">  // 使用对象展开运算符将此对象混入到外部对象中</span><br><span class="line">  ...mapState(&#123;</span><br><span class="line">    // ...</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h3><blockquote>
-<p>如果我们将state看做store的data属性，那么getter就可以被看做store的computed属性（getter的返回值根据他的依赖被缓存起来，当依赖改变时会被重新计算）。</p>
-</blockquote>
-<p>– getter 接受 state 作为其第一个参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todos: [</span><br><span class="line">      &#123; id: 1, text: &apos;...&apos;, done: true &#125;,</span><br><span class="line">      &#123; id: 2, text: &apos;...&apos;, done: false &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    doneTodos: state =&gt; &#123;</span><br><span class="line">      return state.todos.filter(todo =&gt; todo.done)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.getters.doneTodos // -&gt; [&#123; id: 1, text: &apos;...&apos;, done: true &#125;]</span><br></pre></td></tr></table></figure>
-<p>– Getter 也可以接受其他 getter 作为第二个参数：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">getters: &#123;</span><br><span class="line">  // ...</span><br><span class="line">  doneTodosCount: (state, getters) =&gt; &#123;</span><br><span class="line">    return getters.doneTodos.length</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.getters.doneTodosCount // -&gt; 1</span><br></pre></td></tr></table></figure>
-<h4 id="mapGetter辅助函数"><a href="#mapGetter辅助函数" class="headerlink" title="mapGetter辅助函数"></a>mapGetter辅助函数</h4><blockquote>
-<p>mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  computed: &#123;</span><br><span class="line">  // 使用对象展开运算符将 getter 混入 computed 对象中</span><br><span class="line">    ...mapGetters([&apos;doneTodosCount&apos;])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h3><blockquote>
-<p>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation,Vuex 中的 mutation 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。这个回调函数就是我们实际进行状态更改的地方，并且它会接受 state 作为第一个参数：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 1</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      // 变更状态</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>– 调用此函数,需要以相应的 type 调用 store.commit 方法：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
-<h4 id="载荷（Payload）"><a href="#载荷（Payload）" class="headerlink" title="载荷（Payload）"></a>载荷（Payload）</h4><p>– store&gt;store.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</ul>
 <blockquote>
-<p>你可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）：</p>
+<p>通过下面的例子分析原型、类、实例之间的关系</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, 10)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = 100;</span><br><span class="line">    this.y = 200;</span><br><span class="line">    this.getX = function()&#123;</span><br><span class="line">        console.log(this.x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getX = function()&#123;</span><br><span class="line">    console.log(this.x);</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getY = function()&#123;</span><br><span class="line">    console.log(this.y);</span><br><span class="line">&#125;</span><br><span class="line">let f1 = new Fn;</span><br><span class="line">let f2 = new Fn;</span><br><span class="line">console.log(f1.getX === f2.getX);</span><br><span class="line">console.log(f1.getY === f2.getY);</span><br><span class="line">console.log(f1.__proto__.getY === Fn.prototype.getY);</span><br><span class="line">console.log(f1.__proto__.getX === f2.getX);</span><br><span class="line">console.log(f1.getX === Fn.prototype.getX);</span><br><span class="line">console.log(f1.constructor);</span><br><span class="line">console.log(Fn.prototype.__proto__.constructor);</span><br><span class="line">f1.getX();</span><br><span class="line">f1.__proto__.getX();</span><br><span class="line">f2.getY();</span><br><span class="line">Fn.prototype.getY();</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
+
 <blockquote>
-<p>大多数情况下，载荷应该是一个对象，这样可以包含多个字段并且记录的 mutation 会更易读：</p>
-</blockquote>
-<p>– xxx.vue</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="使用常量替代-Mutation-事件类型"><a href="#使用常量替代-Mutation-事件类型" class="headerlink" title="使用常量替代 Mutation 事件类型"></a>使用常量替代 Mutation 事件类型</h4><blockquote>
-<p>使用常量替代 mutation 事件类型在各种 Flux 实现中是很常见的模式。这样可以使 linter 之类的工具发挥作用，同时把这些常量放在单独的文件中可以让你的代码合作者对整个 app 包含的 mutation 一目了然：</p>
-</blockquote>
-<p>– mutation-types.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">export const SOME_MUTATION = &apos;SOME_MUTATION&apos;</span><br></pre></td></tr></table></figure>
-<p>– store.js</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line">import &#123; SOME_MUTATION &#125; from &apos;./mutation-types&apos;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    // 我们可以使用 ES2015 风格的计算属性命名功能来使用一个常量作为函数名</span><br><span class="line">    [SOME_MUTATION] (state) &#123;</span><br><span class="line">      // mutate state</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="在组件中提交-Mutation"><a href="#在组件中提交-Mutation" class="headerlink" title="在组件中提交 Mutation"></a>在组件中提交 Mutation</h4><blockquote>
-<p>可以在组件中使用 this.$store.commit(‘xxx’) 提交 mutation，或者使用 mapMutations 辅助函数将组件中的 methods 映射为 store.commit 调用（需要在根节点注入 store）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapMutations([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapMutations` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.commit(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapMutations(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.commit(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>注意一条重要的原则就是要记住 mutation 必须是同步函数,在 mutation 中混合异步调用会导致你的程序很难调试。</strong></p>
-</blockquote>
-<h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><blockquote>
-<p>Action 类似于 mutation，不同在于：</p>
+<p>通过这个例子，可以总结出原型链具有以下特点：</p>
 </blockquote>
 <ul>
-<li>Action 提交的是 mutation，而不是直接变更状态。</li>
-<li>Action 可以包含任意异步操作。<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    increment (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    increment (&#123; commit &#125;) &#123;    //参数解构来简化代码</span><br><span class="line">        commit(&apos;increment&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="分发-Action"><a href="#分发-Action" class="headerlink" title="分发 Action"></a>分发 Action</h4><blockquote>
-<p>Action 通过store.dispatch方法触发：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">store.dispatch(&apos;increment&apos;)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>action 内部可以执行异步操作</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  incrementAsync (&#123; commit &#125;) &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      commit(&apos;increment&apos;)</span><br><span class="line">    &#125;, 1000)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="mapActions辅助函数"><a href="#mapActions辅助函数" class="headerlink" title="mapActions辅助函数"></a>mapActions辅助函数</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  // ...</span><br><span class="line">  methods: &#123;</span><br><span class="line">    ...mapActions([</span><br><span class="line">      &apos;increment&apos;, // 将 `this.increment()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line"></span><br><span class="line">      // `mapActions` 也支持载荷：</span><br><span class="line">      &apos;incrementBy&apos; // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch(&apos;incrementBy&apos;, amount)`</span><br><span class="line">    ]),</span><br><span class="line">    ...mapActions(&#123;</span><br><span class="line">      add: &apos;increment&apos; // 将 `this.add()` 映射为 `this.$store.dispatch(&apos;increment&apos;)`</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="vuex中mutation和action的详细区别"><a href="#vuex中mutation和action的详细区别" class="headerlink" title="vuex中mutation和action的详细区别"></a>vuex中mutation和action的详细区别</h4></li>
-</ul>
-<ol>
-<li>流程顺序</li>
-</ol>
-<p>“相应视图—&gt;修改State”拆分成两部分，视图触发Action，Action再触发Mutation。</p>
-<ol start="2">
-<li>角色定位</li>
-</ol>
-<p>基于流程顺序，二者扮演不同的角色。</p>
-<pre><code>Mutation：专注于修改State，理论上是修改State的唯一途径。
-
-Action：业务代码、异步请求。</code></pre><ol start="3">
-<li>限制</li>
-</ol>
-<p>角色不同，二者有不同的限制。</p>
-<pre><code>Mutation：必须同步执行。
-
-Action：可以异步，但不能直接操作State。</code></pre><blockquote>
-<p>他两者之间不是功能的不同，而是编程思想的不同，按照官方规定书写代码高效、易维护、逻辑清晰</p>
-</blockquote>
-<h3 id="Module"><a href="#Module" class="headerlink" title="Module"></a>Module</h3><blockquote>
-<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割：</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const moduleA = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;,</span><br><span class="line">  getters: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const moduleB = &#123;</span><br><span class="line">  state: &#123; ... &#125;,</span><br><span class="line">  mutations: &#123; ... &#125;,</span><br><span class="line">  actions: &#123; ... &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">  modules: &#123;</span><br><span class="line">    a: moduleA,</span><br><span class="line">    b: moduleB</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">store.state.a // -&gt; moduleA 的状态</span><br><span class="line">store.state.b // -&gt; moduleB 的状态</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><strong>参考文献</strong></p>
-<p><a href="https://vuex.vuejs.org/zh/" target="_blank" rel="noopener">vuex是什么</a></p>
-<p><a href="https://segmentfault.com/a/1190000015782272" target="_blank" rel="noopener">VueJS中学习使用Vuex详解</a></p>
-<p><a href="https://blog.csdn.net/weixin_38483133/article/details/89327362" target="_blank" rel="noopener">vuex中mutation和action的详细区别</a></p>
-]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>什么是Ajax</title>
-    <url>/2020/04/14/2020-04-14-Ajax-md/</url>
-    <content><![CDATA[<h2 id="什么是AJAX"><a href="#什么是AJAX" class="headerlink" title="什么是AJAX"></a>什么是AJAX</h2><blockquote>
-<p>2005 年 2 月，AJAX 这个词第一次正式提出，它是 Asynchronous JavaScript and XML 的缩写，指的是通过 JavaScript 的 异步通信，从服务器获取 XML 文档从中提取数据，再更新当前网页的对应部分，而不用刷新整个网页。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="如何创建Ajax"><a href="#如何创建Ajax" class="headerlink" title="如何创建Ajax"></a>如何创建Ajax</h2><blockquote>
-<p>创建Ajax包括以下步骤：</p>
-</blockquote>
-<ol>
-<li>实例化一个XMLHttpRequest对象</li>
-<li>使用open方法创建一个http请求， <strong>open([请求方法],[请求地址],[是否异步和用户的认证信息])</strong></li>
-<li>设置监听HTTP请求状态变化的函数</li>
-<li>发送HTTP请求</li>
-<li>获取异步调用返回的数据</li>
-<li>使用JavaScript和DOM实现局部刷新</li>
-</ol>
-<p><strong>回调函数实现的方法</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const SERVER_URL = &quot;/server&quot;;</span><br><span class="line"></span><br><span class="line">let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">// 创建 Http 请求</span><br><span class="line">xhr.open(&quot;GET&quot;, SERVER_URL, true);</span><br><span class="line"></span><br><span class="line">// 设置状态监听函数</span><br><span class="line">xhr.onreadystatechange = function() &#123;</span><br><span class="line">  if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">  // 当请求成功时</span><br><span class="line">  if (this.status === 200) &#123;</span><br><span class="line">    handle(this.response);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    console.error(this.statusText);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求失败时的监听函数</span><br><span class="line">xhr.onerror = function() &#123;</span><br><span class="line">  console.error(this.statusText);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求头信息</span><br><span class="line">xhr.responseType = &quot;json&quot;;</span><br><span class="line">xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">// 发送 Http 请求</span><br><span class="line">xhr.send(null);</span><br></pre></td></tr></table></figure>
-
-<p><strong>基于promise封装实现</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getJSON(url) &#123;</span><br><span class="line">  // 创建一个 promise 对象</span><br><span class="line">  let promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">    let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">    // 新建一个 http 请求</span><br><span class="line">    xhr.open(&quot;GET&quot;, url, true);</span><br><span class="line"></span><br><span class="line">    // 设置状态的监听函数</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">      if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">      // 当请求成功或失败时，改变 promise 的状态</span><br><span class="line">      if (this.status === 200) &#123;</span><br><span class="line">        resolve(this.response);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        reject(new Error(this.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置错误监听函数</span><br><span class="line">    xhr.onerror = function() &#123;</span><br><span class="line">      reject(new Error(this.statusText));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置响应的数据类型</span><br><span class="line">    xhr.responseType = &quot;json&quot;;</span><br><span class="line"></span><br><span class="line">    // 设置请求头信息</span><br><span class="line">    xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">    // 发送 http 请求</span><br><span class="line">    xhr.send(null);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return promise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="HTTP的请求方法"><a href="#HTTP的请求方法" class="headerlink" title="HTTP的请求方法"></a>HTTP的请求方法</h3><ol>
-<li><code>get</code></li>
-<li><code>post</code> </li>
-<li><code>head</code></li>
-<li><code>put</code></li>
-<li><code>delete</code></li>
-<li><code>connect</code></li>
-<li><code>options</code></li>
-<li><code>trace</code></li>
-</ol>
-<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><ul>
-<li><code>200</code> <strong>服务器正常</strong></li>
-<li><code>301</code> <strong>永久移动</strong></li>
-<li><code>302</code> <strong>暂时移动</strong></li>
-<li><code>304</code> <strong>未修改</strong></li>
-<li><code>307</code> <strong>暂时重定向</strong></li>
-<li><code>401</code> <strong>未授权</strong></li>
-<li><code>403</code> <strong>禁止访问</strong></li>
-<li><code>404</code> <strong>未发现指定网址</strong></li>
-<li><code>500</code> <strong>服务器错误</strong></li>
+<li>函数执行时，用到某个属性，首先看是否是自己的私有属性，如果是自己的私有属性，那么久操作自己的私有属性</li>
+<li>如果不是自己的私有属性，会默认基于<strong>proto</strong>找所属类的原型上的公共属性和方法</li>
+<li>如果所属类的原型上也没有，则继续基于原型<strong>proto</strong>继续向上查找，直到找到Object.prototype上为止</li>
+<li>这就是我们所说的原型链的查找机制</li>
 </ul>
 ]]></content>
       <categories>
-        <category>JavaScript</category>
+        <category>JavaScript面向对象</category>
       </categories>
       <tags>
         <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Promise</title>
+    <url>/2020/04/14/2020-04-14-Promise-md/</url>
+    <content><![CDATA[<h2 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h2><blockquote>
+<p>Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一个 Promise 所必须具有的特性。</p>
+</blockquote><a id="more"></a>
+<p><code>Promise</code> 是一个<strong>构造函数</strong>，接收一个函数作为参数，返回一个 <strong>Promise 实例</strong>。一个 Promise 实例有三种状态，分别是 <code>pending</code>、<code>fulfilled</code> 和 <code>rejected</code>，分别代表了进行中、已成功和已失败。实例的状态只能由 pending 转变 fulfilled 或者 rejected 状态，并且状态一经改变，就凝固了，无法再被改变了。状态的改变是通过 resolve() 和 reject() 函数来实现的，我们可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 <code>then</code> 方法，使用这个 then 方法可以为两个状态的改变注册回调函数。<strong>这个回调函数属于微任务</strong>，会在本轮事件循环的末尾执行。</p>
+<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><p><code>promise</code> 是一个包含了兼容promise规范then方法的对象或函数</p>
+<p><code>thenable</code> 是一个包含then方法的对象或函数</p>
+<p><code>value</code> 是任何的JavaScript值。（包括undefined、thenable、promise等）</p>
+<p><code>exception</code> 是由<code>throw</code>表达式抛出来的值</p>
+<p><code>reason</code> 是一个用于描述Promise被拒绝原因的一个值</p>
+<h2 id="手写一个Promise"><a href="#手写一个Promise" class="headerlink" title="手写一个Promise"></a>手写一个Promise</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const PENDING = &quot;pending&quot;;</span><br><span class="line">const RESOLVED = &quot;resolved&quot;;</span><br><span class="line">const REJECTED = &quot;rejected&quot;;</span><br><span class="line"></span><br><span class="line">function MyPromise(fn) &#123;</span><br><span class="line">  // 保存初始化状态</span><br><span class="line">  var self = this;</span><br><span class="line"></span><br><span class="line">  // 初始化状态</span><br><span class="line">  this.state = PENDING;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 或者 rejected 传入的值</span><br><span class="line">  this.value = null;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 的回调函数</span><br><span class="line">  this.resolvedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 用于保存 reject 的回调函数</span><br><span class="line">  this.rejectedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 状态转变为 resolved 方法</span><br><span class="line">  function resolve(value) &#123;</span><br><span class="line">    // 判断传入元素是否为 Promise 值，如果是，则状态改变必须等待前一个状态改变后再进行改变</span><br><span class="line">    if (value instanceof MyPromise) &#123;</span><br><span class="line">      return value.then(resolve, reject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变，</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = RESOLVED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.resolvedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 状态转变为 rejected 方法</span><br><span class="line">  function reject(value) &#123;</span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = REJECTED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.rejectedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 将两个方法传入函数执行</span><br><span class="line">  try &#123;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    // 遇到错误时，捕获错误，执行 reject 函数</span><br><span class="line">    reject(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyPromise.prototype.then = function(onResolved, onRejected) &#123;</span><br><span class="line">  // 首先判断两个参数是否为函数类型，因为这两个参数是可选参数</span><br><span class="line">  onResolved =</span><br><span class="line">    typeof onResolved === &quot;function&quot;</span><br><span class="line">      ? onResolved</span><br><span class="line">      : function(value) &#123;</span><br><span class="line">          return value;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  onRejected =</span><br><span class="line">    typeof onRejected === &quot;function&quot;</span><br><span class="line">      ? onRejected</span><br><span class="line">      : function(error) &#123;</span><br><span class="line">          throw error;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  // 如果是等待状态，则将函数加入对应列表中</span><br><span class="line">  if (this.state === PENDING) &#123;</span><br><span class="line">    this.resolvedCallbacks.push(onResolved);</span><br><span class="line">    this.rejectedCallbacks.push(onRejected);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 如果状态已经凝固，则直接执行对应状态的函数</span><br><span class="line"></span><br><span class="line">  if (this.state === RESOLVED) &#123;</span><br><span class="line">    onResolved(this.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (this.state === REJECTED) &#123;</span><br><span class="line">    onRejected(this.value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>ECMAScript6</category>
+      </categories>
+      <tags>
+        <tag>ECMAScript6</tag>
       </tags>
   </entry>
   <entry>
@@ -1173,23 +1231,56 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
-    <title>Promise</title>
-    <url>/2020/04/14/2020-04-14-Promise-md/</url>
-    <content><![CDATA[<h2 id="什么是Promise"><a href="#什么是Promise" class="headerlink" title="什么是Promise"></a>什么是Promise</h2><blockquote>
-<p>Promise 对象是异步编程的一种解决方案，最早由社区提出。Promises/A+ 规范是 JavaScript Promise 的标准，规定了一个 Promise 所必须具有的特性。</p>
-</blockquote><a id="more"></a>
-<p><code>Promise</code> 是一个<strong>构造函数</strong>，接收一个函数作为参数，返回一个 <strong>Promise 实例</strong>。一个 Promise 实例有三种状态，分别是 <code>pending</code>、<code>fulfilled</code> 和 <code>rejected</code>，分别代表了进行中、已成功和已失败。实例的状态只能由 pending 转变 fulfilled 或者 rejected 状态，并且状态一经改变，就凝固了，无法再被改变了。状态的改变是通过 resolve() 和 reject() 函数来实现的，我们可以在异步操作结束后调用这两个函数改变 Promise 实例的状态，它的原型上定义了一个 <code>then</code> 方法，使用这个 then 方法可以为两个状态的改变注册回调函数。<strong>这个回调函数属于微任务</strong>，会在本轮事件循环的末尾执行。</p>
-<h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><p><code>promise</code> 是一个包含了兼容promise规范then方法的对象或函数</p>
-<p><code>thenable</code> 是一个包含then方法的对象或函数</p>
-<p><code>value</code> 是任何的JavaScript值。（包括undefined、thenable、promise等）</p>
-<p><code>exception</code> 是由<code>throw</code>表达式抛出来的值</p>
-<p><code>reason</code> 是一个用于描述Promise被拒绝原因的一个值</p>
-<h2 id="手写一个Promise"><a href="#手写一个Promise" class="headerlink" title="手写一个Promise"></a>手写一个Promise</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const PENDING = &quot;pending&quot;;</span><br><span class="line">const RESOLVED = &quot;resolved&quot;;</span><br><span class="line">const REJECTED = &quot;rejected&quot;;</span><br><span class="line"></span><br><span class="line">function MyPromise(fn) &#123;</span><br><span class="line">  // 保存初始化状态</span><br><span class="line">  var self = this;</span><br><span class="line"></span><br><span class="line">  // 初始化状态</span><br><span class="line">  this.state = PENDING;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 或者 rejected 传入的值</span><br><span class="line">  this.value = null;</span><br><span class="line"></span><br><span class="line">  // 用于保存 resolve 的回调函数</span><br><span class="line">  this.resolvedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 用于保存 reject 的回调函数</span><br><span class="line">  this.rejectedCallbacks = [];</span><br><span class="line"></span><br><span class="line">  // 状态转变为 resolved 方法</span><br><span class="line">  function resolve(value) &#123;</span><br><span class="line">    // 判断传入元素是否为 Promise 值，如果是，则状态改变必须等待前一个状态改变后再进行改变</span><br><span class="line">    if (value instanceof MyPromise) &#123;</span><br><span class="line">      return value.then(resolve, reject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变，</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = RESOLVED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.resolvedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 状态转变为 rejected 方法</span><br><span class="line">  function reject(value) &#123;</span><br><span class="line">    // 保证代码的执行顺序为本轮事件循环的末尾</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">      // 只有状态为 pending 时才能转变</span><br><span class="line">      if (self.state === PENDING) &#123;</span><br><span class="line">        // 修改状态</span><br><span class="line">        self.state = REJECTED;</span><br><span class="line"></span><br><span class="line">        // 设置传入的值</span><br><span class="line">        self.value = value;</span><br><span class="line"></span><br><span class="line">        // 执行回调函数</span><br><span class="line">        self.rejectedCallbacks.forEach(callback =&gt; &#123;</span><br><span class="line">          callback(value);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;, 0);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 将两个方法传入函数执行</span><br><span class="line">  try &#123;</span><br><span class="line">    fn(resolve, reject);</span><br><span class="line">  &#125; catch (e) &#123;</span><br><span class="line">    // 遇到错误时，捕获错误，执行 reject 函数</span><br><span class="line">    reject(e);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">MyPromise.prototype.then = function(onResolved, onRejected) &#123;</span><br><span class="line">  // 首先判断两个参数是否为函数类型，因为这两个参数是可选参数</span><br><span class="line">  onResolved =</span><br><span class="line">    typeof onResolved === &quot;function&quot;</span><br><span class="line">      ? onResolved</span><br><span class="line">      : function(value) &#123;</span><br><span class="line">          return value;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  onRejected =</span><br><span class="line">    typeof onRejected === &quot;function&quot;</span><br><span class="line">      ? onRejected</span><br><span class="line">      : function(error) &#123;</span><br><span class="line">          throw error;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">  // 如果是等待状态，则将函数加入对应列表中</span><br><span class="line">  if (this.state === PENDING) &#123;</span><br><span class="line">    this.resolvedCallbacks.push(onResolved);</span><br><span class="line">    this.rejectedCallbacks.push(onRejected);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // 如果状态已经凝固，则直接执行对应状态的函数</span><br><span class="line"></span><br><span class="line">  if (this.state === RESOLVED) &#123;</span><br><span class="line">    onResolved(this.value);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  if (this.state === REJECTED) &#123;</span><br><span class="line">    onRejected(this.value);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>什么是Ajax</title>
+    <url>/2020/04/14/2020-04-14-Ajax-md/</url>
+    <content><![CDATA[<h2 id="什么是AJAX"><a href="#什么是AJAX" class="headerlink" title="什么是AJAX"></a>什么是AJAX</h2><blockquote>
+<p>2005 年 2 月，AJAX 这个词第一次正式提出，它是 Asynchronous JavaScript and XML 的缩写，指的是通过 JavaScript 的 异步通信，从服务器获取 XML 文档从中提取数据，再更新当前网页的对应部分，而不用刷新整个网页。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="如何创建Ajax"><a href="#如何创建Ajax" class="headerlink" title="如何创建Ajax"></a>如何创建Ajax</h2><blockquote>
+<p>创建Ajax包括以下步骤：</p>
+</blockquote>
+<ol>
+<li>实例化一个XMLHttpRequest对象</li>
+<li>使用open方法创建一个http请求， <strong>open([请求方法],[请求地址],[是否异步和用户的认证信息])</strong></li>
+<li>设置监听HTTP请求状态变化的函数</li>
+<li>发送HTTP请求</li>
+<li>获取异步调用返回的数据</li>
+<li>使用JavaScript和DOM实现局部刷新</li>
+</ol>
+<p><strong>回调函数实现的方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const SERVER_URL = &quot;/server&quot;;</span><br><span class="line"></span><br><span class="line">let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">// 创建 Http 请求</span><br><span class="line">xhr.open(&quot;GET&quot;, SERVER_URL, true);</span><br><span class="line"></span><br><span class="line">// 设置状态监听函数</span><br><span class="line">xhr.onreadystatechange = function() &#123;</span><br><span class="line">  if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">  // 当请求成功时</span><br><span class="line">  if (this.status === 200) &#123;</span><br><span class="line">    handle(this.response);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    console.error(this.statusText);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求失败时的监听函数</span><br><span class="line">xhr.onerror = function() &#123;</span><br><span class="line">  console.error(this.statusText);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 设置请求头信息</span><br><span class="line">xhr.responseType = &quot;json&quot;;</span><br><span class="line">xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">// 发送 Http 请求</span><br><span class="line">xhr.send(null);</span><br></pre></td></tr></table></figure>
+
+<p><strong>基于promise封装实现</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function getJSON(url) &#123;</span><br><span class="line">  // 创建一个 promise 对象</span><br><span class="line">  let promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">    let xhr = new XMLHttpRequest();</span><br><span class="line"></span><br><span class="line">    // 新建一个 http 请求</span><br><span class="line">    xhr.open(&quot;GET&quot;, url, true);</span><br><span class="line"></span><br><span class="line">    // 设置状态的监听函数</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">      if (this.readyState !== 4) return;</span><br><span class="line"></span><br><span class="line">      // 当请求成功或失败时，改变 promise 的状态</span><br><span class="line">      if (this.status === 200) &#123;</span><br><span class="line">        resolve(this.response);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        reject(new Error(this.statusText));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置错误监听函数</span><br><span class="line">    xhr.onerror = function() &#123;</span><br><span class="line">      reject(new Error(this.statusText));</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    // 设置响应的数据类型</span><br><span class="line">    xhr.responseType = &quot;json&quot;;</span><br><span class="line"></span><br><span class="line">    // 设置请求头信息</span><br><span class="line">    xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</span><br><span class="line"></span><br><span class="line">    // 发送 http 请求</span><br><span class="line">    xhr.send(null);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return promise;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><h3 id="HTTP的请求方法"><a href="#HTTP的请求方法" class="headerlink" title="HTTP的请求方法"></a>HTTP的请求方法</h3><ol>
+<li><code>get</code></li>
+<li><code>post</code> </li>
+<li><code>head</code></li>
+<li><code>put</code></li>
+<li><code>delete</code></li>
+<li><code>connect</code></li>
+<li><code>options</code></li>
+<li><code>trace</code></li>
+</ol>
+<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><ul>
+<li><code>200</code> <strong>服务器正常</strong></li>
+<li><code>301</code> <strong>永久移动</strong></li>
+<li><code>302</code> <strong>暂时移动</strong></li>
+<li><code>304</code> <strong>未修改</strong></li>
+<li><code>307</code> <strong>暂时重定向</strong></li>
+<li><code>401</code> <strong>未授权</strong></li>
+<li><code>403</code> <strong>禁止访问</strong></li>
+<li><code>404</code> <strong>未发现指定网址</strong></li>
+<li><code>500</code> <strong>服务器错误</strong></li>
+</ul>
+]]></content>
       <categories>
-        <category>ECMAScript6</category>
+        <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>ECMAScript6</tag>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -1357,82 +1448,41 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
       </tags>
   </entry>
   <entry>
-    <title>数据类型转换</title>
-    <url>/2020/08/15/2020-08-15-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2-md/</url>
-    <content><![CDATA[<h3 id="数据类型转换的核心"><a href="#数据类型转换的核心" class="headerlink" title="数据类型转换的核心"></a>数据类型转换的核心</h3><a id="more"></a>
-
-<h4 id="把其他数据类型转换成-Number-类型"><a href="#把其他数据类型转换成-Number-类型" class="headerlink" title="把其他数据类型转换成 Number 类型"></a>把其他数据类型转换成 Number 类型</h4><p><strong>1. 特定需要转换为Number的</strong> </p>
-<ul>
-<li>Number([val])</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">console.log(Number(&apos;&apos;));            // 0</span><br><span class="line">console.log(Number(&apos;10&apos;));          // 10</span><br><span class="line">console.log(Number(&apos;10px&apos;));        // NaN</span><br><span class="line">console.log(Number(true));          // 1</span><br><span class="line">console.log(Number(false));         // 0</span><br><span class="line">console.log(Number(null));          // 0</span><br><span class="line">console.log(Number(undefined));     // NaN</span><br><span class="line">console.log(Number(Symbol(10));     // 报错</span><br><span class="line">console.log(Number(BigInt(10)));    // 10</span><br><span class="line">// 对象变为数字，应该先valueOf,没有原始值再toString变为字符串，最后把字符串转换为数字</span><br></pre></td></tr></table></figure>
-<ul>
-<li>parseInt/parseFloat([val])</li>
-</ul>
-<blockquote>
-<p>parseInt机制：从字符串左侧第一个字符开始，查找有效字符（遇到非有效字符停止查找，不论后面是否还有数字字符），把找到的数字字符转化为数字，如果一个都没找到结果就是NaN（parseFloat多识别一个字符串）</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">parseInt(&quot;&quot;)    //NaN</span><br><span class="line">Number(&quot;&quot;)      // 0</span><br><span class="line">isNaN(&quot;&quot;)       //false</span><br><span class="line">parseInt(&quot;null&quot;)        //NaN</span><br><span class="line">Number(&quot;null&quot;)          // 0</span><br><span class="line">isNaN(&quot;null&quot;)           //false</span><br><span class="line">parseInt(&quot;12px&quot;)        //12</span><br><span class="line">Number(&quot;12px&quot;)          //NaN</span><br><span class="line">isNaN(&quot;12px&quot;)           //true</span><br><span class="line">parseFloat(&quot;1.6px&quot;) + parseInt(&quot;1.2px&quot;) + typeof parseInt(null)       //2.6number</span><br><span class="line">isNaN(Number(!!Number(parseInt(&quot;0.8&quot;))))        //false</span><br><span class="line">typeof !parseInt(null) + !isNaN(null)       //booleantrue</span><br></pre></td></tr></table></figure>
-
-<p><strong>2. 隐式转换（浏览器内部默认先转换为Number在进行计算的）</strong></p>
-<ul>
-<li>isNaN([val])</li>
-<li>数学运算（特殊情况：+ 在出现字符串的情况下不是数学运算，是字符串拼接）</li>
-<li>在 == 比较的时候，有些值需要转换为数字再进行比较</li>
-<li>…</li>
-</ul>
-<h4 id="把其他数据类型转换成-String-类型"><a href="#把其他数据类型转换成-String-类型" class="headerlink" title="把其他数据类型转换成 String 类型"></a>把其他数据类型转换成 String 类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
-<ul>
-<li>toString()</li>
-</ul>
-<blockquote>
-<p>把其他类型转换为字符串，一般都是直接用“”包起来，只有 { } 普通对象调取toString是调取Object.prototype.toString()方法，对象原型上的toString方法不是用来转换字符串的，而是用来检测数据类型的，返回结果为”[object Object]”</p>
+    <title>this</title>
+    <url>/2020/08/24/2020-08-24-this-md/</url>
+    <content><![CDATA[<h3 id="THIS"><a href="#THIS" class="headerlink" title="THIS"></a>THIS</h3><blockquote>
+<p>this:函数的执行主体，和执行上下文不是一个概念</p>
 </blockquote>
 <ul>
-<li>String()</li>
+<li>全局的this是window，我们研究的都是函数中的this</li>
+<li>this是谁和函数在哪里执行，以及在哪定义都没有必然联系</li>
 </ul>
-<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
-<ul>
-<li>加号运算的时候，如果某一边出现了字符串，则是字符串拼接</li>
-<li>把对象转化为数字，需要先toString（）转为字符串，再转为数字</li>
-<li>基于alert/confirm/prompt/document.write…这些方式输出内容，把内容先转化为字符串，然后在输出</li>
-<li>…</li>
-</ul>
-<h4 id="把其他数据类型转换成-Boolean-串类型"><a href="#把其他数据类型转换成-Boolean-串类型" class="headerlink" title="把其他数据类型转换成 Boolean 串类型"></a>把其他数据类型转换成 Boolean 串类型</h4><p><strong>1. 可以使用的转换方法</strong></p>
-<ul>
-<li>! 转换成布尔值之后再取反</li>
-<li>!! 转换成布尔值</li>
-<li>Boolean([val])</li>
-</ul>
-<p><strong>2. 隐式转换（一般都是调用其toString）</strong></p>
-<ul>
-<li>在循环或条件判断中，条件处理的结果就是布尔类型值</li>
-<li>…</li>
-</ul>
-<blockquote>
-<p>只有‘0、NaN、null、undefined、空字符串’这几个值会变成布尔的false,其余值都是true</p>
-</blockquote>
-<h4 id="在等号转换过程中，数据转换的规则"><a href="#在等号转换过程中，数据转换的规则" class="headerlink" title="在等号转换过程中，数据转换的规则"></a>在等号转换过程中，数据转换的规则</h4><p><strong>1. 类型一样的几个特殊点</strong></p>
-<ul>
-<li>{} == {}   false  对象比较的是堆内存引用地址</li>
-<li>[] == []   false</li>
-<li>NaN == NaN false </li>
-</ul>
-<p><strong>2. 类型不一样的转换规则</strong></p>
-<ul>
-<li>null == undefined 的结果为true，但是换成===的结果是false（因为类型不一致），剩下null、undefined和其他任何数据类型值都不相等</li>
-<li>字符串 == 对象 ，要把对象转换成字符串</li>
-<li>剩下如果两边数据类型不一致，都需要转换为数字在进行比较</li>
-</ul>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><strong>实例1</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">console.log([] == false);</span><br><span class="line">console.log(![] == false);</span><br><span class="line"></span><br><span class="line">// =&gt;  true true</span><br><span class="line"></span><br><span class="line">/*  console.log([] == false)</span><br><span class="line"> *  对象 == 布尔  类型不一致，都转换成数字比较</span><br><span class="line"> *  []对象转换成数字之前需要使用toString（）转换成字符串</span><br><span class="line"> *  即  [] =&gt; &apos;&apos; =&gt; 0 ，  false  =&gt; 0</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> *</span><br><span class="line"> *  console.log(![] == false)</span><br><span class="line"> *  先计算 ![] 的值,将[]转为boolean再取反  =&gt; false</span><br><span class="line"> *  即  false == false</span><br><span class="line"> *  所以结果为true</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><strong>判断执行主体的方式：</strong></p>
+<ol>
+<li>给当前元素的某个<code>事件行为绑定方法</code>，<code>事件绑定</code>，<code>执行对应方法</code>，方法中的this是当前元素本身（排除：IE6~8基于attachEvent实现的DOM2事件绑定，绑定的方法中的this不是操作的元素，而是window）</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">document.body.onclik = function()&#123;</span><br><span class="line">    //this:body</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>实例2</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">let result = 10 + false +undefined + [] + &quot;Tencent&quot; + null + true + &#123;&#125;;</span><br><span class="line">console.log(result)</span><br><span class="line"></span><br><span class="line">// 10 + false =&gt; 10</span><br><span class="line">// 10 + undefined =&gt; NaN        任何数字加上NaN都是NaN</span><br><span class="line">// NaN + [] =&gt; &quot;NaN&quot;</span><br><span class="line">// &quot;NaN&quot; + &quot;Tencent&quot; =&gt; &quot;NaNTencent&quot;</span><br><span class="line">// 后面都是字符串拼接</span><br><span class="line">// &quot;NaNTencentnulltrue[object Object]&quot;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>函数执行，首先看函数名之前是否有‘点’，有‘点’，‘点’前面是谁this就是谁，没有‘点’this就是window（在JS的严格模式下，没有‘点’，方法中的this是undefined）<ul>
+<li>自执行函数中的this一般都是window/undefined</li>
+<li>回调函数中的this一般都是window/undefined（除非特殊处理）</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">let obj = &#123;</span><br><span class="line">    name:&apos;xxx&apos;,</span><br><span class="line">    fn:fn</span><br><span class="line">&#125;</span><br><span class="line">fn();       //this:window</span><br><span class="line">obj.fn();   //this:obj</span><br></pre></td></tr></table></figure>
 
-<p><strong>实例3</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">//加号即使笔辩出现字符串或者对象，也不一定是字符串拼接： ++i/i++/+i 这种情况下是数学运算</span><br><span class="line">let n = &quot;10&quot;;</span><br><span class="line">console.log(++n);   // 11</span><br><span class="line">console.log(+n);    // 10</span><br><span class="line"></span><br><span class="line">// &#123;&#125; + 0</span><br><span class="line">// 在这中情况下，左边的&#123;&#125;会被识别成一个代码块，不参与运算</span><br><span class="line">// 类似于function fn()&#123;&#125; + 0</span><br><span class="line">// 运算值处理 +0 =&gt; 0</span><br><span class="line"></span><br><span class="line">// (&#123;&#125; + 0)参与到数学运算中 &quot;[object Object]0&quot;</span><br><span class="line"></span><br><span class="line">// 0+&#123;&#125; 是数学运算中 &quot;0[object Object]&quot;</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>构造函数中的this是当前实例</li>
+<li>箭头函数没有自己的this，用到的this都是上下文中的this</li>
+<li>基于call、apple、bind可以强制改变this的指向</li>
+</ol>
+<p><strong>实例</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">var num = 10;</span><br><span class="line">var obj = &#123;</span><br><span class="line">    num: 20</span><br><span class="line">&#125;;</span><br><span class="line">obj.fn = (function (num) &#123;</span><br><span class="line">    this.num = num * 3;</span><br><span class="line">    num++;</span><br><span class="line">    return function (n) &#123;</span><br><span class="line">        this.num += n;</span><br><span class="line">        num++;</span><br><span class="line">        console.log(num);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)(obj.num);</span><br><span class="line">var fn = obj.fn;</span><br><span class="line">fn(5);                          //22</span><br><span class="line">obj.fn(10);                     //23</span><br><span class="line">console.log(num, obj.num);      //65  30</span><br></pre></td></tr></table></figure>
 
+<p>画图分析</p>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/f1f356c0-e5d6-11ea-b244-a9f5e5565f30.png">
 ]]></content>
       <categories>
         <category>JavaScript</category>

@@ -50,20 +50,20 @@
   };
 </script>
 
-  <meta name="description" content="原型和原型链 1.所有类都是函数数据类型（包含内置类）  所有函数都天生自带一个属性：prototype 原型（显示原型） prototype的属性值默认是一个对象数据类型【堆】 在对象中存储的是供实例调用的所有公共属性和方法 并且在类的原型对象上默认有个属性：constructor构造函数，属性值是当前类本身">
+  <meta name="description" content="new运算符 new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例  123456789101112&#x2F;*  基本语法 *  new constructor[([arguments])] *  pramas: *  [constructor]  一个指定对象实例的类型的类或函数 *  [arguments]    一个用于被 constructor 调用的参数列表 *&#x2F;  &#x2F;">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="原型和原型链">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;09&#x2F;04&#x2F;2020-09-04-%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE-md&#x2F;index.html">
+<meta property="og:title" content="new函数在执行时做了什么">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;09&#x2F;05&#x2F;2020-09-05-new%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="原型和原型链 1.所有类都是函数数据类型（包含内置类）  所有函数都天生自带一个属性：prototype 原型（显示原型） prototype的属性值默认是一个对象数据类型【堆】 在对象中存储的是供实例调用的所有公共属性和方法 并且在类的原型对象上默认有个属性：constructor构造函数，属性值是当前类本身">
+<meta property="og:description" content="new运算符 new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例  123456789101112&#x2F;*  基本语法 *  new constructor[([arguments])] *  pramas: *  [constructor]  一个指定对象实例的类型的类或函数 *  [arguments]    一个用于被 constructor 调用的参数列表 *&#x2F;  &#x2F;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
-<meta property="og:updated_time" content="2020-09-04T09:34:12.470Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;9c0e92c0-ee95-11ea-9dfb-6da8e309e0d8.png">
+<meta property="og:updated_time" content="2020-09-05T10:12:05.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;9c0e92c0-ee95-11ea-9dfb-6da8e309e0d8.png">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2020/09/04/2020-09-04-%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/09/05/2020-09-05-new%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-md/">
 
 
 <script id="page-configurations">
@@ -77,7 +77,7 @@
   };
 </script>
 
-  <title>原型和原型链 | Bsmall</title>
+  <title>new函数在执行时做了什么 | Bsmall</title>
   
 
 
@@ -217,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/09/04/2020-09-04-%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/09/05/2020-09-05-new%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -230,7 +230,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          原型和原型链
+          new函数在执行时做了什么
         </h1>
 
         <div class="post-meta">
@@ -241,7 +241,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-04 17:30:32 / 修改时间：17:34:12" itemprop="dateCreated datePublished" datetime="2020-09-04T17:30:32+08:00">2020-09-04</time>
+              <time title="创建时间：2020-09-05 15:23:56 / 修改时间：18:12:05" itemprop="dateCreated datePublished" datetime="2020-09-05T15:23:56+08:00">2020-09-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -266,46 +266,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="原型和原型链"><a href="#原型和原型链" class="headerlink" title="原型和原型链"></a>原型和原型链</h3><blockquote>
-<p>1.所有类都是函数数据类型（包含内置类）</p>
-</blockquote><ul>
-<li>所有函数都天生自带一个属性：prototype 原型（显示原型）</li>
-<li>prototype的属性值默认是一个对象数据类型【堆】</li>
-<li>在对象中存储的是供实例调用的所有公共属性和方法</li>
-<li>并且在类的原型对象上默认有个属性：constructor构造函数，属性值是当前类本身</li>
-</ul><a id="more"></a>
+        <h3 id="new运算符"><a href="#new运算符" class="headerlink" title="new运算符"></a>new运算符</h3><blockquote>
+<p>new 运算符创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">/*  基本语法</span><br><span class="line"> *  new constructor[([arguments])]</span><br><span class="line"> *  pramas:</span><br><span class="line"> *  [constructor]  一个指定对象实例的类型的类或函数</span><br><span class="line"> *  [arguments]    一个用于被 constructor 调用的参数列表</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line"> /* 函数执行时</span><br><span class="line">  * + new fn()    优先级 19</span><br><span class="line">  * + new fn      优先级 18</span><br><span class="line">  * 上述两种new执行的方式，fn都会执行，而且都会创建自己的实例。他们的区别是，是否传递参数以及优先级的不同。</span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<h3 id="new执行函数"><a href="#new执行函数" class="headerlink" title="new执行函数"></a>new执行函数</h3><blockquote>
+<p>以以下函数执行为例，对比普通函数执行和通过new方法执行时的区别</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function sum(x,y)&#123;</span><br><span class="line">    let totle = x + y;</span><br><span class="line">    this.total = total;</span><br><span class="line">    return total;</span><br><span class="line">&#125;</span><br><span class="line">let res = sum(10,20);</span><br><span class="line">console.log(res);</span><br><span class="line">let res1 = new sum(10,20);</span><br><span class="line">console.log(res1);</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9c0e92c0-ee95-11ea-9dfb-6da8e309e0d8.png">
 
 <blockquote>
-<p>所有对象数据类型值也天生自带一个属性：<strong>proto</strong> 原型链（隐式原型）</p>
+<p>对比普通函数执行和通过new操作当做构造函数来执行，可以总结出new执行时做了什么</p>
 </blockquote>
-<ul>
-<li><strong>proto</strong>属性的属性值：当前实例所属类的原型prototype，即=&gt; 实例.<strong>proto</strong> === 类.prototype</li>
-<li>对象数据类型的值有哪些<ul>
-<li>普通对象、数组对象、正则对象、日期对象、类数组对象、DOM对象…</li>
-<li>大部分实例也是对象数据类型（除一些基本数据类型）</li>
-<li>类的原型prototype也是对象类型</li>
-<li>函数也是对象–“函数的三种角色”</li>
-<li>… （JS中万物皆对象）</li>
-</ul>
-</li>
-</ul>
+<ol>
+<li>和普通函数执行一样，形成执行上下文EC、AO、作用域链…</li>
+<li>new函数执行，会在函数执行之前，创建一个对象</li>
+<li>在初始化this的阶段，会让this指向刚刚创建的对象</li>
+<li>在代码执行阶段，遇到this.xxx = xxx,都是给实例对象设置的“私有”属性方法</li>
+<li>return的时候，检测返回值，如果没有返回值或者返回值是一个原始数据类型则放回我们刚刚创建的对象；如果有返回值并且返回的事宜个引用数据类型，则返回该引用类型数据</li>
+</ol>
+<h3 id="重写new函数"><a href="#重写new函数" class="headerlink" title="重写new函数"></a>重写new函数</h3><blockquote>
+<p>对比了普通函数和new函数执行时的区别，总结出new函数执行时的一些特点，然后就可以尝试着重写new函数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> *  Func[function]:类</span><br><span class="line"> *  params[array]:基于剩余运算符获取传递的实参，都是给类传递的实参</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">function _new(Func,...params)&#123;</span><br><span class="line">    //创建实例对象</span><br><span class="line">    let obj = &#123;&#125;；</span><br><span class="line">    obj.__proto__ = Func.prototype;</span><br><span class="line">    //将类作为一个普通函数执行，基于call方法强制改变上下文中this的指向，将this指向新创建的实例对象obj</span><br><span class="line">    let result = Func.call(obj,...pramas);</span><br><span class="line">    //当返回结果为引用数据类型时，则直接返回该返回值，否则返回实例对象obj</span><br><span class="line">    if(result !== null &amp;&amp; /^object|function$/i.test(typeof result)) return result;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优化</strong></p>
 <blockquote>
-<p>通过下面的例子分析原型、类、实例之间的关系</p>
+<p>IE浏览器中的<strong>proto</strong>是被保护起来的，所以这里可以使用Object.create([对象])，来进行重写。</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = 100;</span><br><span class="line">    this.y = 200;</span><br><span class="line">    this.getX = function()&#123;</span><br><span class="line">        console.log(this.x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getX = function()&#123;</span><br><span class="line">    console.log(this.x);</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getY = function()&#123;</span><br><span class="line">    console.log(this.y);</span><br><span class="line">&#125;</span><br><span class="line">let f1 = new Fn;</span><br><span class="line">let f2 = new Fn;</span><br><span class="line">console.log(f1.getX === f2.getX);</span><br><span class="line">console.log(f1.getY === f2.getY);</span><br><span class="line">console.log(f1.__proto__.getY === Fn.prototype.getY);</span><br><span class="line">console.log(f1.__proto__.getX === f2.getX);</span><br><span class="line">console.log(f1.getX === Fn.prototype.getX);</span><br><span class="line">console.log(f1.constructor);</span><br><span class="line">console.log(Fn.prototype.__proto__.constructor);</span><br><span class="line">f1.getX();</span><br><span class="line">f1.__proto__.getX();</span><br><span class="line">f2.getY();</span><br><span class="line">Fn.prototype.getY();</span><br></pre></td></tr></table></figure>
-
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> *  Object.create([对象A]):创建一个空对象，并将对象A作为他的原型 即 空对象.__proto__ === 对象A</span><br><span class="line"> */</span><br><span class="line">function _new(Func,...params)&#123;</span><br><span class="line">    let obj = obj.craete(Func.prototype);</span><br><span class="line">    let result = Func.call(obj,...pramas);</span><br><span class="line">    </span><br><span class="line">    if(result !== null &amp;&amp; /^object|function$/i.test(typeof result)) return result;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>通过这个例子，可以总结出原型链具有以下特点：</p>
+<p>create()函数的值必须要传.</p>
 </blockquote>
-<ul>
-<li>函数执行时，用到某个属性，首先看是否是自己的私有属性，如果是自己的私有属性，那么久操作自己的私有属性</li>
-<li>如果不是自己的私有属性，会默认基于<strong>proto</strong>找所属类的原型上的公共属性和方法</li>
-<li>如果所属类的原型上也没有，则继续基于原型<strong>proto</strong>继续向上查找，直到找到Object.prototype上为止</li>
-<li>这就是我们所说的原型链的查找机制</li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">console.log(Object.create());       //Uncaught TypeError: Object prototype may only be an Object or null: undefined</span><br><span class="line">console.log(Object.create(null));   //创建一个空对象，但是对象的__proto__等于null,所以该对象不是任何类的实例</span><br></pre></td></tr></table></figure>
 
+<p><strong>实现Object.create()方法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">object.create = function create(obj)&#123;</span><br><span class="line">    if(obj===null || typeof obj !== &apos;object&apos;)&#123;</span><br><span class="line">        throw new TypeError(&apos;Object prototype may only be an Object&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function Amonyous()&#123;&#125;</span><br><span class="line">    Amonyous.prototype = obj;</span><br><span class="line">    return new Amonyous;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -330,17 +331,14 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/08/29/2020-08-29-%E9%97%AD%E5%8C%85%E7%9A%84%E9%AB%98%E9%98%B6%E5%BA%94%E7%94%A8-md/" rel="next" title="闭包的高阶应用">
-                  <i class="fa fa-chevron-left"></i> 闭包的高阶应用
+                <a href="/2020/09/04/2020-09-04-%E5%8E%9F%E5%9E%8B%E5%92%8C%E5%8E%9F%E5%9E%8B%E9%93%BE-md/" rel="next" title="原型和原型链">
+                  <i class="fa fa-chevron-left"></i> 原型和原型链
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/09/05/2020-09-05-new%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-md/" rel="prev" title="new函数在执行时做了什么">
-                  new函数在执行时做了什么 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -379,7 +377,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型和原型链"><span class="nav-number">1.</span> <span class="nav-text">原型和原型链</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#new运算符"><span class="nav-number">1.</span> <span class="nav-text">new运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new执行函数"><span class="nav-number">2.</span> <span class="nav-text">new执行函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写new函数"><span class="nav-number">3.</span> <span class="nav-text">重写new函数</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

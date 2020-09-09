@@ -50,18 +50,18 @@
   };
 </script>
 
-  <meta name="description" content="封装queryURLParams函数">
+  <meta name="description" content="原型重定向的弊端 为什么要原型重定向？为了方便我们批量给原型拓展属性和方法  原型重定向带来的问题  新定向的原型对象上，没有constructor属性，结构不完善 浏览器默认生成的原型对象会因为缺少引用而被释放掉，可能会导致原始加入的属性和方法丢失掉 内置对象是不允许被重定向的，防止把内置对象的方法丢失">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="封装queryURLParams函数">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;26&#x2F;2019-11-26-queryURLParams-md&#x2F;index.html">
+<meta property="og:title" content="自定义类的原型重定向">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;09&#x2F;09&#x2F;2020-09-09-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%87%8D%E5%AE%9A%E5%90%91-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="封装queryURLParams函数">
+<meta property="og:description" content="原型重定向的弊端 为什么要原型重定向？为了方便我们批量给原型拓展属性和方法  原型重定向带来的问题  新定向的原型对象上，没有constructor属性，结构不完善 浏览器默认生成的原型对象会因为缺少引用而被释放掉，可能会导致原始加入的属性和方法丢失掉 内置对象是不允许被重定向的，防止把内置对象的方法丢失">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T07:23:13.741Z">
+<meta property="og:updated_time" content="2020-09-09T09:13:23.622Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/09/09/2020-09-09-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%87%8D%E5%AE%9A%E5%90%91-md/">
 
 
 <script id="page-configurations">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>封装queryURLParams函数 | Bsmall</title>
+  <title>自定义类的原型重定向 | Bsmall</title>
   
 
 
@@ -215,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/09/09/2020-09-09-%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E7%9A%84%E5%8E%9F%E5%9E%8B%E9%87%8D%E5%AE%9A%E5%90%91-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -228,7 +228,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          封装queryURLParams函数
+          自定义类的原型重定向
         </h1>
 
         <div class="post-meta">
@@ -237,24 +237,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-26 16:43:17" itemprop="dateCreated datePublished" datetime="2019-11-26T16:43:17+08:00">2019-11-26</time>
+              <time title="创建时间：2020-09-09 17:12:00 / 修改时间：17:13:23" itemprop="dateCreated datePublished" datetime="2020-09-09T17:12:00+08:00">2020-09-09</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-01 15:23:13" itemprop="dateModified" datetime="2020-04-01T15:23:13+08:00">2020-04-01</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JS%E5%87%BD%E6%95%B0/" itemprop="url" rel="index">
-                    <span itemprop="name">JS函数</span>
+                  <a href="/categories/JavaScript%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript面向对象</span>
                   </a>
                 </span>
             </span>
@@ -270,11 +264,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><a id="more"></a>
-<h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+        <h3 id="原型重定向的弊端"><a href="#原型重定向的弊端" class="headerlink" title="原型重定向的弊端"></a>原型重定向的弊端</h3><blockquote>
+<p>为什么要原型重定向？为了方便我们批量给原型拓展属性和方法</p>
+</blockquote>
+<p>原型重定向带来的问题</p>
+<ul>
+<li>新定向的原型对象上，没有constructor属性，结构不完善</li>
+<li>浏览器默认生成的原型对象会因为缺少引用而被释放掉，可能会导致原始加入的属性和方法丢失掉</li>
+<li>内置对象是不允许被重定向的，防止把内置对象的方法丢失</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getX = function()&#123;&#125;;</span><br><span class="line">Fn.prototype = &#123;        //重定向的新对象，没有constructor，也没有getX了</span><br><span class="line">    getY:function()&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line">let f1 = new Fn;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上述函数中，先在原型上添加了getX方法，然后再Fn.prototype = { }，使得原型重定向了，原先给原型添加的方法会丢失。</p>
+</blockquote>
+<p>那原型重定向给我们带来了这么多弊端，那我们为什么还要做原型重定向呢？</p>
+<h3 id="给原型批量添加方法"><a href="#给原型批量添加方法" class="headerlink" title="给原型批量添加方法"></a>给原型批量添加方法</h3><blockquote>
+<p>通常我们为原型添加方法会选用以下方式来添加，但是，当我们需要添加的属性和方法比较多时，这种方法会显得计较繁琐，因为每添加一个都要加上Fn.prototype</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">&#125;</span><br><span class="line">Fn.prototype.getX = function()&#123;&#125;;</span><br><span class="line">Fn.prototype.getY = function()&#123;&#125;;</span><br><span class="line">Fn.prototype.getZ = function()&#123;&#125;;</span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>笔者也在很多的插件源码中看到别人用下述方法来添加，但是，这种方式始终是治标不治本,只是视觉上的代码减少</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">&#125;</span><br><span class="line">let A = Fn.prototype</span><br><span class="line">A.getX = function()&#123;&#125;;</span><br><span class="line">A.getY = function()&#123;&#125;;</span><br><span class="line">A.getZ = function()&#123;&#125;;</span><br></pre></td></tr></table></figure>
 
-<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在这里我推荐使用Object.assign()合并对象的方式来做原型重定向,这种方式不但解决了重定向原型上没有constructor属性的问题，同时在重定向之前给原型添加的属性和方法都会保存下来。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Fn()&#123;</span><br><span class="line">    this.x = x;</span><br><span class="line">    this.y = y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Fn.prototype.z = 300;</span><br><span class="line">Fn.prototype = Object.assign(Fn.prototype,&#123;</span><br><span class="line">    getX()&#123;&#125;,</span><br><span class="line">    getY()&#123;&#125;,</span><br><span class="line">    getZ()&#123;&#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>内置类的原型是不允许操作的，所以assign函数不能操作内置类</p>
+</blockquote>
+
     </div>
 
     
@@ -299,17 +322,14 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" rel="next" title="数组去重">
-                  <i class="fa fa-chevron-left"></i> 数组去重
+                <a href="/2020/09/05/2020-09-05-new%E5%87%BD%E6%95%B0%E6%89%A7%E8%A1%8C%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88-md/" rel="next" title="new函数在执行时做了什么">
+                  <i class="fa fa-chevron-left"></i> new函数在执行时做了什么
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/28/2019-11-28-formatTime-md/" rel="prev" title="formatTime">
-                  formatTime <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -348,7 +368,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装queryURLParams函数"><span class="nav-number">1.</span> <span class="nav-text">封装queryURLParams函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：基于数组的方法"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：基于数组的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二：基于正则表达式实现"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：基于正则表达式实现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型重定向的弊端"><span class="nav-number">1.</span> <span class="nav-text">原型重定向的弊端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给原型批量添加方法"><span class="nav-number">2.</span> <span class="nav-text">给原型批量添加方法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

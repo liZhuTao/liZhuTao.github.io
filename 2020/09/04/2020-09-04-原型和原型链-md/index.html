@@ -59,7 +59,7 @@
 <meta property="og:description" content="原型和原型链 1.所有类都是函数数据类型（包含内置类）  所有函数都天生自带一个属性：prototype 原型（显示原型） prototype的属性值默认是一个对象数据类型【堆】 在对象中存储的是供实例调用的所有公共属性和方法 并且在类的原型对象上默认有个属性：constructor构造函数，属性值是当前类本身">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
-<meta property="og:updated_time" content="2020-09-04T09:34:12.470Z">
+<meta property="og:updated_time" content="2020-09-14T04:14:37.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;8ed06ee0-ee8f-11ea-b244-a9f5e5565f30.png">
 
@@ -239,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-04 17:30:32 / 修改时间：17:34:12" itemprop="dateCreated datePublished" datetime="2020-09-04T17:30:32+08:00">2020-09-04</time>
+              <time title="创建时间：2020-09-04 17:30:32" itemprop="dateCreated datePublished" datetime="2020-09-04T17:30:32+08:00">2020-09-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-14 12:14:37" itemprop="dateModified" datetime="2020-09-14T12:14:37+08:00">2020-09-14</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -276,10 +282,10 @@
 </ul><a id="more"></a>
 
 <blockquote>
-<p>所有对象数据类型值也天生自带一个属性：<strong>proto</strong> 原型链（隐式原型）</p>
+<p>所有对象数据类型值也天生自带一个属性：__proto__ 原型链（隐式原型）</p>
 </blockquote>
 <ul>
-<li><strong>proto</strong>属性的属性值：当前实例所属类的原型prototype，即=&gt; 实例.<strong>proto</strong> === 类.prototype</li>
+<li>__proto__属性的属性值：当前实例所属类的原型prototype，即=&gt; 实例.__proto__ === 类.prototype</li>
 <li>对象数据类型的值有哪些<ul>
 <li>普通对象、数组对象、正则对象、日期对象、类数组对象、DOM对象…</li>
 <li>大部分实例也是对象数据类型（除一些基本数据类型）</li>
@@ -301,8 +307,8 @@
 </blockquote>
 <ul>
 <li>函数执行时，用到某个属性，首先看是否是自己的私有属性，如果是自己的私有属性，那么久操作自己的私有属性</li>
-<li>如果不是自己的私有属性，会默认基于<strong>proto</strong>找所属类的原型上的公共属性和方法</li>
-<li>如果所属类的原型上也没有，则继续基于原型<strong>proto</strong>继续向上查找，直到找到Object.prototype上为止</li>
+<li>如果不是自己的私有属性，会默认基于__proto__找所属类的原型上的公共属性和方法</li>
+<li>如果所属类的原型上也没有，则继续基于原型__proto__继续向上查找，直到找到Object.prototype上为止</li>
 <li>这就是我们所说的原型链的查找机制</li>
 </ul>
 

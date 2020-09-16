@@ -50,35 +50,28 @@
   };
 </script>
 
-  <meta name="description" content="JS的底层运行机制JS的运行环境 浏览器(引擎) node(V8引擎) webview(V8引擎)">
-<meta name="keywords" content="JavaScript">
-<meta property="og:type" content="article">
-<meta property="og:title" content="JS的底层运行机制（堆栈内存）">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;08&#x2F;20&#x2F;2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md&#x2F;index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Bsmall">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;page&#x2F;4&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="JS的底层运行机制JS的运行环境 浏览器(引擎) node(V8引擎) webview(V8引擎)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
-<meta property="og:updated_time" content="2020-08-20T07:15:34.016Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2020/08/20/2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/page/4/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true,
+    isHome: true,
+    isPost: false,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>JS的底层运行机制（堆栈内存） | Bsmall</title>
+  <title>Bsmall</title>
   
 
 
@@ -214,11 +207,11 @@
             
 
   <div class="posts-expand">
-      
+        
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/08/20/2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -231,7 +224,8 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          JS的底层运行机制（堆栈内存）
+          
+            <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" class="post-title-link" itemprop="url">数组去重</a>
         </h1>
 
         <div class="post-meta">
@@ -240,18 +234,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-20 15:13:38 / 修改时间：15:15:34" itemprop="dateCreated datePublished" datetime="2020-08-20T15:13:38+08:00">2020-08-20</time>
+              <time title="创建时间：2019-11-26 14:03:19" itemprop="dateCreated datePublished" datetime="2019-11-26T14:03:19+08:00">2019-11-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-01 15:23:07" itemprop="dateModified" datetime="2020-04-01T15:23:07+08:00">2020-04-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
-                    <span itemprop="name">JavaScript</span>
+                  <a href="/categories/JS%E5%87%BD%E6%95%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">JS函数</span>
                   </a>
                 </span>
             </span>
@@ -267,118 +267,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="JS的底层运行机制"><a href="#JS的底层运行机制" class="headerlink" title="JS的底层运行机制"></a>JS的底层运行机制</h3><h4 id="JS的运行环境"><a href="#JS的运行环境" class="headerlink" title="JS的运行环境"></a>JS的运行环境</h4><ol>
-<li>浏览器(引擎)</li>
-<li>node(V8引擎)</li>
-<li>webview(V8引擎)</li>
-</ol>
-<a id="more"></a>
-<h4 id="代码执行的环境–ECStack"><a href="#代码执行的环境–ECStack" class="headerlink" title="代码执行的环境–ECStack"></a>代码执行的环境–ECStack</h4><ul>
-<li>ECStack(Execution Context Stack)</li>
-</ul>
-<blockquote>
-<p>ECStack(Execution Context Stack)执行环境栈=&gt;栈内存（从内存条中分配出来的一块内存）</p>
-</blockquote>
-<ul>
-<li><p>EC(Execution context)</p>
-<blockquote>
-<p>在编程语言中，代码执行时，为了区分全局和函数所执行所处的不同的作用域（目的是为了区分每个词法作用域下代码的独立性），浏览器会创建EC(Execution context)执行上下文（代码所在的词法作用域，或代码执行的范围）</p>
-</blockquote>
-</li>
-<li><p>GO(Global Object)</p>
-<blockquote>
-<p>浏览器会将供JS调用的属性和方法存放在GO中（内置对象），浏览器会创建一个名为window的变量指向这个对象。</p>
-</blockquote>
-</li>
-<li><p>VO(Variable Object)</p>
-<blockquote>
-<p>代码执行时，会创建变量，VO就是用来存储这些变量的空间。VO通常用来存储全局变量(因为全局变量一般不释放)，而私有上下文中的变量存储在AO(active object)中，AO是VO的一种(AO活动对象，通常是指的进栈出栈创建比较频繁的对象)。</p>
-</blockquote>
-</li>
-</ul>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
-
-<h4 id="函数的创建和执行"><a href="#函数的创建和执行" class="headerlink" title="函数的创建和执行"></a>函数的创建和执行</h4><blockquote>
-<p>函数创建时，会新建一个堆内存来存储代码块。在函数执行时，会取出存放在堆中的代码，同时创建一个EC（函数的执行上下文）来供代码执行。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var x =[12,23]</span><br><span class="line">function fn(y)&#123;</span><br><span class="line">    y[0] = 100;</span><br><span class="line">    y = [100];</span><br><span class="line">    y[1] = 200;</span><br><span class="line">    console.log(y);</span><br><span class="line">&#125;</span><br><span class="line">fn(x);</span><br><span class="line">console.log(x);</span><br></pre></td></tr></table></figure>
-
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
-
-<p><strong>创建函数</strong></p>
-<ol>
-<li>开辟堆内存（16进制得到内存地址）</li>
-<li>声明当前函数的作用域（函数创建的上下文才是他的作用域，和在那执行的无关）</li>
-<li>把函数的代码以字符串的形式存储在堆内存中（函数再不执行的情况下，只是存储在堆内存中的字符串）</li>
-<li>将函数堆的地址，放在栈中供变量调用（函数名）</li>
-</ol>
-<p><strong>执行函数</strong></p>
-<ol>
-<li>会形成一个全新的执行上下文EC(xx)（目的是供函数体中的代码执行），然后进栈（ECStack执行环境栈）执行</li>
-<li>在私有上下文中有一个存放变量的变量对象AO(xx)</li>
-<li>代码执行之前需要做的事<ul>
-<li>初始化作用域链&lt;自己的上下文，函数的作用域&gt;</li>
-<li>初始化this（箭头函数没有this）</li>
-<li>初始化arguments实参集合（箭头函数没有arguments）</li>
-<li>形参赋值（形参变量是函数的私有变量，需要存储在AO中）（<a href="">新版浏览器形参赋值的坑</a>）</li>
-<li>变量提升（在私有上下文中声明的变量都是私有变量）</li>
-<li>……</li>
-</ul>
-</li>
-<li>代码执行（把之前在函数堆中存储的字符串拿过来在当前上下文中执行）</li>
-</ol>
-<blockquote>
-<p>作用域链的查找机制，在代码执行过程中，遇到一个变量，首先查看是否是自己的私有变量，如果是自己的私有变量，就直接操作私有变量，如果不是自己的私有变量，则按照<code>scope-chain</code>,向上级上下文查找，如果上级有则拿过来操作，没有则一直向上查找，直到EC(G)</p>
-</blockquote>
-<ol start="5">
-<li>根据实际情况判断当前上下文是否出栈释放</li>
-</ol>
-
+          <h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
     
     
     
-      <div>
-        
-          <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    
-</div>
-        
-      </div>
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2020/08/19/2020-08-19-parseInt%E7%9A%84%E7%AC%AC%E4%BA%8C%E4%B8%AA%E5%8F%82%E6%95%B0-md/" rel="next" title="parseInt的第二个参数">
-                  <i class="fa fa-chevron-left"></i> parseInt的第二个参数
-                </a>
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2020/08/24/2020-08-24-this-md/" rel="prev" title="this">
-                  this <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
 
   </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
 
 
           </div>
@@ -407,7 +325,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JS的底层运行机制"><span class="nav-number">1.</span> <span class="nav-text">JS的底层运行机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JS的运行环境"><span class="nav-number">1.1.</span> <span class="nav-text">JS的运行环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码执行的环境–ECStack"><span class="nav-number">1.2.</span> <span class="nav-text">代码执行的环境–ECStack</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数的创建和执行"><span class="nav-number">1.3.</span> <span class="nav-text">函数的创建和执行</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

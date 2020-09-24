@@ -59,7 +59,7 @@
 <meta property="og:description" content="数据类型检测的四种方案 typeof    检测数据类型的运算符 instanceof    检测该实例是否为该类的实例 constructor Object.prototype.toSring.call">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;380fa040-fd84-11ea-b244-a9f5e5565f30.png">
-<meta property="og:updated_time" content="2020-09-24T10:36:32.937Z">
+<meta property="og:updated_time" content="2020-09-24T10:40:43.083Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;380fa040-fd84-11ea-b244-a9f5e5565f30.png">
 
@@ -241,7 +241,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-09-24 18:35:24 / 修改时间：18:36:32" itemprop="dateCreated datePublished" datetime="2020-09-24T18:35:24+08:00">2020-09-24</time>
+              <time title="创建时间：2020-09-24 18:35:24 / 修改时间：18:40:43" itemprop="dateCreated datePublished" datetime="2020-09-24T18:35:24+08:00">2020-09-24</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +274,7 @@
 </ul>
 <a id="more"></a>
 <h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><blockquote>
-<p>返回的结果是一个字符串，字符串中对应的数据类型有”number/string/boolean/undefined/symbol/bigint/object/function”</p>
+<p>返回的结果是一个字符串，字符串中对应的数据类型有”number、string、boolean、undefined、symbol、bigint、object、function”</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typeof typeof xxx //=&gt;结果都是:&quot;string&quot;</span><br></pre></td></tr></table></figure>
 
@@ -322,6 +322,8 @@
 <li>arr.__proto__===Array.prototype   =&gt; arr instanceof Array  : true</li>
 <li>arr.__proto__.__proto__===Object.prototype =&gt; arr instanceof Object : true</li>
 </ul>
+<h4 id="重写instanceof"><a href="#重写instanceof" class="headerlink" title="重写instanceof"></a>重写instanceof</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> *  [parmas1] obj 要检测的实例</span><br><span class="line"> *  [patmas2] constructor 要检查的类</span><br><span class="line"> */</span><br><span class="line">function instance_of(obj,constructor)&#123;</span><br><span class="line">    // 参数校验</span><br><span class="line">    if(obj ==  null || !/^(Object|Function)$/i.test(typeof obj)) return false;</span><br><span class="line">    if(typeof constructor !== &apos;function&apos;) throw new TypeError(&quot;Right-hand side of &apos;instanceof&apos; is not callable&quot;);</span><br><span class="line">    </span><br><span class="line">     // obj.__proto__ === Object.getPrototypeOf(obj) 这里使用兼容写法</span><br><span class="line">    let proto = Object.getPropertyOf(obj),</span><br><span class="line">        prototype = constructor.prototype;</span><br><span class="line">    while(true)&#123;</span><br><span class="line">        if( proto === null ) return false;</span><br><span class="line">        if( proto === prototype ) return true;</span><br><span class="line">        proto = Object.getPropertyOf(proto);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="constructor-NaN"><a href="#constructor-NaN" class="headerlink" title="constructor"></a>constructor</h3><blockquote>
 <p>constructor是原型上一个指向构造函数的属性，它同样是被临时拉过来做数据类型检测的</p>
 </blockquote>
@@ -336,8 +338,6 @@
 <p>检查基本数据类型，相较于instanceof来说对基本数据类型检查的支持更好</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let n = 10;</span><br><span class="line">let m = new Number(10);</span><br><span class="line">console.log(n.constructor === Number); //true</span><br><span class="line">console.log(m.constructor === Number); //true</span><br></pre></td></tr></table></figure>
-
-<h4 id="重写instanceof"><a href="#重写instanceof" class="headerlink" title="重写instanceof"></a>重写instanceof</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> *  [parmas1] obj 要检测的实例</span><br><span class="line"> *  [patmas2] constructor 要检查的类</span><br><span class="line"> */</span><br><span class="line">function instance_of(obj,constructor)&#123;</span><br><span class="line">    // 参数校验</span><br><span class="line">    if(obj ==  null || !/^(Object|Function)$/i.test(typeof obj)) return false;</span><br><span class="line">    if(typeof constructor !== &apos;function&apos;) throw new TypeError(&quot;Right-hand side of &apos;instanceof&apos; is not callable&quot;);</span><br><span class="line">    </span><br><span class="line">     // obj.__proto__ === Object.getPrototypeOf(obj) 这里使用兼容写法</span><br><span class="line">    let proto = Object.getPropertyOf(obj),</span><br><span class="line">        prototype = constructor.prototype;</span><br><span class="line">    while(true)&#123;</span><br><span class="line">        if( proto === null ) return false;</span><br><span class="line">        if( proto === prototype ) return true;</span><br><span class="line">        proto = Object.getPropertyOf(proto);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Object-prototype-toString-call"><a href="#Object-prototype-toString-call" class="headerlink" title="Object.prototype.toString.call()"></a>Object.prototype.toString.call()</h3><blockquote>
 <p>专业的检测数据类型的方法，除了代码长，可以说是零瑕疵</p>
@@ -425,7 +425,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型检测的四种方案"><span class="nav-number">1.</span> <span class="nav-text">数据类型检测的四种方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof"><span class="nav-number">1.1.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intanceof"><span class="nav-number">1.2.</span> <span class="nav-text">intanceof</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#instanceof原理"><span class="nav-number">1.2.1.</span> <span class="nav-text">instanceof原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.3.</span> <span class="nav-text">constructor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#重写instanceof"><span class="nav-number">1.3.1.</span> <span class="nav-text">重写instanceof</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-prototype-toString-call"><span class="nav-number">1.4.</span> <span class="nav-text">Object.prototype.toString.call()</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型检测的四种方案"><span class="nav-number">1.</span> <span class="nav-text">数据类型检测的四种方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#typeof"><span class="nav-number">1.1.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intanceof"><span class="nav-number">1.2.</span> <span class="nav-text">intanceof</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#instanceof原理"><span class="nav-number">1.2.1.</span> <span class="nav-text">instanceof原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重写instanceof"><span class="nav-number">1.2.2.</span> <span class="nav-text">重写instanceof</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constructor-NaN"><span class="nav-number">1.3.</span> <span class="nav-text">constructor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-prototype-toString-call"><span class="nav-number">1.4.</span> <span class="nav-text">Object.prototype.toString.call()</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

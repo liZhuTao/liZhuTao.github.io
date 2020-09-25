@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="webpack零配置操作安装 为了防止全局安装webpack导致版本冲突，真实项目中以安装到本地为主 123$ npm init -y       &#x2F;&#x2F;创建package.json文件 项目目录中是不能包含中文、数字以及特殊符号的$ npm install webpack webpack-cli --save-dev    &#x2F;&#x2F;下载webpack及脚手架  --save&#x2F;-S&#x2F;不加 是生产依赖">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack--入门篇">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;09&#x2F;25&#x2F;2020-09-25-webpack-%E5%85%A5%E9%97%A8%E7%AF%87-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="webpack零配置操作安装 为了防止全局安装webpack导致版本冲突，真实项目中以安装到本地为主 123$ npm init -y       &#x2F;&#x2F;创建package.json文件 项目目录中是不能包含中文、数字以及特殊符号的$ npm install webpack webpack-cli --save-dev    &#x2F;&#x2F;下载webpack及脚手架  --save&#x2F;-S&#x2F;不加 是生产依赖">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-09-25T11:11:39.942Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/09/25/2020-09-25-webpack-%E5%85%A5%E9%97%A8%E7%AF%87-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>webpack--入门篇 | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/09/25/2020-09-25-webpack-%E5%85%A5%E9%97%A8%E7%AF%87-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webpack--入门篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-25 19:09:22 / 修改时间：19:11:39" itemprop="dateCreated datePublished" datetime="2020-09-25T19:09:22+08:00">2020-09-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="webpack零配置操作"><a href="#webpack零配置操作" class="headerlink" title="webpack零配置操作"></a>webpack零配置操作</h2><p><strong>安装</strong></p><blockquote>
+<p>为了防止全局安装webpack导致版本冲突，真实项目中以安装到本地为主</p>
+</blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm init -y       //创建package.json文件 项目目录中是不能包含中文、数字以及特殊符号的</span><br><span class="line">$ npm install webpack webpack-cli --save-dev    //下载webpack及脚手架  --save/-S/不加 是生产依赖  --save-dev/-D是开发依赖</span><br><span class="line">$ yarn webpack webpack-cli -D</span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+
+<p><strong>零配置</strong></p>
+<blockquote>
+<p>基于webpack4.0以上的版本,可以直接零配置使用webpack</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 默认打包 src 目录下的JS文件（默认入口是index.js）</span><br><span class="line"> * 打包完之后的文件会默认放在 dist/main.js</span><br><span class="line"> * webpack默认支持CommonJS和ES6Module模块规范，以此来进行依赖打包</span><br><span class="line"> */</span><br><span class="line">$ npx webpack</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>src</code>：当前项目的源代码</li>
+<li><code>dist</code>：编译后的文件（未来部署到服务器的代码）</li>
+</ul>
+<h2 id="webpack自定义基础配置（环境区分）"><a href="#webpack自定义基础配置（环境区分）" class="headerlink" title="webpack自定义基础配置（环境区分）"></a>webpack自定义基础配置（环境区分）</h2><blockquote>
+<p>webpack的默认配置文件<code>webpack.config.js</code>或<code>webpackfile.js</code>,文件必须放在项目的根目录下。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// webpack本身是基于Node.js开发的，所以配置项的模块处理规则参照CommonJS规范来完成</span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    //设置编译模式 development(开发)/production(生产：默认)</span><br><span class="line">    mode:&apos;development&apos;,</span><br><span class="line">    //设置编译的入口文件</span><br><span class="line">    entry:&apos;./src/main.js&apos;,</span><br><span class="line">    //设置编译的出口文件</span><br><span class="line">    output:&#123;</span><br><span class="line">        //编译后的出口文件名</span><br><span class="line">        filename:&apos;bundle.js&apos;,</span><br><span class="line">        //输出的目录（需要是绝对路径）</span><br><span class="line">        path: path.resolve(__dirname,&apos;build&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>浏览器缓存策略问题：页面在第一次加载的时候会缓存在浏览器内存中，如果我们只是修改了代码没有修改文件名，但是由于缓存策略，拿不到修改后的代码，还是用的之前缓存的文件。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 真实项目中，为了在文件更新之后，清除缓存的影响，我们通常会在导入的源文件的文件名中添加随机数或者哈希值</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    output:&#123;</span><br><span class="line">        // 编译的时候会在名字中添加唯一的hash值，保证每次编译出的文件是不同的</span><br><span class="line">        filename:&apos;bundle.[hash].js&apos;,</span><br><span class="line">        //...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种在文件中添加hash值的方法叫做<code>文件指纹</code>:文件指纹有三种，分别是：<code>hash</code>、``、<code>contexthash</code></p>
+</blockquote>
+<h2 id="自定义配置文件名"><a href="#自定义配置文件名" class="headerlink" title="自定义配置文件名"></a>自定义配置文件名</h2><blockquote>
+<ul>
+<li>在package.json中配置可执行的脚本命令（区分开发环境）</li>
+<li>$ npm webpack –config webpack config development.js</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 新建不同的webpack配置文件，基于webpack命令用我们自己的配置文件</span><br><span class="line">&quot;script&quot;: &#123;</span><br><span class="line">    &quot;serve&quot;:&quot;webpack --config webpack.config development.js&quot;,</span><br><span class="line">    &quot;build&quot;:&quot;webpack --config webpack.config production.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>除了自己定义的不同环境的配置文件，还可以自定义一个webpack.config.base.js文件来保存公用配置模块</p>
+</blockquote>
+<h2 id="配置HTML页面模板"><a href="#配置HTML页面模板" class="headerlink" title="配置HTML页面模板"></a>配置HTML页面模板</h2><h3 id="html-webpack-plugin"><a href="#html-webpack-plugin" class="headerlink" title="html-webpack-plugin"></a>html-webpack-plugin</h3><blockquote>
+<ol>
+<li>为js入口文件添加了文件指纹，每次生成的js文件名字都不同，每次手动引入都比较麻烦，所以我们可以借助插件：<code>html-webpack-plugin</code>帮我们实现自动化插入js文件</li>
+</ol>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//下载插件</span><br><span class="line">$ npm install html-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const Html-webpack-plugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode:&apos;development&apos;,</span><br><span class="line">    entry:&apos;./src/main.js&apos;,</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename:&apos;bundle.js&apos;,</span><br><span class="line">        path: path.resolve(__dirname,&apos;build&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    //在webpack中使用插件</span><br><span class="line">    plugin:[</span><br><span class="line">        //配置指定的HTML模板（后期将编译好的资源文件自动导入页面模板中）</span><br><span class="line">        new Html-webpack-plugin(&#123;</span><br><span class="line">            //模板路径</span><br><span class="line">            template:&apos;./public./index.html&apos;，</span><br><span class="line">            //编译后生成的文件名</span><br><span class="line">            filename:&apos;index.html&apos;，</span><br><span class="line">            //是否把编译的资源文件导入页面中，设置hash值（清除强缓存，和output文件加文件指纹是一样的目的）,hash是？传参的方式引入</span><br><span class="line">            hash:true,  //和文件指纹只保留一种即可</span><br><span class="line">            // 把模板中的HTML代码进行压缩编译的配置规则</span><br><span class="line">            //https://github.com/kangax/html-minifier</span><br><span class="line">            minify:&#123;</span><br><span class="line">                collapseWhitespace: true,   //清除标签之间的空格和换行</span><br><span class="line">                removeComments: true,   //去掉注释</span><br><span class="line">                removeAttributeQuotes:true, //去掉属性的双引号</span><br><span class="line">                removeEmptyAttributes:true  //去除空标签</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="clean-webpack-plugin"><a href="#clean-webpack-plugin" class="headerlink" title="clean-webpack-plugin"></a>clean-webpack-plugin</h3><blockquote>
+<ol start="2">
+<li>每一次打包的时候都把之前的内容清除，只是保留最新的打包文件，使用<code>clean-webpack-plugin</code></li>
+</ol>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//下载插件</span><br><span class="line">$ npm install clean-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line">const &#123;CleanWebpackPlugin&#125; = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    plugin:[</span><br><span class="line">        new HtmlWebpackPlugin(&#123;</span><br><span class="line">        //...</span><br><span class="line">        &#125;),</span><br><span class="line">        //每一次打包都把之前的文件清空</span><br><span class="line">        new CleanWebpackPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="webpack-dev-server"><a href="#webpack-dev-server" class="headerlink" title="webpack-dev-server"></a>webpack-dev-server</h3><blockquote>
+<ol start="3">
+<li>每次生成将代码更改，都需要打包，然后再使用VSCode的live server来创建服务，这样非常浪费时间。所以我们需要使用插件<code>webpack-dev-server</code>来帮我们做以下事情。</li>
+</ol>
+</blockquote>
+<ul>
+<li>自动监听代码的改变，如果代码改变自动编译（除更改配置项，需要重新执行）</li>
+<li>自动帮我们打开浏览器渲染页面</li>
+<li>重新编译后自动刷新浏览器看到最新效果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install webpack-dev-server -D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        //端口</span><br><span class="line">        port:3000,</span><br><span class="line">        //Gzip压缩</span><br><span class="line">        compress:true,</span><br><span class="line">        //显示编译进度</span><br><span class="line">        progress:true,</span><br><span class="line">        //指定访问资源路径</span><br><span class="line">        contentBase:path.resolve(__dirname,&quot;dist&quot;),</span><br><span class="line">        //是否自动打开浏览器</span><br><span class="line">        open:false,</span><br><span class="line">        //开启热更新</span><br><span class="line">        hot:true,</span><br><span class="line">        //跨域请求代理</span><br><span class="line">        proxy:&#123;</span><br><span class="line">            &quot;/&quot;:&#123;</span><br><span class="line">                target:&quot;http://localhost:8888&quot;,</span><br><span class="line">                secure:false,//true=&gt;https,false=&gt;http</span><br><span class="line">                changeOrigin:true//把请求头中的host值改为服务器地址</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugin:[</span><br><span class="line">        new HtmlWebpackPlugin(&#123;</span><br><span class="line">        //...</span><br><span class="line">        &#125;),</span><br><span class="line">        new CleanWebpackPlugin()</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在package.json文件中添加命令</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;sctipt&quot;:&#123;</span><br><span class="line">    &quot;serve&quot;:&quot;webpack-dev-server&quot;,   //开发模式下预览：直接编译到计算机内存中</span><br><span class="line">    &quot;bulid&quot;:&quot;webpack&quot;       //项目上线的命令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用<code>npm run serve</code> 编译后的文件会存在浏览器的内存中，不会放到dist文件，它只是在开发模式下随时编译并预览的，在项目上线的时候还是要编译到dist文件下</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/webpack/" rel="tag"># webpack</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/09/24/2020-09-24-%E6%B7%B1%E5%85%A5JS%E5%9B%9B%E7%A7%8D%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%B5%8B%E7%9A%84%E6%96%B9%E5%BC%8F%E5%8F%8A%E5%8E%9F%E7%90%86-md/" rel="next" title="深入JS四种数据类型检测的方式及原理">
+                  <i class="fa fa-chevron-left"></i> 深入JS四种数据类型检测的方式及原理
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/09/25/2020-09-25-webpack-%E6%A0%B8%E5%BF%83%E7%AF%87-md/" rel="prev" title="webpack--核心篇">
+                  webpack--核心篇 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack零配置操作"><span class="nav-number">1.</span> <span class="nav-text">webpack零配置操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack自定义基础配置（环境区分）"><span class="nav-number">2.</span> <span class="nav-text">webpack自定义基础配置（环境区分）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义配置文件名"><span class="nav-number">3.</span> <span class="nav-text">自定义配置文件名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置HTML页面模板"><span class="nav-number">4.</span> <span class="nav-text">配置HTML页面模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html-webpack-plugin"><span class="nav-number">4.1.</span> <span class="nav-text">html-webpack-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clean-webpack-plugin"><span class="nav-number">4.2.</span> <span class="nav-text">clean-webpack-plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webpack-dev-server"><span class="nav-number">4.3.</span> <span class="nav-text">webpack-dev-server</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

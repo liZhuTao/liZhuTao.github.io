@@ -50,14 +50,18 @@
   };
 </script>
 
-  <meta name="keywords" content="webpack">
+  <meta name="description" content="ESLint12$ npm install eslint eslint-loader -D$ npx eslint --init  &#x2F;&#x2F;初始化配置文件">
+<meta name="keywords" content="webpack">
 <meta property="og:type" content="article">
 <meta property="og:title" content="webpack--优化篇">
 <meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;09&#x2F;26&#x2F;2020-09-26-webpack-%E4%BC%98%E5%8C%96%E7%AF%87-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="ESLint12$ npm install eslint eslint-loader -D$ npx eslint --init  &#x2F;&#x2F;初始化配置文件">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-09-26T15:36:52.262Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;737c89a0-01fc-11eb-9dfb-6da8e309e0d8.jpg">
+<meta property="og:updated_time" content="2020-09-29T09:04:25.560Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;737c89a0-01fc-11eb-9dfb-6da8e309e0d8.jpg">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/09/26/2020-09-26-webpack-%E4%BC%98%E5%8C%96%E7%AF%87-md/">
 
@@ -235,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-09-26 23:35:49 / 修改时间：23:36:52" itemprop="dateCreated datePublished" datetime="2020-09-26T23:35:49+08:00">2020-09-26</time>
+              <time title="创建时间：2020-09-26 23:35:49" itemprop="dateCreated datePublished" datetime="2020-09-26T23:35:49+08:00">2020-09-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-29 17:04:25" itemprop="dateModified" datetime="2020-09-29T17:04:25+08:00">2020-09-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -262,7 +272,131 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="ESLint"><a href="#ESLint" class="headerlink" title="ESLint"></a>ESLint</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install eslint eslint-loader -D</span><br><span class="line">$ npx eslint --init  //初始化配置文件</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    mode:&apos;development&apos;,</span><br><span class="line">    entry:&apos;./src/main.js&apos;,</span><br><span class="line">    //多入口 key:value</span><br><span class="line">    output:&#123;</span><br><span class="line">        filename:&apos;[name].[hash].min.js&apos;,</span><br><span class="line">        path: path.resolve(__dirname,&apos;build&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    module:&#123;</span><br><span class="line">        rules:[</span><br><span class="line">            &#123;</span><br><span class="line">                test:/\.js$/,</span><br><span class="line">                use:&quot;eslint-loader&quot;,</span><br><span class="line">                enforce:&apos;pre&apos;   //优先加载</span><br><span class="line">            &#125;</span><br><span class="line">            //...</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>eslintrc.json 文件用来配置校验规则，直接到官网勾选要求的校验规则，下载过来使用即可</p>
+</blockquote>
+<blockquote>
+<p>eslintrc.js文件是我们init 初始化的配置文件，也可以使用json格式的文件</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/737c89a0-01fc-11eb-9dfb-6da8e309e0d8.jpg">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    env:&#123;</span><br><span class="line">        browser:true,</span><br><span class="line">        es2021:true</span><br><span class="line">    &#125;,</span><br><span class="line">    extends:[</span><br><span class="line">        &apos;airbnb-base&apos;</span><br><span class="line">    ],</span><br><span class="line">    parserOptions:&#123;</span><br><span class="line">        ecmaVersion:12,</span><br><span class="line">        sourceType:&apos;module&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    rules:&#123;</span><br><span class="line">        &quot;no-console&quot;:2,</span><br><span class="line">        &quot;no-debugger&quot;:2     //将需要的规则设置成2就会生效</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="去除无用的CSS"><a href="#去除无用的CSS" class="headerlink" title="去除无用的CSS"></a>去除无用的CSS</h2><blockquote>
+<p><code>purgecss-webpack-plugin</code> ：去除无用的css</p>
+</blockquote>
+<blockquote>
+<p><code>glob</code> 设置查找文件的路径和匹配的文件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install purgecss-webpack-plugin glob</span><br></pre></td></tr></table></figure>
+
+<h2 id="CDN加载文件"><a href="#CDN加载文件" class="headerlink" title="CDN加载文件"></a>CDN加载文件</h2><blockquote>
+<p>假设我在我的项目上引入了CDN下的jquery，但是我又 inport $ from ‘jquery’,就会报错。同时为了防止jquery被打包到我们最终的文件中，这种情况下直接在配置文件中添加<code>externals</code>配置项高速webpack它是外部的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    externals:&#123; &quot;jquery&quot;:&quot;$&quot; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Tree-shaking-amp-scope-hosting"><a href="#Tree-shaking-amp-scope-hosting" class="headerlink" title="Tree-shaking &amp; scope-hosting"></a>Tree-shaking &amp; scope-hosting</h2><blockquote>
+<p><code>Tree-shaking</code>将没用的内容晃掉，通常用在生产环境下。需要在package.json文件中配置<code>sideEffects:false</code>字段</p>
+</blockquote>
+<p>注意：入口文件导入的css可能会被晃掉,所以需要把css文件排除掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;sideEffects&quot;:[</span><br><span class="line">    &quot;**/*.css&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>开发环境下，Tree-shaking是不会生效的但是他会生成提醒注释,需要在package.json文件中配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">optimization:&#123;      //开发环境下配置标识</span><br><span class="line">    usedExports:true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>scope-hosting</code> 作用域提升，减少一些没有必要的函数，减少内存。它是webpack在生产环境下自动帮你做的事情，不需要手动配置</p>
+</blockquote>
+<h2 id="配置代理proxy"><a href="#配置代理proxy" class="headerlink" title="配置代理proxy"></a>配置代理proxy</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//在devServer中配置</span><br><span class="line">proxy:&#123;</span><br><span class="line">    &quot;/api&quot;:&#123;</span><br><span class="line">        target:&quot;http://localhost:9999&quot;,     //请求服务的地址</span><br><span class="line">        secure:false,       //true表示https，false表示http</span><br><span class="line">        changeOrigin:true,  //把请求头中的host地址改成服务器地址</span><br><span class="line">        pathRewrite:&#123;&quot;/api&quot;:&quot;&quot;&#125;     //重写请求头接口地址</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="devSever的中间件"><a href="#devSever的中间件" class="headerlink" title="devSever的中间件"></a>devSever的中间件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    devServer:&#123;</span><br><span class="line">        port:3000,</span><br><span class="line">        compress:true,</span><br><span class="line">        progress:true,</span><br><span class="line">        contentBase:path.resolve(__dirname,&quot;dist&quot;),</span><br><span class="line">        open:false,</span><br><span class="line">        hot:true,</span><br><span class="line">        before:function(app,server)&#123;    //借助于devServer的中间件，以同域的方式来模拟数据</span><br><span class="line">            app.get(&quot;/api/user&quot;,function(req,res)=&gt;&#123;</span><br><span class="line">                //...</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DLLPlugin-amp-DLLReferencePlugin-设置动态链接库"><a href="#DLLPlugin-amp-DLLReferencePlugin-设置动态链接库" class="headerlink" title="DLLPlugin &amp; DLLReferencePlugin 设置动态链接库"></a>DLLPlugin &amp; DLLReferencePlugin 设置动态链接库</h2><blockquote>
+<p><code>DLLPlugin</code>设置动态链接库，<code>DLLReferencePlugin</code>引入动态链接库,开发环境下提升构建速度</p>
+</blockquote>
+<p>第三方库或者框架单独打包成动态链接库（保存），每次再次打包整个项目的时候，不需要在打包第三方库或者框架，只需要引入即可</p>
+<blockquote>
+<p>新建一个配置文件，webpack.dll.js,并在package.json文件<script>中配置命令</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;dll&quot;:&quot;webpack --config webpack.dll.js&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>webpack.dll.js</code></p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&quot;path&quot;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    mode:&quot;development&quot;,</span><br><span class="line">    entry:[&quot;react&quot;,&quot;react-dom&quot;],</span><br><span class="line">    output:&#123;</span><br><span class="line">        library:&quot;react&quot;,     //用来接收打包后自执行函数返回值</span><br><span class="line">        libraryTarget:&quot;commonjs2&quot;,      //用哪种方式来接收自治性函数的返回值 commonjs commonjs2 this var umd  默认是通过var的方式</span><br><span class="line">        path:path.resolve(__dirname,&quot;dll&quot;),</span><br><span class="line">        filename:&quot;react-dll.js&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugin:[</span><br><span class="line">        new DLLPlugin(&#123;</span><br><span class="line">            name:&quot;react&quot;,</span><br><span class="line">            path: path.resolve(__dirname,&quot;dll/mainfest.json&quot;)</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>add-asset-html-webpack-plugin</code> 把js文件添加到html中，在公用文件中配置就好</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const AddAssetHtmlPlugin = require(&quot;add-asset-html-webpack-plugin&quot;)</span><br><span class="line">const DLLReferencePlugin = require(&quot;webpack&quot;).DLLReferencePlugin;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    plugin:[</span><br><span class="line">        new DLLReferencePlugin(&#123;</span><br><span class="line">            mainfest: path.resolve(__dirname,&quot;dll/mainfest.json&quot;)</span><br><span class="line">        &#125;),</span><br><span class="line">        new AddAssetHtmlPlugin(&#123;</span><br><span class="line">            filepath: path.resolve(__dirname,&quot;dll/react.dll.js&quot;)</span><br><span class="line">        &#125;)</span><br><span class="line">        //...</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态加载"><a href="#动态加载" class="headerlink" title="动态加载"></a>动态加载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//同步加载</span><br><span class="line">//import sum from &quot;./sum&quot;;</span><br><span class="line"></span><br><span class="line">//动态加载 异步</span><br><span class="line">btn.addEventListener(&quot;click&quot;,()=&gt;&#123;</span><br><span class="line">    import(/*webpackChunkName:&apos;sum&apos;*/,&quot;./sum&quot;)     //返回一个promise实例</span><br><span class="line">    .then(data=&gt;&#123;</span><br><span class="line">        //...</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>webpackChunkName</code> 动态加载文件的名称<br><code>webpackPrefetch</code> 预加载，利用浏览器空闲时间，把动态模块加载完成并引入<br><code>webpackPreload</code> 预拉取，跟主模块同时加载，并行的下载文件，vue使用的是这个</p>
+<blockquote>
+<p>output中的chunkFilename也可以设置动态加载文件的名称</p>
+</blockquote>
+<h2 id="热更新"><a href="#热更新" class="headerlink" title="热更新"></a>热更新</h2><p><code>hot:true</code> 在devServer中添加该字段即可</p>
+<p>js开启热更新，可以使用module.hot.accept强制文件支持热更新</p>
+<h2 id="sourceMap-代码排查工具"><a href="#sourceMap-代码排查工具" class="headerlink" title="sourceMap(代码排查工具)"></a>sourceMap(代码排查工具)</h2><blockquote>
+<p>开发环境下 cheap-module-eval-source-map</p>
+</blockquote>
+<blockquote>
+<p>生产环境下 cheap-module-source-map</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    devtool:&quot;cheap-module-eval-source-map&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="打包文件分析工具-webpack-bundle-analyzer"><a href="#打包文件分析工具-webpack-bundle-analyzer" class="headerlink" title="打包文件分析工具 webpack-bundle-analyzer"></a>打包文件分析工具 webpack-bundle-analyzer</h2><blockquote>
+<p>打包文件分析工具只能在开发环境下使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const &#123; BundleAnalyzerPlugin &#125; = reqiure(&quot;webpack-bundle-analyzer&quot;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    //...</span><br><span class="line">    plugin:[</span><br><span class="line">        new BundleAnalyzerPlugin();</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="splitChunks（生产环境，第三方模块打包）"><a href="#splitChunks（生产环境，第三方模块打包）" class="headerlink" title="splitChunks（生产环境，第三方模块打包）"></a>splitChunks（生产环境，第三方模块打包）</h2><blockquote>
+<p>在编译的时候抽离第三方模块（不要和DLLPlugin同时使用）</p>
+</blockquote>
+<blockquote>
+<p>webpack.config.js</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">      chunks: &apos;async&apos;,  //all同步加异步  async异步</span><br><span class="line">      minSize: 20000,   //分割文件的最小大小</span><br><span class="line">      minRemainingSize: 0,</span><br><span class="line">      maxSize: 0,</span><br><span class="line">      minChunks: 1,     //引用次数</span><br><span class="line">      maxAsyncRequests: 30,     //最大的异步请求</span><br><span class="line">      maxInitialRequests: 30,   //最大的初始化请求</span><br><span class="line">      automaticNameDelimiter: &apos;~&apos;,      //抽离模块命名的分隔符</span><br><span class="line">      enforceSizeThreshold: 50000,      </span><br><span class="line">      cacheGroups: &#123;            </span><br><span class="line">        defaultVendors: &#123;</span><br><span class="line">          test: /[\\/]node_modules[\\/]/,</span><br><span class="line">          priority: -10     //值大的 先抽离</span><br><span class="line">        &#125;,</span><br><span class="line">        default: &#123;</span><br><span class="line">          minChunks: 2,</span><br><span class="line">          priority: -20,</span><br><span class="line">          reuseExistingChunk: true</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>编写多个optimization会导致覆盖</p>
+</blockquote>
+<blockquote>
+<p>使用 splitChunks 抽离模块的时候把externals去掉</p>
+</blockquote>
+<h2 id="费时分析"><a href="#费时分析" class="headerlink" title="费时分析"></a>费时分析</h2><blockquote>
+<p>speed-measure-webpack-plugin</p>
+</blockquote>
+<h2 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h2><blockquote>
+<p>extensions：指定之后，可以不在require或import后加文件后缀名，会按照你写的顺序依次匹配查找</p>
+</blockquote>
+<blockquote>
+<p>alias：设置别名，加快模块查找顺序</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">    resolve:&#123;</span><br><span class="line">        extensions:[&quot;.js&quot;,&quot;.jsx&quot;,&quot;json&quot;,&quot;css&quot;],</span><br><span class="line">        alias:&#123;</span><br><span class="line">            &quot;@&quot;:path.resolve(__dirname,&quot;src&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="noParse"><a href="#noParse" class="headerlink" title="noParse"></a>noParse</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">    noParse:/jquery/,   //设置哪些模块不需要解析</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IgnorePlugin"><a href="#IgnorePlugin" class="headerlink" title="IgnorePlugin"></a>IgnorePlugin</h2><blockquote>
+<p>用于忽略某些模块，让webpack不打包进去</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new webpack.IgnorePlugin(/^\.\/local/,/moment$/)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多线程打包"><a href="#多线程打包" class="headerlink" title="多线程打包"></a>多线程打包</h2><blockquote>
+<p>happypack</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">    plugin:[</span><br><span class="line">        new HappyPack(&#123;</span><br><span class="line">            id:&apos;style&apos;,</span><br><span class="line">            threads:2,      //开启2个线程</span><br><span class="line">            loader:[&apos;style-loader&apos;,&apos;css-loader&apos;,&quot;less-loader&quot;]</span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>thread-loader</p>
+</blockquote>
+
     </div>
 
     
@@ -336,6 +470,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ESLint"><span class="nav-number">1.</span> <span class="nav-text">ESLint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#去除无用的CSS"><span class="nav-number">2.</span> <span class="nav-text">去除无用的CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CDN加载文件"><span class="nav-number">3.</span> <span class="nav-text">CDN加载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tree-shaking-amp-scope-hosting"><span class="nav-number">4.</span> <span class="nav-text">Tree-shaking &amp; scope-hosting</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置代理proxy"><span class="nav-number">5.</span> <span class="nav-text">配置代理proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#devSever的中间件"><span class="nav-number">6.</span> <span class="nav-text">devSever的中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DLLPlugin-amp-DLLReferencePlugin-设置动态链接库"><span class="nav-number">7.</span> <span class="nav-text">DLLPlugin &amp; DLLReferencePlugin 设置动态链接库</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

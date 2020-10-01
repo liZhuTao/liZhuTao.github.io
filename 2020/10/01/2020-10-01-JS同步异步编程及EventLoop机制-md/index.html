@@ -50,18 +50,20 @@
   };
 </script>
 
-  <meta name="description" content="封装queryURLParams函数">
+  <meta name="description" content="JS中的同步异步编程 进程、线程  进程代表的是一个程序（浏览器开一个页卡就是一个进程） 线程是用来处理进程中的具体事物，如果一个进程中有很多事情要做，就可以开辟很多线程 一个线程同时只能做一件事  浏览器是多线程的">
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="封装queryURLParams函数">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;26&#x2F;2019-11-26-queryURLParams-md&#x2F;index.html">
+<meta property="og:title" content="JS同步异步编程及EventLoop机制">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;01&#x2F;2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="封装queryURLParams函数">
+<meta property="og:description" content="JS中的同步异步编程 进程、线程  进程代表的是一个程序（浏览器开一个页卡就是一个进程） 线程是用来处理进程中的具体事物，如果一个进程中有很多事情要做，就可以开辟很多线程 一个线程同时只能做一件事  浏览器是多线程的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T07:23:13.741Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
+<meta property="og:updated_time" content="2020-10-01T14:27:32.019Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
 
 
 <script id="page-configurations">
@@ -75,7 +77,7 @@
   };
 </script>
 
-  <title>封装queryURLParams函数 | Bsmall</title>
+  <title>JS同步异步编程及EventLoop机制 | Bsmall</title>
   
 
 
@@ -215,7 +217,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-queryURLParams-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -228,7 +230,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          封装queryURLParams函数
+          JS同步异步编程及EventLoop机制
         </h1>
 
         <div class="post-meta">
@@ -237,24 +239,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-11-26 16:43:17" itemprop="dateCreated datePublished" datetime="2019-11-26T16:43:17+08:00">2019-11-26</time>
+              <time title="创建时间：2020-10-01 22:26:33 / 修改时间：22:27:32" itemprop="dateCreated datePublished" datetime="2020-10-01T22:26:33+08:00">2020-10-01</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-01 15:23:13" itemprop="dateModified" datetime="2020-04-01T15:23:13+08:00">2020-04-01</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JS%E5%87%BD%E6%95%B0/" itemprop="url" rel="index">
-                    <span itemprop="name">JS函数</span>
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
                   </a>
                 </span>
             </span>
@@ -270,11 +266,56 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="封装queryURLParams函数"><a href="#封装queryURLParams函数" class="headerlink" title="封装queryURLParams函数"></a>封装queryURLParams函数</h2><a id="more"></a>
-<h3 id="方法一：基于数组的方法"><a href="#方法一：基于数组的方法" class="headerlink" title="方法一：基于数组的方法"></a>方法一：基于数组的方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	//1.获取？后面的信息</span><br><span class="line">	let askIn = url.indexOf(&apos;?&apos;),</span><br><span class="line">		wellIn = url.lastIndexOf(&apos;#&apos;),</span><br><span class="line">		askText = &apos;&apos;,</span><br><span class="line">		wellText = &apos;&apos;;</span><br><span class="line">	//#号不存在</span><br><span class="line">	wellIn === -1 ? wellText = url.length : null;</span><br><span class="line">	//?号存在</span><br><span class="line">	askIn !== -1 ? askText = url.substring(askIn + 1, wellIn) : null;</span><br><span class="line">	wellText = url.substring(wellIn + 1);</span><br><span class="line"></span><br><span class="line">	//2.获取每一部分的信息</span><br><span class="line">	let result = &#123;&#125;;</span><br><span class="line">	//获取 HASH 值</span><br><span class="line">	wellText !== &apos;&apos; ? result[&apos;HASH&apos;] = wellText : null;</span><br><span class="line">	if (askText !== &apos;&apos;) &#123;</span><br><span class="line">		let ary = askText.split(&apos;&amp;&apos;);</span><br><span class="line">		ary.forEach(item =&gt; &#123;</span><br><span class="line">			let itemAry = item.split(&apos;=&apos;);</span><br><span class="line">			result[itemAry[0]] = itemAry[1];</span><br><span class="line">		&#125;)</span><br><span class="line">	&#125;</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+        <h2 id="JS中的同步异步编程"><a href="#JS中的同步异步编程" class="headerlink" title="JS中的同步异步编程"></a>JS中的同步异步编程</h2><blockquote>
+<p>进程、线程</p>
+</blockquote><ul>
+<li>进程代表的是一个程序（浏览器开一个页卡就是一个进程）</li>
+<li>线程是用来处理进程中的具体事物，如果一个进程中有很多事情要做，就可以开辟很多线程</li>
+<li>一个线程同时只能做一件事</li>
+</ul><blockquote>
+<p>浏览器是多线程的</p>
+</blockquote><a id="more"></a>
 
 
-<h3 id="方法二：基于正则表达式实现"><a href="#方法二：基于正则表达式实现" class="headerlink" title="方法二：基于正则表达式实现"></a>方法二：基于正则表达式实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let url = &apos;http://www.lizhutao.github.io/index.html?id=1&amp;name=lzt&amp;age=20#box&apos;;</span><br><span class="line"></span><br><span class="line">function queryURLParams(url) &#123;</span><br><span class="line">	let result = &#123;&#125;,</span><br><span class="line">		reg1 = /([^?#&amp;=]+)=([^?#&amp;=]+)/g,</span><br><span class="line">		reg2 = /#([^?#&amp;=]+)/g;</span><br><span class="line">	url.replace(reg1, (n, x, y) =&gt; result[x] = y);</span><br><span class="line">	url.replace(reg2, (n, x ) =&gt; result[&apos;HASH&apos;] = x);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let paramObj = queryURLParams(url);</span><br><span class="line">console.log(paramObj);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>GUI渲染线程</li>
+<li>HTTP网络线程</li>
+<li>JS渲染线程</li>
+<li>监听线程等…</li>
+</ul>
+<blockquote>
+<p>JS是单线程的：浏览器只分配一个线程来渲染JS代码</p>
+</blockquote>
+<ul>
+<li>JS中的代码大部分都是“同步编程”，即上面的任务没有完成，下面的任务是无法处理的</li>
+<li>但是JS利用浏览器的多线程机制，可以规划出“异步编程”效果<ul>
+<li>定时器、AJAX/Fetch/跨域（HTTP网络请求）、事件绑定、promise中的异步、Generator函数、async/await…</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 计算程序执行的时间(预估)</span><br><span class="line"> *   + 运行监控 console.time/timeEnd（受当前电脑运行环境的影响）</span><br><span class="line"> *   + 时间复杂度(提前预估)</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">console.time(&apos;AAA&apos;);</span><br><span class="line">for (let i = 0; i &lt; 99999999; i++) &#123;&#125;</span><br><span class="line">console.timeEnd(&apos;AAA&apos;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>死循环阻塞代码</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">while (true) &#123;&#125;</span><br><span class="line">console.log(&apos;OK&apos;); // 不执行：上述的死循环一直占用这“JS渲染线程”，线程空闲不下来，就处理不了其他的事情</span><br></pre></td></tr></table></figure>
+
+<h3 id="定时器的异步编程"><a href="#定时器的异步编程" class="headerlink" title="定时器的异步编程"></a>定时器的异步编程</h3><ul>
+<li>设置定时器任务是同步的</li>
+<li>“间隔interval这么长时间，执行定时器绑定的函数” 这个任务是异步的</li>
+<li>遇到异步任务，浏览器不会等待它执行完，则继续渲染下面的代码；当等到下面代码运行完，时间也到达了执行的条件，才会把异步任务执行；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// setTimeout(() =&gt; &#123;</span><br><span class="line">//     console.log(&quot;OK&quot;); //2</span><br><span class="line">// &#125;, 1000);</span><br><span class="line">// console.log(&apos;NO&apos;); //1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>interval设置为零也不是立即执行，而是浏览器都有“最快反应时间（谷歌:5<del>6ms IE:13</del>17ms）”，设置为零，最快也需要等到5～6ms左右</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;OK&apos;); //2</span><br><span class="line">&#125;, 0);</span><br><span class="line">console.log(&apos;NO&apos;); //1</span><br></pre></td></tr></table></figure>
+
+<p><strong>例题</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">&#125;, 20);</span><br><span class="line">console.log(2);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;, 10);</span><br><span class="line">console.log(4);</span><br><span class="line">console.time(&apos;AA&apos;);</span><br><span class="line">for (let i = 0; i &lt; 90000000; i++) &#123;</span><br><span class="line">    // do soming</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&apos;AA&apos;); //=&gt;AA: 79ms 左右</span><br><span class="line">console.log(5);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(6);</span><br><span class="line">&#125;, 8);</span><br><span class="line">console.log(7);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(8);</span><br><span class="line">&#125;, 15);</span><br><span class="line">console.log(9);</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
     </div>
 
     
@@ -299,17 +340,14 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" rel="next" title="数组去重">
-                  <i class="fa fa-chevron-left"></i> 数组去重
+                <a href="/2020/09/27/2020-09-27-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A8%E8%A7%A3-md/" rel="next" title="正则表达式全解">
+                  <i class="fa fa-chevron-left"></i> 正则表达式全解
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/28/2019-11-28-formatTime-md/" rel="prev" title="formatTime">
-                  formatTime <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -348,7 +386,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#封装queryURLParams函数"><span class="nav-number">1.</span> <span class="nav-text">封装queryURLParams函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：基于数组的方法"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：基于数组的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二：基于正则表达式实现"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：基于正则表达式实现</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS中的同步异步编程"><span class="nav-number">1.</span> <span class="nav-text">JS中的同步异步编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器的异步编程"><span class="nav-number">1.1.</span> <span class="nav-text">定时器的异步编程</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

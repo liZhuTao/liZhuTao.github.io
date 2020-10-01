@@ -50,15 +50,15 @@
   };
 </script>
 
-  <meta name="description" content="jQuery中的extend">
+  <meta name="description" content="extend拓展 jQuery.extend = jQuery.fn.extend = function(){ … }; 调用extend 拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。  $.extend({});        $.extend(true,{})">
 <meta name="keywords" content="jQuery">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jQuery源码解读（三）">
+<meta property="og:title" content="jQuery源码之extend拓展及JQ工具类方法">
 <meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;02&#x2F;06&#x2F;2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="jQuery中的extend">
+<meta property="og:description" content="extend拓展 jQuery.extend = jQuery.fn.extend = function(){ … }; 调用extend 拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。  $.extend({});        $.extend(true,{})">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T07:21:35.262Z">
+<meta property="og:updated_time" content="2020-10-01T02:40:09.146Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/02/06/2020-02-06-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%B8%89%EF%BC%89-md/">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>jQuery源码解读（三） | Bsmall</title>
+  <title>jQuery源码之extend拓展及JQ工具类方法 | Bsmall</title>
   
 
 
@@ -228,7 +228,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          jQuery源码解读（三）
+          jQuery源码之extend拓展及JQ工具类方法
         </h1>
 
         <div class="post-meta">
@@ -245,7 +245,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-01 15:21:35" itemprop="dateModified" datetime="2020-04-01T15:21:35+08:00">2020-04-01</time>
+                <time title="修改时间：2020-10-01 10:40:09" itemprop="dateModified" datetime="2020-10-01T10:40:09+08:00">2020-10-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,18 +270,110 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="jQuery中的extend"><a href="#jQuery中的extend" class="headerlink" title="jQuery中的extend"></a>jQuery中的extend</h3><a id="more"></a>
+        <h2 id="extend拓展"><a href="#extend拓展" class="headerlink" title="extend拓展"></a>extend拓展</h2><blockquote>
+<p>jQuery.extend = jQuery.fn.extend = function(){ … };</p>
+</blockquote><p>调用extend</p><blockquote>
+<p>拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</p>
+</blockquote><ul>
+<li>$.extend({});       </li>
+<li>$.extend(true,{})</li>
+</ul><a id="more"></a>
+
+
 
 <blockquote>
-<p>extend:向JQ中继续拓展方法</p>
+<p>拓展到JQ原型上：一般是为了写插件，让JQ实例调用</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function()&#123;</span><br><span class="line">    //......</span><br><span class="line">&#125;;</span><br><span class="line">//调用extend</span><br><span class="line">$.extend(&#123;&#125;);       //拓展到JQ对象上：一般是为了完善类库，提供更多的工具方法。</span><br><span class="line">$.extend(true,&#123;&#125;)</span><br><span class="line"></span><br><span class="line">$.fn.extend();      //拓展到JQ原型上：一般是为了写插件，让JQ实例调用</span><br></pre></td></tr></table></figure>
+<ul>
+<li>$.fn.extend();      </li>
+</ul>
+<h3 id="规划传递的参数"><a href="#规划传递的参数" class="headerlink" title="规划传递的参数"></a>规划传递的参数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend = jQuery.fn.extend = function () &#123;</span><br><span class="line">        var options, name, src, copy, copyIsArray, clone,</span><br><span class="line">            target = arguments[0] || &#123;&#125;,</span><br><span class="line">            i = 1,</span><br><span class="line">            length = arguments.length,</span><br><span class="line">            deep = false;</span><br><span class="line"></span><br><span class="line">        // 如果第一个值传递的是布尔，让deep等于这个值，第二个值是我么需要扩展的对象</span><br><span class="line">        if (typeof target === &quot;boolean&quot;) &#123;</span><br><span class="line">            deep = target;</span><br><span class="line">            target = arguments[i] || &#123;&#125;;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 参数处理，当它不是对象也不是函数时，默认是对象</span><br><span class="line">        if (typeof target !== &quot;object&quot; &amp;&amp; !isFunction(target)) &#123;</span><br><span class="line">            target = &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 如果只传递一个参数（除布尔值只有一个参数），则扩展jQuery本身</span><br><span class="line">        if (i === length) &#123;</span><br><span class="line">            target = this;</span><br><span class="line">            i--;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (; i &lt; length; i++) &#123;</span><br><span class="line"></span><br><span class="line">            // 如果传递的实参不为null</span><br><span class="line">            if ((options = arguments[i]) != null) &#123;</span><br><span class="line"></span><br><span class="line">                // 扩展基础对象</span><br><span class="line">                for (name in options) &#123;</span><br><span class="line">                    copy = options[name];</span><br><span class="line"></span><br><span class="line">                    // 防止对象原型污染以及死递归</span><br><span class="line">                    if (name === &quot;__proto__&quot; || target === copy) &#123;</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    // 如果 深克隆 &amp;&amp; 属性值存在 &amp;&amp; 合并的是纯粹对象或数组，则递归</span><br><span class="line">                    if (deep &amp;&amp; copy &amp;&amp; (jQuery.isPlainObject(copy) ||</span><br><span class="line">                            (copyIsArray = Array.isArray(copy)))) &#123;</span><br><span class="line">                        src = target[name];</span><br><span class="line"></span><br><span class="line">                        // copy是数组并且src也就是对象的属性不是数组，确保值得类型是准确的</span><br><span class="line">                        if (copyIsArray &amp;&amp; !Array.isArray(src)) &#123;</span><br><span class="line">                            clone = [];</span><br><span class="line">                        &#125; else if (!copyIsArray &amp;&amp; !jQuery.isPlainObject(src)) &#123;</span><br><span class="line">                            clone = &#123;&#125;;</span><br><span class="line">                        &#125; else &#123;</span><br><span class="line">                            clone = src;</span><br><span class="line">                        &#125;</span><br><span class="line">                        copyIsArray = false;</span><br><span class="line"></span><br><span class="line">                        // 深克隆</span><br><span class="line">                        target[name] = jQuery.extend(deep, clone, copy);</span><br><span class="line"></span><br><span class="line">                        // 确保属性值存在</span><br><span class="line">                    &#125; else if (copy !== undefined) &#123;</span><br><span class="line">                        target[name] = copy;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // 返回修改后的对象</span><br><span class="line">        return target;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>转移$的使用权：当$与其他类库产生了冲突，执行这个方法可以转移使用权。</p>
+<p>上述代码中 1~13 行，处理的是<code>$.extend({})</code>和<code>$.extend(true,{})</code>，可以看出extend函数的第一个值是<code>[boolean]</code>可传可不传,第二个参数<code>对象或function</code>是必传,通过借鉴它的实现方式，我们可以通过以下代码实现第二个参数是必传值</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var _jQuery = window.jQuery,</span><br><span class="line">    _$ = window.$;</span><br><span class="line">    </span><br><span class="line">jQuery.noConflict = function(deep)&#123;</span><br><span class="line">    if(window.$ === jQuery)&#123;</span><br><span class="line">        window.$ === _$;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if(deep &amp;&amp; window.jQuery === jQuery)&#123;</span><br><span class="line">        window.jQuery = _jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return jQuery;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//转移使用权的调用方法</span><br><span class="line">let j = jQuery.noConflict();    //noConflict(true)可以转移jQuery的使用权</span><br><span class="line">jQuery();</span><br><span class="line">j();</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// 传递的值：数字、函数 或者 函数（数字不传递默认是0）</span><br><span class="line">function fn() &#123;</span><br><span class="line">    var x = 0,</span><br><span class="line">        y = arguments[0];</span><br><span class="line">    if (typeof y === &quot;number&quot;) &#123;</span><br><span class="line">        x = y;</span><br><span class="line">        y = arguments[1];</span><br><span class="line">    &#125;</span><br><span class="line">    console.log(x, y);</span><br><span class="line">&#125;</span><br><span class="line">fn(0, function () &#123;&#125;);</span><br><span class="line">fn(function () &#123;&#125;);</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li><p>selector 支持三种数据格式</p>
+<ol>
+<li>[string]<br> 选择器      $(‘.box’)<br> 创建元素    $(‘<div>…</div>‘)</li>
+<li>[元素对象：JS原生对象]<br>  把原生JS对象转化为JQ对象（只有这样才能调取JQ中的方法）<pre><code>var box = document.getElementById(&quot;box&quot;);
+$(&apos;box&apos;)</code></pre>  把JQ对象转化为原生JS对象，直接基于索引获取即可，例如：$A[0]<pre><code>在项目中建议使用JQ中自带的get方法实现，因为它更完善，支持负数索引$A.get(0)
+eq方法也是根据索引集合中的某一项（也支持负数），只不过返回的结果不是原生JS而是JQ的实例</code></pre></li>
+<li>[function]<br>  $(function(){})     等待页面中的DOM结构加载完毕再执行函数，等价于$(document).ready(function(){})</li>
+</ol>
+</li>
+</ul>
+<p>注意事项</p>
+<blockquote>
+<p>$(“.box”) === $(“.box”) =&gt;false 这是两个实例,引用地址不相同</p>
+</blockquote>
+<pre><code>所以操作的时候不要：
+    $(&quot;box&quot;).css();
+    $(&quot;box&quot;).attr();
+    $(&quot;box&quot;).click();
+正确的操作是：
+    let $box = $(&quot;box&quot;);
+    $box.css();
+    $box.attr();
+    $box.click();</code></pre><h2 id="jQuery工具类方法"><a href="#jQuery工具类方法" class="headerlink" title="jQuery工具类方法"></a>jQuery工具类方法</h2><h3 id="each"><a href="#each" class="headerlink" title="each"></a>each</h3><blockquote>
+<p>上一篇文章中jQuery原型上的each是直接调用的工具的each方法，所以jQuery中只有一个each方法</p>
+</blockquote>
+<blockquote>
+<p><code>each</code>遍历数组/类数组/对象</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend(&#123;</span><br><span class="line">    each: function (obj, callback) &#123;</span><br><span class="line">        var length, i = 0;</span><br><span class="line">        if (isArrayLike(obj)) &#123;</span><br><span class="line">            // 数组或者类数组基于for循环完成</span><br><span class="line">            length = obj.length;</span><br><span class="line">            for (; i &lt; length; i++) &#123;</span><br><span class="line">                var item = obj[i];</span><br><span class="line">                var res = callback.call(item, i, item);</span><br><span class="line">                //在内置forEach的基础上可以控制循环结束：只要回调函数中返回false，循环就可以结束了</span><br><span class="line">                if (res === false) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            // 如果是对象，基于for in循环</span><br><span class="line">            for (i in obj) &#123;</span><br><span class="line">                if (callback.call(obj[i], i, obj[i]) === false) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>相当于重写了forEach循环，传递的参数顺序相反，同时解决了forEach循环不能跳出循环的缺点</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.each([10, 20, 30], function(i,item)&#123;</span><br><span class="line">    // this -&gt; 当前遍历这一项</span><br><span class="line">    // i当前遍历这一项的索引  item当前遍历这一项</span><br><span class="line">    if(item&gt;20) return false;</span><br><span class="line">&#125;);</span><br><span class="line">// $(...).each(function()&#123;...&#125;)  =&gt; $.each($(...),function(i,item)&#123;...&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="makeArray-amp-inArray"><a href="#makeArray-amp-inArray" class="headerlink" title="makeArray &amp; inArray"></a>makeArray &amp; inArray</h3><blockquote>
+<p><code>makeArray</code>函数用于将一个类似数组的对象转换为真正的数组对象</p>
+</blockquote>
+<blockquote>
+<p><code>inArray</code>函数用于在数组中查找指定值，并返回它的索引值（如果没有找到，则返回-1）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend(&#123;</span><br><span class="line">    makeArray: function (arr, results) &#123;</span><br><span class="line">	    var ret = results || [];</span><br><span class="line"></span><br><span class="line">	    if (arr != null) &#123;</span><br><span class="line">		    if (isArrayLike(Object(arr))) &#123;</span><br><span class="line">			    jQuery.merge(ret,</span><br><span class="line">				    typeof arr === &quot;string&quot; ? [arr] : arr</span><br><span class="line">		    	);</span><br><span class="line">		    &#125; else &#123;</span><br><span class="line">		    	push.call(ret, arr);</span><br><span class="line">		    &#125;</span><br><span class="line">	    &#125;</span><br><span class="line">	    return ret;</span><br><span class="line">    &#125;,</span><br><span class="line">    inArray: function (elem, arr, i) &#123;</span><br><span class="line">		return arr == null ? -1 : indexOf.call(arr, elem, i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="merge-amp-grep"><a href="#merge-amp-grep" class="headerlink" title="merge &amp; grep"></a>merge &amp; grep</h3><blockquote>
+<p><code>merge</code>函数用于合并两个数组内容到第一个数组</p>
+</blockquote>
+<blockquote>
+<p><code>grep</code>函数使用指定的函数过滤数组中的元素，并返回过滤后的数组</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend(&#123;</span><br><span class="line">    merge: function (first, second) &#123;</span><br><span class="line">		var len = +second.length,</span><br><span class="line">			j = 0,</span><br><span class="line">			i = first.length;</span><br><span class="line"></span><br><span class="line">		for (; j &lt; len; j++) &#123;</span><br><span class="line">			first[i++] = second[j];</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		first.length = i;</span><br><span class="line"></span><br><span class="line">		return first;</span><br><span class="line">	&#125;,</span><br><span class="line">    grep: function (elems, callback, invert) &#123;</span><br><span class="line">		var callbackInverse,</span><br><span class="line">			matches = [],</span><br><span class="line">			i = 0,</span><br><span class="line">			length = elems.length,</span><br><span class="line">			callbackExpect = !invert;</span><br><span class="line"></span><br><span class="line">		for (; i &lt; length; i++) &#123;</span><br><span class="line">			callbackInverse = !callback(elems[i], i);</span><br><span class="line">			if (callbackInverse !== callbackExpect) &#123;</span><br><span class="line">				matches.push(elems[i]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		return matches;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="map"><a href="#map" class="headerlink" title="map"></a>map</h3><blockquote>
+<p><code>map</code>函数用于使用指定函数处理数组中的每个元素(或对象的每个属性)，并将处理结果封装为新的数组返回</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend(&#123;</span><br><span class="line">    map: function (elems, callback, arg) &#123;</span><br><span class="line">		var length, value,</span><br><span class="line">			i = 0,</span><br><span class="line">			ret = [];</span><br><span class="line"></span><br><span class="line">		// Go through the array, translating each of the items to their new values</span><br><span class="line">		if (isArrayLike(elems)) &#123;</span><br><span class="line">			length = elems.length;</span><br><span class="line">			for (; i &lt; length; i++) &#123;</span><br><span class="line">				value = callback(elems[i], i, arg);</span><br><span class="line"></span><br><span class="line">				if (value != null) &#123;</span><br><span class="line">					ret.push(value);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			// Go through every key on the object,</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			for (i in elems) &#123;</span><br><span class="line">				value = callback(elems[i], i, arg);</span><br><span class="line"></span><br><span class="line">				if (value != null) &#123;</span><br><span class="line">					ret.push(value);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		// Flatten any nested arrays</span><br><span class="line">		return flat(ret);</span><br><span class="line">		&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现JQ集合的可迭代性"><a href="#实现JQ集合的可迭代性" class="headerlink" title="实现JQ集合的可迭代性"></a>实现JQ集合的可迭代性</h2><blockquote>
+<p>只有变为可迭代的，才能基于for of循环来实现遍历</p>
+</blockquote>
+<p>for of 循环</p>
+<ul>
+<li>可以被迭代的数据结构（拥有这个属性的 Symbol.iterator），可以基于for of循环处理 </li>
+<li>数组  Array.prototype[Symbol.iterator] = function values() { [native code] }</li>
+<li>arguments   arguments[Symbol.iterator] = function values() { [native code] }</li>
+<li>NodeList节点类数组集合</li>
+<li>HTMLCollection元素集合</li>
+<li>new Set()</li>
+<li>new Map()</li>
+<li>…</li>
+<li>普通对象默认是不具备可迭代性的，因为它不具备 Symbol.iterator 这个属性<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    0: 1,</span><br><span class="line">    1: 2,</span><br><span class="line">    length: 2</span><br><span class="line">&#125;;</span><br><span class="line">for (let item of obj) &#123; //Uncaught TypeError: obj is not iterable</span><br><span class="line">    console.log(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    0: 1,</span><br><span class="line">    1: 2,</span><br><span class="line">    length: 2,</span><br><span class="line">    [Symbol.iterator]: Array.prototype[Symbol.iterator]</span><br><span class="line">&#125;;</span><br><span class="line">for (let item of obj) &#123;</span><br><span class="line">    console.log(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>所以JQ中做了以下操作，将JQ集合变为可迭代的</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(function(global,factory)&#123;</span><br><span class="line">    //...</span><br><span class="line">&#125;)(typeof window !== &quot;undefined&quot; ? window : this, function(window,noGlobal)&#123;</span><br><span class="line">    var version = &quot;3.5.1&quot;,</span><br><span class="line">        jQuery = function (selector, context) &#123;</span><br><span class="line">            return new jQuery.fn.init(selector, context);</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">    if (typeof Symbol === &quot;function&quot;) &#123;</span><br><span class="line">        jQuery.fn[Symbol.iterator] = arr[Symbol.iterator];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //...</span><br><span class="line">    </span><br><span class="line">     if (typeof noGlobal === &quot;undefined&quot;) &#123;</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -306,8 +398,8 @@
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/02/04/2020-02-04-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89-md/" rel="next" title="jQuery源码解读（二）">
-                  <i class="fa fa-chevron-left"></i> jQuery源码解读（二）
+                <a href="/2020/02/04/2020-02-04-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89-md/" rel="next" title="jQuery源码之选择器代理及JQ原型">
+                  <i class="fa fa-chevron-left"></i> jQuery源码之选择器代理及JQ原型
                 </a>
             </div>
 
@@ -355,7 +447,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery中的extend"><span class="nav-number">1.</span> <span class="nav-text">jQuery中的extend</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#extend拓展"><span class="nav-number">1.</span> <span class="nav-text">extend拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规划传递的参数"><span class="nav-number">1.1.</span> <span class="nav-text">规划传递的参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery工具类方法"><span class="nav-number">2.</span> <span class="nav-text">jQuery工具类方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#each"><span class="nav-number">2.1.</span> <span class="nav-text">each</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#makeArray-amp-inArray"><span class="nav-number">2.2.</span> <span class="nav-text">makeArray &amp; inArray</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merge-amp-grep"><span class="nav-number">2.3.</span> <span class="nav-text">merge &amp; grep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map"><span class="nav-number">2.4.</span> <span class="nav-text">map</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现JQ集合的可迭代性"><span class="nav-number">3.</span> <span class="nav-text">实现JQ集合的可迭代性</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

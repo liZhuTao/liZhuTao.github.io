@@ -59,7 +59,9 @@
 <meta property="og:description" content="JS中的同步异步编程 进程、线程  进程代表的是一个程序（浏览器开一个页卡就是一个进程） 线程是用来处理进程中的具体事物，如果一个进程中有很多事情要做，就可以开辟很多线程 一个线程同时只能做一件事  浏览器是多线程的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
-<meta property="og:updated_time" content="2020-10-01T14:27:32.019Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;c192cc20-055e-11eb-8ff1-d5dcf8779628.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;9fe82e20-0578-11eb-9dfb-6da8e309e0d8.png">
+<meta property="og:updated_time" content="2020-10-03T13:08:33.866Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
 
@@ -239,10 +241,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-01 22:26:33 / 修改时间：22:27:32" itemprop="dateCreated datePublished" datetime="2020-10-01T22:26:33+08:00">2020-10-01</time>
+              <time title="创建时间：2020-10-01 22:26:33" itemprop="dateCreated datePublished" datetime="2020-10-01T22:26:33+08:00">2020-10-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-03 21:08:33" itemprop="dateModified" datetime="2020-10-03T21:08:33+08:00">2020-10-03</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -316,6 +324,50 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">&#125;, 20);</span><br><span class="line">console.log(2);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;, 10);</span><br><span class="line">console.log(4);</span><br><span class="line">console.time(&apos;AA&apos;);</span><br><span class="line">for (let i = 0; i &lt; 90000000; i++) &#123;</span><br><span class="line">    // do soming</span><br><span class="line">&#125;</span><br><span class="line">console.timeEnd(&apos;AA&apos;); //=&gt;AA: 79ms 左右</span><br><span class="line">console.log(5);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(6);</span><br><span class="line">&#125;, 8);</span><br><span class="line">console.log(7);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(8);</span><br><span class="line">&#125;, 15);</span><br><span class="line">console.log(9);</span><br></pre></td></tr></table></figure>
 
 <img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/afaaf370-03f1-11eb-8a36-ebb87efcf8c0.png">
+
+<h2 id="Promise及Promise中的异步"><a href="#Promise及Promise中的异步" class="headerlink" title="Promise及Promise中的异步"></a>Promise及Promise中的异步</h2><blockquote>
+<p>我之前这一篇关于Promise的文章中有详细的讲解Promise的机制，有兴趣的小伙伴可以认真阅读。–<a href="https://lizhutao.github.io/2020/09/11/2020-09-11-%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBPromise%EF%BC%8C%E6%89%BF%E8%AF%BA%E6%A8%A1%E5%BC%8F-md/#more" target="_blank" rel="noopener">深入解读Promise，承诺模式</a></p>
+</blockquote>
+<h2 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h2><blockquote>
+<p>async/await是ES7中新提供的语法糖</p>
+</blockquote>
+<ul>
+<li>async修饰一个函数：保证函数返回的是一个promise实例<ul>
+<li>和then很相似，函数执行不报错，返回成功的promise实例，报错返回的是失败的</li>
+<li>return的值或者报错的原因就是promise实例的结果</li>
+<li>如果return的是一个新的promise实例，则实例的结果影响返回值</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>async最常用的应用，是为了修饰函数，让函数中可以使用await（想要使用await，所在的函数必须是async修饰的）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function func() &#123;</span><br><span class="line">    await fn();     //Uncaught SyntaxError: await is only valid in async function</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>await [promise实例] 等待promise实例状态为成功的时候，再继续执行await后面的代码</li>
+<li>await 修饰非promise实例的时候，直接算做成功</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">(async function () &#123;</span><br><span class="line">    let x = await 10;</span><br><span class="line">    console.log(x); //10</span><br><span class="line"></span><br><span class="line">    let y = await Promise.resolve(20);</span><br><span class="line">    console.log(y); //20</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        let z = await Promise.reject(30); //await后面的promise如果是失败的，则当前函数中await下面的代码都不会执行</span><br><span class="line">        console.log(z);</span><br><span class="line">    &#125; catch (err) &#123;</span><br><span class="line">        // 基于try catch异常捕获，可以捕获到await后面的promise实例是失败状态下的失败信息(浏览器控制台不会再报错了)</span><br><span class="line">        console.log(err); //30</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<h3 id="await中的异步"><a href="#await中的异步" class="headerlink" title="await中的异步"></a>await中的异步</h3><blockquote>
+<p>很多人认为async/await是同步操作，其实这种理解是正确的，await修饰的操作虽然是同步执行的，但是他在asnyc修饰的上下文中还会有一个特殊的操作，那就是将await下面的代码全部转成微任务，并添加到Event Queue中的微任务中。这么说可能有的小伙伴不是非常的理解，我们通过一道字节跳动的面试题来讲解</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">async function async1() &#123;</span><br><span class="line">    console.log(&apos;async1 start&apos;);</span><br><span class="line">    await async2();</span><br><span class="line">    console.log(&apos;async1 end&apos;);</span><br><span class="line">&#125;</span><br><span class="line">async function async2() &#123;</span><br><span class="line">    console.log(&apos;async2&apos;);</span><br><span class="line">&#125;</span><br><span class="line">console.log(&apos;script start&apos;);</span><br><span class="line">setTimeout(function() &#123;</span><br><span class="line">    console.log(&apos;setTimeout&apos;);</span><br><span class="line">&#125;, 0)</span><br><span class="line">async1();</span><br><span class="line">new Promise(function(resolve) &#123;</span><br><span class="line">    console.log(&apos;promise1&apos;);</span><br><span class="line">    resolve();</span><br><span class="line">&#125;).then(function() &#123;</span><br><span class="line">    console.log(&apos;promise2&apos;);</span><br><span class="line">&#125;);</span><br><span class="line">console.log(&apos;script end&apos;);</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c192cc20-055e-11eb-8ff1-d5dcf8779628.png">
+
+<blockquote>
+<p>代码执行结果：’script start’ ‘async1 start’ ‘async2’ ‘promise1’ ‘script end’ ‘async1 end’ ‘promise2’ ‘setTimeout’</p>
+</blockquote>
+<h2 id="同步异步编程综合"><a href="#同步异步编程综合" class="headerlink" title="同步异步编程综合"></a>同步异步编程综合</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function func1()&#123;</span><br><span class="line">    console.log(&apos;func1 start&apos;);</span><br><span class="line">    return new Promise(resolve=&gt;&#123;</span><br><span class="line">        resolve(&apos;OK&apos;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line">function func2()&#123;</span><br><span class="line">    console.log(&apos;func2 start&apos;);</span><br><span class="line">    return new Promise(resolve=&gt;&#123;</span><br><span class="line">        setTimeout(()=&gt;&#123;</span><br><span class="line">            resolve(&apos;OK&apos;);</span><br><span class="line">        &#125;,10);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(1);</span><br><span class="line">setTimeout(async () =&gt; &#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">    await func1();</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;, 20);</span><br><span class="line">for (let i = 0; i &lt; 90000000; i++) &#123;&#125; //循环大约要进行80MS左右</span><br><span class="line">console.log(4);</span><br><span class="line">func1().then(result=&gt;&#123;</span><br><span class="line">    console.log(5);</span><br><span class="line">&#125;);</span><br><span class="line">func2().then(result=&gt;&#123;</span><br><span class="line">    console.log(6);</span><br><span class="line">&#125;);</span><br><span class="line">setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(7);</span><br><span class="line">&#125;, 0);</span><br><span class="line">console.log(8);</span><br></pre></td></tr></table></figure>
+
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9fe82e20-0578-11eb-9dfb-6da8e309e0d8.png">
+
+<blockquote>
+<p>代码的执行结果：1 4 ‘func1 start’ ‘func2 start’ 8 5 2 ‘func1 start’ 3 7 6</p>
+</blockquote>
+
     </div>
 
     
@@ -386,7 +438,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS中的同步异步编程"><span class="nav-number">1.</span> <span class="nav-text">JS中的同步异步编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器的异步编程"><span class="nav-number">1.1.</span> <span class="nav-text">定时器的异步编程</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JS中的同步异步编程"><span class="nav-number">1.</span> <span class="nav-text">JS中的同步异步编程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器的异步编程"><span class="nav-number">1.1.</span> <span class="nav-text">定时器的异步编程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise及Promise中的异步"><span class="nav-number">2.</span> <span class="nav-text">Promise及Promise中的异步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#async-await"><span class="nav-number">3.</span> <span class="nav-text">async/await</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#await中的异步"><span class="nav-number">3.1.</span> <span class="nav-text">await中的异步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步异步编程综合"><span class="nav-number">4.</span> <span class="nav-text">同步异步编程综合</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

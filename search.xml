@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>浏览器渲染原理及性能优化</title>
+      <link href="/2020/10/12/2020-10-12-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86%E5%8F%8A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-md/"/>
+      <url>/2020/10/12/2020-10-12-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86%E5%8F%8A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-md/</url>
+      
+        <content type="html"><![CDATA[<h2 id="浏览器获取资源"><a href="#浏览器获取资源" class="headerlink" title="浏览器获取资源"></a>浏览器获取资源</h2><blockquote><p>在浏览器中输入URL地址之后，在经过一系列的网络解析、路由传输之后到达指定的服务器，服务器响应客户端请求并返回相应的资源</p></blockquote><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/3aa0ea20-0c85-11eb-9dfb-6da8e309e0d8.png"><a id="more"></a><h2 id="浏览器渲染解析代码"><a href="#浏览器渲染解析代码" class="headerlink" title="浏览器渲染解析代码"></a>浏览器渲染解析代码</h2><blockquote><p>客户端从服务器获取到需要渲染页面的源代码后才能显示在浏览器的视图容器中，这个过程浏览器开辟一个“GUI渲染线程”，自上而下解析代码</p></blockquote><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/ac10b330-0c98-11eb-8a36-ebb87efcf8c0.png"><blockquote><p>自上而下渲染解析代码的过程是“同步”的，但是有些操作也是异步的</p></blockquote><ol><li>关于CSS资源的加载</li></ol><ul><li><p>遇到的是<code>&lt;style&gt;</code> “内嵌样式”</p><ul><li>“同步” 交给GUI渲染线程解析</li></ul></li><li><p>遇到的是<code>&lt;link&gt;</code> “外链样式”</p><ul><li>“异步” 开辟一个新的“HTTP网络请求线程”　</li><li>注意：同一个源下，根据不同的浏览器，最多只允许同时开辟4～7个HTTP线程 “HTTP的并发数”</li><li>不等待资源信息请求回来，GUI渲染线程继续向下渲染</li><li>GUI渲染线程同步操作都处理完成后，再把基于HTTP图片络线程请求回来的资源文件进行解析渲染</li></ul></li><li><p>遇到@import “导入式样式”</p><ul><li>“同步” 开辟一个新的“HTTP网络请求线程”去请求资源文件</li><li>但是在资源文件没有请求回来之前，GUI渲染线程会被“阻塞”，不允许其继续向下渲染</li></ul></li></ul><ol start="2"><li>遇到<code>&lt;script&gt;</code>资源的请求</li></ol><ul><li><p>默认都是“同步”的：必须基于HTTP网络线程，把资源请求回来之后，并且交给“JS渲染线程”渲染解析完成后，GUI渲染线程才能继续向下渲染，所以<code>&lt;script&gt;</code>默认也是“阻碍GUI渲染”的</p></li><li><p>async属性：遇到<code>&lt;script async&gt;</code>首先也是开辟一个HTTP网络线程去请求加载资源文件，与此同时GUI渲染线程继续向下渲染「把默认的同步改为“异步”」，但是一旦当资源请求回来后，会中断GUI的渲染，先把请求回来的JS进行渲染解析</p></li><li><p>defer属性：遇到<code>&lt;script defer&gt;</code> 和async类似，都是新开辟HTTP网络线程去请求加载资源文件，与此同时GUI还会继续渲染「“异步”」，但是不一样的地方是，defer和link类似，是在GUI同步的代码渲染完成后，才会渲染解析请求回来的JS代码</p></li></ul><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/55f6d9f0-0c9a-11eb-b997-9918a5dda011.png"><ol start="3"><li>遇到<code>&lt;img&gt;</code>或者音视频资源</li></ol><ul><li>遇到这些资源，也会发送新的HTTP网络线程，请求加载对应的资源文件，不会阻碍GUI的渲染「“异步”」；当GUI渲染完成后，才会把请求回来资源信息进行渲染解析；</li></ul><blockquote><p>Webkit浏览器预测解析：chrome的预加载扫描器html-preload-scanner通过扫描节点中的 “src” , “link”等属性，找到外部连接资源后进行预加载，避免了资源加载的等待时间，同样实现了提前加载以及加载和执行分离</p></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 性能优化 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> JavaScript </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>vue指令</title>
       <link href="/2020/10/09/2020-10-09-vue%E6%8C%87%E4%BB%A4-md/"/>
       <url>/2020/10/09/2020-10-09-vue%E6%8C%87%E4%BB%A4-md/</url>

@@ -61,7 +61,11 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;3aa0ea20-0c85-11eb-9dfb-6da8e309e0d8.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;ac10b330-0c98-11eb-8a36-ebb87efcf8c0.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;55f6d9f0-0c9a-11eb-b997-9918a5dda011.png">
-<meta property="og:updated_time" content="2020-10-12T14:51:37.632Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;276025b0-0d1c-11eb-b244-a9f5e5565f30.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;26b05db0-0d1c-11eb-81ea-f115fe74321c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;2e730f70-0d1c-11eb-9dfb-6da8e309e0d8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;35dcf2d0-0d1c-11eb-b997-9918a5dda011.png">
+<meta property="og:updated_time" content="2020-10-13T14:20:13.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;3aa0ea20-0c85-11eb-9dfb-6da8e309e0d8.png">
 
@@ -241,10 +245,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-12 22:48:09 / 修改时间：22:51:37" itemprop="dateCreated datePublished" datetime="2020-10-12T22:48:09+08:00">2020-10-12</time>
+              <time title="创建时间：2020-10-12 22:48:09" itemprop="dateCreated datePublished" datetime="2020-10-12T22:48:09+08:00">2020-10-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-13 22:20:13" itemprop="dateModified" datetime="2020-10-13T22:20:13+08:00">2020-10-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -329,7 +339,39 @@
 <blockquote>
 <p>Webkit浏览器预测解析：chrome的预加载扫描器html-preload-scanner通过扫描节点中的 “src” , “link”等属性，找到外部连接资源后进行预加载，避免了资源加载的等待时间，同样实现了提前加载以及加载和执行分离</p>
 </blockquote>
+<h2 id="页面渲染步骤"><a href="#页面渲染步骤" class="headerlink" title="页面渲染步骤"></a>页面渲染步骤</h2><h3 id="1-DOM-Tree-DOM树"><a href="#1-DOM-Tree-DOM树" class="headerlink" title="1.DOM Tree(DOM树)"></a>1.DOM Tree(DOM树)</h3><blockquote>
+<p>自上而下渲染完页面，整理好整个页面的DOM结构关系</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/276025b0-0d1c-11eb-b244-a9f5e5565f30.png">
 
+<ul>
+<li>从服务器获取到字节流（进制编码）</li>
+<li>将进制编码编译成具体字符</li>
+<li>根据token解析生成不同的tag（词法解析，解析出起始和结束标签）</li>
+<li>生成具体的DOM节点</li>
+<li>按照相互的对照关系生成DOM树</li>
+</ul>
+<h3 id="2-CSSOM-Tree-样式树"><a href="#2-CSSOM-Tree-样式树" class="headerlink" title="2.CSSOM Tree(样式树)"></a>2.CSSOM Tree(样式树)</h3><blockquote>
+<p>把所有的样式资源请求加载回来后，按照引入CSS的顺序，依次渲染样式代码，生成样式树</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/26b05db0-0d1c-11eb-81ea-f115fe74321c.png">
+
+<h3 id="3-RENDER-TREE-渲染树"><a href="#3-RENDER-TREE-渲染树" class="headerlink" title="3.RENDER TREE(渲染树)"></a>3.RENDER TREE(渲染树)</h3><blockquote>
+<p>把生成的DOM树和CSSOM树合并在一起，生成渲染树（设置display:none的元素不进行处理）</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/2e730f70-0d1c-11eb-9dfb-6da8e309e0d8.png">
+
+<h3 id="4-Layout-布局-回流-重排"><a href="#4-Layout-布局-回流-重排" class="headerlink" title="4.Layout 布局/回流/重排"></a>4.Layout 布局/回流/重排</h3><blockquote>
+<p>根据生成的渲染树，计算它们在设备视口(viewport)内的确切位置和大小</p>
+</blockquote>
+<h3 id="5-分层处理"><a href="#5-分层处理" class="headerlink" title="5.分层处理"></a>5.分层处理</h3><blockquote>
+<p>按照层级定位分层处理，每一个层级都有会详细规划出具体的绘制步骤</p>
+</blockquote>
+<p>具体的绘制过程可以查看代码调试工具的 More-tools 下的 Layers</p>
+<h3 id="6-Painting"><a href="#6-Painting" class="headerlink" title="6.Painting"></a>6.Painting</h3><blockquote>
+<p>按照每一个层级计算处理的绘制步骤，开始绘制页面</p>
+</blockquote>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/35dcf2d0-0d1c-11eb-b997-9918a5dda011.png">
     </div>
 
     
@@ -400,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器获取资源"><span class="nav-number">1.</span> <span class="nav-text">浏览器获取资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染解析代码"><span class="nav-number">2.</span> <span class="nav-text">浏览器渲染解析代码</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器获取资源"><span class="nav-number">1.</span> <span class="nav-text">浏览器获取资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染解析代码"><span class="nav-number">2.</span> <span class="nav-text">浏览器渲染解析代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面渲染步骤"><span class="nav-number">3.</span> <span class="nav-text">页面渲染步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DOM-Tree-DOM树"><span class="nav-number">3.1.</span> <span class="nav-text">1.DOM Tree(DOM树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSSOM-Tree-样式树"><span class="nav-number">3.2.</span> <span class="nav-text">2.CSSOM Tree(样式树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RENDER-TREE-渲染树"><span class="nav-number">3.3.</span> <span class="nav-text">3.RENDER TREE(渲染树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Layout-布局-回流-重排"><span class="nav-number">3.4.</span> <span class="nav-text">4.Layout 布局/回流/重排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-分层处理"><span class="nav-number">3.5.</span> <span class="nav-text">5.分层处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Painting"><span class="nav-number">3.6.</span> <span class="nav-text">6.Painting</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

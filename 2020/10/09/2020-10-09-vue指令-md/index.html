@@ -58,7 +58,7 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="Vue指令系统 Vue作为一款框架，它规定了自己的指令语法，用户通过指令实现相对应的功能，不需要关注底层是怎样运行的，只需要通过指令来操作模板即可（指令都是 v-xxx 行内属性）">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-10-09T12:08:36.142Z">
+<meta property="og:updated_time" content="2020-10-13T13:27:09.358Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/10/09/2020-10-09-vue%E6%8C%87%E4%BB%A4-md/">
@@ -237,10 +237,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-10-09 19:57:12 / 修改时间：20:08:36" itemprop="dateCreated datePublished" datetime="2020-10-09T19:57:12+08:00">2020-10-09</time>
+              <time title="创建时间：2020-10-09 19:57:12" itemprop="dateCreated datePublished" datetime="2020-10-09T19:57:12+08:00">2020-10-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-13 21:27:09" itemprop="dateModified" datetime="2020-10-13T21:27:09+08:00">2020-10-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -337,7 +343,7 @@
 <ul>
 <li>是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。</li>
 <li><strong>惰性</strong>：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。</li>
-<li>在源码中通过一个三元表达式判断v-if的条件是否为真，符合的时候就使用creatElement渲染一个真实的标签，不符合条件就渲染一个空标签</li>
+<li>在源码中通过一个三元表达式判断v-if的条件是否为真，符合的时候就使用creatElement渲染一个真实的标签，不符合条件就什么都不做</li>
 </ul>
 <p>v-show</p>
 <ul>

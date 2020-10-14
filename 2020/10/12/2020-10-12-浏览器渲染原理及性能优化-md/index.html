@@ -65,7 +65,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;26b05db0-0d1c-11eb-81ea-f115fe74321c.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;2e730f70-0d1c-11eb-9dfb-6da8e309e0d8.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;35dcf2d0-0d1c-11eb-b997-9918a5dda011.png">
-<meta property="og:updated_time" content="2020-10-13T14:20:13.848Z">
+<meta property="og:updated_time" content="2020-10-14T03:04:54.051Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;3aa0ea20-0c85-11eb-9dfb-6da8e309e0d8.png">
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-13 22:20:13" itemprop="dateModified" datetime="2020-10-13T22:20:13+08:00">2020-10-13</time>
+                <time title="修改时间：2020-10-14 11:04:54" itemprop="dateModified" datetime="2020-10-14T11:04:54+08:00">2020-10-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,7 +310,7 @@
 <li>GUI渲染线程同步操作都处理完成后，再把基于HTTP图片络线程请求回来的资源文件进行解析渲染</li>
 </ul>
 </li>
-<li><p>遇到@import “导入式样式”</p>
+<li><p>遇到<code>@import</code> “导入式样式”</p>
 <ul>
 <li>“同步” 开辟一个新的“HTTP网络请求线程”去请求资源文件</li>
 <li>但是在资源文件没有请求回来之前，GUI渲染线程会被“阻塞”，不允许其继续向下渲染</li>
@@ -372,6 +372,82 @@
 <p>按照每一个层级计算处理的绘制步骤，开始绘制页面</p>
 </blockquote>
 <img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/35dcf2d0-0d1c-11eb-b997-9918a5dda011.png">
+
+<h2 id="前端性能优化：「CRP：关键渲染路径」"><a href="#前端性能优化：「CRP：关键渲染路径」" class="headerlink" title="前端性能优化：「CRP：关键渲染路径」"></a>前端性能优化：「CRP：关键渲染路径」</h2><h3 id="1-DOM-Tree"><a href="#1-DOM-Tree" class="headerlink" title="1. DOM Tree"></a>1. DOM Tree</h3><ul>
+<li>减少DOM的层级嵌套</li>
+<li>不要使用“非标准”的标签</li>
+</ul>
+<h3 id="2-CSSOM-Tree"><a href="#2-CSSOM-Tree" class="headerlink" title="2. CSSOM Tree"></a>2. CSSOM Tree</h3><ul>
+<li>尽可能不要使用@import（阻塞GUI渲染）</li>
+<li>如果CSS代码比较少，尽可能使用“style内嵌样式”（尤其是移动端开发）</li>
+<li>如果使用link，尽可能把所有的样式资源合并为一个，且压缩（减少HTTP请求数量，因为HTTP的并发性也是有限制的，以及渲染CSS的时候，也不需要再计算依赖关系…）</li>
+<li>CSS选择器链短一些（因为CSS选择器渲染是从右到左的）</li>
+<li>把link等导入CSS的操作放在HEAD中（目的是：一加载页面就开始请求资源，同时GUI去生成DOM树 “CSS等资源预先加载”）</li>
+</ul>
+<h3 id="3-对于其他资源的优化"><a href="#3-对于其他资源的优化" class="headerlink" title="3. 对于其他资源的优化"></a>3. 对于其他资源的优化</h3><ul>
+<li>对于<code>&lt;script&gt;</code>，尽可能放置在页面的底部（防止其阻塞GUI的渲染）；对于部分<code>&lt;script&gt;</code>需要使用async或者defer；</li>
+<li>async是不管JS的依赖关系的，哪一个资源先获取到，就先把这个资源代码渲染执行</li>
+<li>defer不会这样的，和link一样，是等待所有<code>&lt;script defer&gt;</code>都请求回来后，按照导入顺序/依赖关系依次渲染执行的 </li>
+</ul>
+<h3 id="4-对于-lt-img-gt"><a href="#4-对于-lt-img-gt" class="headerlink" title="4. 对于&lt;img&gt;"></a>4. 对于<code>&lt;img&gt;</code></h3><ul>
+<li>懒加载：第一次加载页面的时候不要加载请求图片，哪怕它是异步的，但是也占据了HTTP并发的数量，导致其他资源延后加载</li>
+<li>图片的BASE64：不用去请求加载图片，BASE64码基本上代表的就是图片，而且页面渲染图片的时候速度也会很快（慎用，但是在webpack工程化中可以使用，因为它基于file-loader可以自动base64）</li>
+<li>雪碧图</li>
+</ul>
+<h3 id="5-Layout-Painting：重要的优化手段（减少DOM的“回流-重排”和重绘）"><a href="#5-Layout-Painting：重要的优化手段（减少DOM的“回流-重排”和重绘）" class="headerlink" title="5. Layout/Painting：重要的优化手段（减少DOM的“回流/重排”和重绘）"></a>5. Layout/Painting：重要的优化手段（减少DOM的“回流/重排”和重绘）</h3><ul>
+<li><p>第一次加载页面必然会有一次回流和重绘</p>
+</li>
+<li><p>触发回流操作后，也必然绘触发重绘；如果只是单纯的重绘，则不会引发回流；性能优化点，重点都在回流上；</p>
+</li>
+<li><p>操作DOM消耗性能？ =&gt;DOM的回流</p>
+<ul>
+<li>元素在视口中的大小或者位置发生变化</li>
+<li>元素的删除或者新增（以及基于display控制显示隐藏）</li>
+<li>浏览器视口大小发生改变</li>
+<li>这些操作都需要浏览器重新计算每一个元素在视口中的位置和大小（也就是重新Layout/Reflow）</li>
+</ul>
+</li>
+<li><p>当代浏览的渲染队列机制</p>
+</li>
+</ul>
+<p>在当前上下文操作中，遇到一行修改样式的代码，并没有立即通知浏览器渲染，而是把其放置在渲染队列中，接下来看是否还有修改样式的代码，如果有继续放置在渲染队列中…一直到再也没有修改样式的代码或者“遇到一行获取样式的操作”，这样都会刷新浏览器的渲染队列机制（也就是把现在队列中修改样式的操作，统一告诉浏览器渲染，这样只会引发一次回流）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">box.style.width = &quot;100px&quot;;</span><br><span class="line">box.style.height = &quot;200px&quot;;</span><br><span class="line">box.offsetHeight; </span><br><span class="line">// box.style.xxx 或者 window.getComputedStyle(box).xxx 再或者 box.clientWidth|Height|Top|Left 以及 box.offsetWidth|Height|Top|Left 或者 box.scrollWidth|Height|Top|Left ...这些获取样式的操作都会刷新渲染队列</span><br><span class="line">box.style.position = &quot;absolute&quot;;</span><br><span class="line">box.style.top = &quot;100px&quot;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>优化思路：不要自己直接去操作DOM，例如vue/react</p>
+</blockquote>
+<ol>
+<li>样式的“分离读写”：把修改样式和获取样式代码分离开</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* box.style.width = &quot;100px&quot;;</span><br><span class="line"> * box.style.height = &quot;200px&quot;;</span><br><span class="line"> * box.style.position = &quot;absolute&quot;;</span><br><span class="line"> * box.style.top = &quot;100px&quot;;</span><br><span class="line"> * box.offsetHeight;</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">box.style.cssText = &quot;width:100px;height:200px;...&quot;;</span><br><span class="line">box.className = &quot;.boxActive&quot;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* box.style.width = box.offsetWidth + 10 + &apos;px&apos;;</span><br><span class="line"> * box.style.height = box.offsetHeight + 10 + &apos;px&apos;;</span><br><span class="line"> */</span><br><span class="line"> </span><br><span class="line">let w = box.offsetWidth,</span><br><span class="line">    h = box.offsetHeight;</span><br><span class="line">box.style.width = w + 10 + &apos;px&apos;;</span><br><span class="line">box.style.height = h + &apos;px&apos;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>新增元素</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let arr = [&quot;张三&quot;, &quot;李四&quot;, &quot;王五&quot;];</span><br><span class="line">// 循环几次引发几次回流</span><br><span class="line">arr.forEach(item =&gt; &#123;</span><br><span class="line">    let span = document.createElement(&apos;span&apos;);</span><br><span class="line">    span.innerText = item;</span><br><span class="line">    document.body.appendChild(span);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>模板字符串：可能因为把原始容器的内容变为字符串和新的字符串拼接，最后再整体渲染回去，导致原始容器中的元素绑定的一些事件失效…</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">let str = ``;</span><br><span class="line">arr.forEach(item =&gt; &#123;</span><br><span class="line">    str += `&lt;span&gt;</span><br><span class="line">        $&#123;item&#125;</span><br><span class="line">    &lt;/span&gt;`;</span><br><span class="line">&#125;);</span><br><span class="line">document.body.innerHTML += str;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>文档碎片：临时存放元素对象的容器</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">let frag = document.createDocumentFragment();</span><br><span class="line">arr.forEach(item =&gt; &#123;</span><br><span class="line">    let span = document.createElement(&apos;span&apos;);</span><br><span class="line">    span.innerText = item;</span><br><span class="line">    frag.appendChild(span);</span><br><span class="line">&#125;);</span><br><span class="line">document.body.appendChild(frag);</span><br><span class="line">frag = null;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>把动画等频发样式改变的操纵，运用到position:fixed/absolute…上 「脱离文档流：单独一层」</li>
+</ol>
+<blockquote>
+<p> 利用分层机制，如果只改变一个层面上的位置大小等信息，浏览器回流和重绘的速度会加快很多</p>
+</blockquote>
+<ol start="4">
+<li>修改元素的 transform / opacity（filters）… 的这些样式，不会引发DOM的回流 「浏览器的硬件加速，弊端就是消耗浏览器的内存」</li>
+</ol>
+
     </div>
 
     
@@ -442,7 +518,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器获取资源"><span class="nav-number">1.</span> <span class="nav-text">浏览器获取资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染解析代码"><span class="nav-number">2.</span> <span class="nav-text">浏览器渲染解析代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面渲染步骤"><span class="nav-number">3.</span> <span class="nav-text">页面渲染步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DOM-Tree-DOM树"><span class="nav-number">3.1.</span> <span class="nav-text">1.DOM Tree(DOM树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSSOM-Tree-样式树"><span class="nav-number">3.2.</span> <span class="nav-text">2.CSSOM Tree(样式树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RENDER-TREE-渲染树"><span class="nav-number">3.3.</span> <span class="nav-text">3.RENDER TREE(渲染树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Layout-布局-回流-重排"><span class="nav-number">3.4.</span> <span class="nav-text">4.Layout 布局/回流/重排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-分层处理"><span class="nav-number">3.5.</span> <span class="nav-text">5.分层处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Painting"><span class="nav-number">3.6.</span> <span class="nav-text">6.Painting</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器获取资源"><span class="nav-number">1.</span> <span class="nav-text">浏览器获取资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器渲染解析代码"><span class="nav-number">2.</span> <span class="nav-text">浏览器渲染解析代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面渲染步骤"><span class="nav-number">3.</span> <span class="nav-text">页面渲染步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DOM-Tree-DOM树"><span class="nav-number">3.1.</span> <span class="nav-text">1.DOM Tree(DOM树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSSOM-Tree-样式树"><span class="nav-number">3.2.</span> <span class="nav-text">2.CSSOM Tree(样式树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-RENDER-TREE-渲染树"><span class="nav-number">3.3.</span> <span class="nav-text">3.RENDER TREE(渲染树)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Layout-布局-回流-重排"><span class="nav-number">3.4.</span> <span class="nav-text">4.Layout 布局/回流/重排</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-分层处理"><span class="nav-number">3.5.</span> <span class="nav-text">5.分层处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Painting"><span class="nav-number">3.6.</span> <span class="nav-text">6.Painting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前端性能优化：「CRP：关键渲染路径」"><span class="nav-number">4.</span> <span class="nav-text">前端性能优化：「CRP：关键渲染路径」</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DOM-Tree"><span class="nav-number">4.1.</span> <span class="nav-text">1. DOM Tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CSSOM-Tree"><span class="nav-number">4.2.</span> <span class="nav-text">2. CSSOM Tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-对于其他资源的优化"><span class="nav-number">4.3.</span> <span class="nav-text">3. 对于其他资源的优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-对于-lt-img-gt"><span class="nav-number">4.4.</span> <span class="nav-text">4. 对于&lt;img&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Layout-Painting：重要的优化手段（减少DOM的“回流-重排”和重绘）"><span class="nav-number">4.5.</span> <span class="nav-text">5. Layout/Painting：重要的优化手段（减少DOM的“回流/重排”和重绘）</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

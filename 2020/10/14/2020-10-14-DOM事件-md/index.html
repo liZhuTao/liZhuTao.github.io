@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="什么是事件 document.body.onclick = function(){} 是给body绑定点击事件？  事件：是浏览器赋予元素的默认行为，可以理解为天生自带的，不论我们是否为其绑定方法，当某些行为触发的时候，相关的事件都会被触发执行 事件绑定：给元素的默认行为绑定方法，这样可以在行为触发的时候，执行这个方法（如果不为某个事件绑定方法，事件还是会被触发，只是什么都不做）">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DOM事件">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;14&#x2F;2020-10-14-DOM%E4%BA%8B%E4%BB%B6-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="什么是事件 document.body.onclick = function(){} 是给body绑定点击事件？  事件：是浏览器赋予元素的默认行为，可以理解为天生自带的，不论我们是否为其绑定方法，当某些行为触发的时候，相关的事件都会被触发执行 事件绑定：给元素的默认行为绑定方法，这样可以在行为触发的时候，执行这个方法（如果不为某个事件绑定方法，事件还是会被触发，只是什么都不做）">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
+<meta property="og:updated_time" content="2020-10-14T14:34:22.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/10/14/2020-10-14-DOM%E4%BA%8B%E4%BB%B6-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>DOM事件 | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/10/14/2020-10-14-DOM%E4%BA%8B%E4%BB%B6-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          DOM事件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-10-14 22:33:28 / 修改时间：22:34:22" itemprop="dateCreated datePublished" datetime="2020-10-14T22:33:28+08:00">2020-10-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="什么是事件"><a href="#什么是事件" class="headerlink" title="什么是事件"></a>什么是事件</h2><blockquote>
+<p><code>document.body.onclick = function(){}</code> 是给body绑定点击事件？</p>
+</blockquote>
+<p><strong>事件</strong>：是浏览器赋予元素的默认行为，可以理解为天生自带的，不论我们是否为其绑定方法，当某些行为触发的时候，相关的事件都会被触发执行</p>
+<p><strong>事件绑定</strong>：给元素的默认行为绑定方法，这样可以在行为触发的时候，执行这个方法（如果不为某个事件绑定方法，事件还是会被触发，只是什么都不做）</p>
+<a id="more"></a>
+
+<h3 id="常见事件行为"><a href="#常见事件行为" class="headerlink" title="常见事件行为"></a>常见事件行为</h3><h4 id="鼠标事件"><a href="#鼠标事件" class="headerlink" title="鼠标事件"></a>鼠标事件</h4><ul>
+<li><code>click</code> <strong>点击事件</strong>(PC端：频繁点击N次，触发N次点击事件)<strong>单击事件</strong>(移动端：300ms内没有发生第二次点击事件，算作单击事件行为，所以click在移动端有300ms的延迟)</li>
+<li><code>dbclick</code> 双击事件</li>
+<li><code>contextmenu</code> 鼠标右键点击触发</li>
+<li><code>mousedown</code> 鼠标按下</li>
+<li><code>mouseup</code> 鼠标抬起</li>
+<li><code>mousemove</code> 鼠标移动</li>
+<li><code>mouseover</code> 鼠标滑入</li>
+<li><code>mouseout</code> 鼠标滑出</li>
+<li><code>mouseenter</code> 鼠标进入</li>
+<li><code>mouseleave</code> 鼠标离开</li>
+<li><code>wheel</code> 鼠标滚轮滚动</li>
+</ul>
+<h4 id="键盘事件"><a href="#键盘事件" class="headerlink" title="键盘事件"></a>键盘事件</h4><ul>
+<li><code>keydown</code> 键盘按下</li>
+<li><code>keyup</code> 键盘抬起</li>
+<li><code>keypress</code> 长按（除Shift/Fn/CapsLock健之外）</li>
+</ul>
+<h4 id="手指事件"><a href="#手指事件" class="headerlink" title="手指事件"></a>手指事件</h4><blockquote>
+<p>Touch Event 单手指事件模型</p>
+</blockquote>
+<ul>
+<li><code>touchstart</code> 手指按下</li>
+<li><code>touchmove</code> 手指移动</li>
+<li><code>touchend</code> 手指松开</li>
+</ul>
+<blockquote>
+<p>Gesture Event 多手指事件模型</p>
+</blockquote>
+<h4 id="表单事件"><a href="#表单事件" class="headerlink" title="表单事件"></a>表单事件</h4><ul>
+<li><code>focus</code> 获取焦点</li>
+<li><code>blur</code> 失去焦点</li>
+<li><code>submit</code> 表单提交（前提：表单元素都包含在form中，并且点击的按钮是submit）</li>
+<li><code>reset</code> 表单重置（前提：表单元素都包含在form中，并且点击的按钮是reset）</li>
+<li><code>select</code> 下拉框内容选中</li>
+<li><code>change</code> 内容改变</li>
+<li><code>input</code> 移动端中，监控文本框中的内容随着输入改变而触发</li>
+</ul>
+<h4 id="资源事件"><a href="#资源事件" class="headerlink" title="资源事件"></a>资源事件</h4><ul>
+<li><code>load</code> 加载成功（ window.onload/img.onload ）</li>
+<li><code>error</code> 加载失败</li>
+<li><code>beforeunload</code> 资源卸载之前（ window.onbeforeunload 页面关闭之前触发 ）</li>
+</ul>
+<h4 id="CSS3过渡事件"><a href="#CSS3过渡事件" class="headerlink" title="CSS3过渡事件"></a>CSS3过渡事件</h4><ul>
+<li><code>transitionstart</code> CSS过渡开始</li>
+<li><code>transitionend</code> CSS过渡已经完成</li>
+<li><code>transitionrun</code> CSS过渡运行中</li>
+</ul>
+<h4 id="视图事件"><a href="#视图事件" class="headerlink" title="视图事件"></a>视图事件</h4><ul>
+<li><code>resize</code> 元素或窗口大小改变</li>
+<li><code>scroll</code> 滚动事件</li>
+</ul>
+<h2 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h2><h3 id="DOM0级事件绑定"><a href="#DOM0级事件绑定" class="headerlink" title="DOM0级事件绑定"></a>DOM0级事件绑定</h3><blockquote>
+<p>给元素默认的事件行为绑定方法，这样可以在行为触发的时候，执行这个方法</p>
+</blockquote>
+<pre><code>语法：[元素].on[事件]=[函数]
+document.body.onclick = function(){}
+
+移除绑定：赋值为null或者其他非函数的值
+document.body.onclick = null</code></pre><blockquote>
+<p>原理：每一个DOM元素对象上的私有属性上都有很多类似于“onxxxx”的私有属性，我们为这些属性赋值，就是DOM0级事件绑定</p>
+</blockquote>
+<ul>
+<li>如果没有对应事件的事件属性（如：DOMContentLoaded）则无法基于这种办法实现事件绑定</li>
+<li>只能给当前元素的某个事件绑定一个方法，绑定多个最后一个会将之前绑定的覆盖</li>
+<li>优势是执行效率快，使用方便</li>
+</ul>
+<h3 id="DOM2级事件"><a href="#DOM2级事件" class="headerlink" title="DOM2级事件"></a>DOM2级事件</h3><pre><code>语法：[元素].addEventListener([事件},[方法],[捕获/冒泡])
+document.body.addEventListener(click,fn1,flase);
+
+移除：[元素].removeEventListener([事件},[方法],[捕获/冒泡]) 需要与添加时的参数一致
+document.body.removeEventListener(click,fn1,flase);</code></pre><blockquote>
+<p>原理：每一个DOM元素都会基于原型链的查找机制，找到<strong>EventTarget.prototype</strong>上的<code>addEventListener</code>和<code>removeEventListener</code>等方法，基于这些方法实现的事件绑定和移除采用的是<code>事件池机制</code>-<code>Event Pool</code></p>
+</blockquote>
+<ul>
+<li>DOM2级事件绑定，绑定的方法一般不写匿名函数，主要是方便移除事件的时候使用</li>
+<li>凡是浏览器提供的事件行为，都可以基于这种模式完成事件绑定和移除（DOMContentLoaded也可以添加）</li>
+<li>可以同时给当前元素绑定多个不同的方法（进入事件池）,这样事件行为触发，会从事件池中按照绑定的；顺序依次取出执行</li>
+</ul>
+<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
+
+<h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><blockquote>
+<p>给当前元素的某个事件行为绑定方法，当事件行为触发，不仅会把绑定的方法执行，还会给方法默认传递一个参数，这个参数就是事件对象</p>
+</blockquote>
+<p><strong>事件对象</strong>：存储当前事件操作及触发的相关信息（浏览器记录的当前操作的信息，和在那个函数中无关）</p>
+<h3 id="MouseEvent-鼠标事件对象及常用属性"><a href="#MouseEvent-鼠标事件对象及常用属性" class="headerlink" title="MouseEvent 鼠标事件对象及常用属性"></a>MouseEvent 鼠标事件对象及常用属性</h3><table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>type</code></td>
+<td align="left">发生的事件的类型，例如”click”, “mouseover”</td>
+</tr>
+<tr>
+<td align="left"><code>target,srcElement</code></td>
+<td align="left">发生事件的节点，可能与currentTarget不同</td>
+</tr>
+<tr>
+<td align="left"><code>currentTarget</code></td>
+<td align="left">正在处理事件的节点，如果在capturing阶段和冒泡阶段处理事件，这个属性就与target属性不同。在事件监听函数中应该用这个属性而不是this</td>
+</tr>
+<tr>
+<td align="left"><code>stopPropagation()</code></td>
+<td align="left">可以阻止事件从当前正在处理他的节点传播</td>
+</tr>
+<tr>
+<td align="left"><code>preventDefault()</code></td>
+<td align="left">阻止浏览器执行与事件相关的默认动作，与0级DOM中返回false一样</td>
+</tr>
+<tr>
+<td align="left"><code>clientX, clientY</code></td>
+<td align="left">鼠标相对于浏览器的x坐标y坐标</td>
+</tr>
+<tr>
+<td align="left"><code>screenX, screenY</code></td>
+<td align="left">鼠标相对于显示器左上角的x坐标y坐标</td>
+</tr>
+<tr>
+<td align="left"><code>pageX,pageY</code></td>
+<td align="left">鼠标相对于页面的x坐标y坐标</td>
+</tr>
+<tr>
+<td align="left"><code>path</code></td>
+<td align="left">记录事件的传播路径</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>IE6-8不兼容preventDefault()和stopPropagation()，可以使用ev.renturnValue = false阻止默认行为,使用ev.canceBubble = true来阻止冒泡</p>
+</blockquote>
+<h3 id="键盘事件对象-KeyboardEvent"><a href="#键盘事件对象-KeyboardEvent" class="headerlink" title="键盘事件对象 KeyboardEvent"></a>键盘事件对象 KeyboardEvent</h3><ul>
+<li>key/code 存储按键名字</li>
+<li>which/KeyCode 获取按键的键盘码(Window)<ul>
+<li>方向键（左37 上38 右39 下40）</li>
+<li><code>Space</code> 32 </li>
+<li><code>BackSpace</code> 8</li>
+<li><code>Del</code> 46</li>
+<li><code>Enter</code> 13</li>
+<li><code>Shift</code> 16</li>
+<li><code>Ctrl</code> 17</li>
+<li><code>Alt</code> 18</li>
+</ul>
+</li>
+<li>altKey 是否按下alt键（组合按键）</li>
+<li>ctrlKey 是否按下ctrl键（组合按键）</li>
+<li>shiftKey 是否按下shift键（组合按键）</li>
+</ul>
+<h3 id="手指事件对象-移动端-TouchEvent"><a href="#手指事件对象-移动端-TouchEvent" class="headerlink" title="手指事件对象(移动端) TouchEvent"></a>手指事件对象(移动端) TouchEvent</h3><ul>
+<li>changedTouches / targetTouches / touches 都是用来记录手指的信息的，平时常用changedTouches<ul>
+<li>changedTouches 手指按下、移动、离开屏幕都会记录存储，手指离开也会记录最后一次信息</li>
+<li>touches 拿不到最后一次手指离开的信息</li>
+<li>获取到的结果都是TouchList集合，记录每一根手指信息</li>
+</ul>
+</li>
+<li>ev.changedTouches[0] 第一根手指信息 </li>
+</ul>
+<h3 id="普通事件对象-Event"><a href="#普通事件对象-Event" class="headerlink" title="普通事件对象 Event"></a>普通事件对象 Event</h3><h2 id="事件默认行为和事件传播机制"><a href="#事件默认行为和事件传播机制" class="headerlink" title="事件默认行为和事件传播机制"></a>事件默认行为和事件传播机制</h2><h3 id="阻止默认行为"><a href="#阻止默认行为" class="headerlink" title="阻止默认行为"></a>阻止默认行为</h3><blockquote>
+<p>浏览器会赋予元素很多默认行为，这些默认行为我们都可以基于ev.preventDefault来禁用默认行为</p>
+</blockquote>
+<ul>
+<li>鼠标右键菜单</li>
+<li>点击 <code>a</code> 标签实现页面跳转</li>
+<li>部分浏览器会记录输入记录，在下一次输入的时候有模糊匹配</li>
+<li>键盘按下会输入内容</li>
+</ul>
+<p><strong>参考文献</strong></p>
+<p><a href="https://juejin.im/post/6844903853956022285" target="_blank" rel="noopener">理解：javascript中DOM0,DOM2,DOM3级事件模型</a></p>
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/10/12/2020-10-12-%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E5%8E%9F%E7%90%86%E5%8F%8A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-md/" rel="next" title="浏览器渲染原理及性能优化">
+                  <i class="fa fa-chevron-left"></i> 浏览器渲染原理及性能优化
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是事件"><span class="nav-number">1.</span> <span class="nav-text">什么是事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见事件行为"><span class="nav-number">1.1.</span> <span class="nav-text">常见事件行为</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#鼠标事件"><span class="nav-number">1.1.1.</span> <span class="nav-text">鼠标事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#键盘事件"><span class="nav-number">1.1.2.</span> <span class="nav-text">键盘事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手指事件"><span class="nav-number">1.1.3.</span> <span class="nav-text">手指事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#表单事件"><span class="nav-number">1.1.4.</span> <span class="nav-text">表单事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#资源事件"><span class="nav-number">1.1.5.</span> <span class="nav-text">资源事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS3过渡事件"><span class="nav-number">1.1.6.</span> <span class="nav-text">CSS3过渡事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#视图事件"><span class="nav-number">1.1.7.</span> <span class="nav-text">视图事件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件绑定"><span class="nav-number">2.</span> <span class="nav-text">事件绑定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM0级事件绑定"><span class="nav-number">2.1.</span> <span class="nav-text">DOM0级事件绑定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM2级事件"><span class="nav-number">2.2.</span> <span class="nav-text">DOM2级事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件对象"><span class="nav-number">3.</span> <span class="nav-text">事件对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MouseEvent-鼠标事件对象及常用属性"><span class="nav-number">3.1.</span> <span class="nav-text">MouseEvent 鼠标事件对象及常用属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#键盘事件对象-KeyboardEvent"><span class="nav-number">3.2.</span> <span class="nav-text">键盘事件对象 KeyboardEvent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手指事件对象-移动端-TouchEvent"><span class="nav-number">3.3.</span> <span class="nav-text">手指事件对象(移动端) TouchEvent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通事件对象-Event"><span class="nav-number">3.4.</span> <span class="nav-text">普通事件对象 Event</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件默认行为和事件传播机制"><span class="nav-number">4.</span> <span class="nav-text">事件默认行为和事件传播机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阻止默认行为"><span class="nav-number">4.1.</span> <span class="nav-text">阻止默认行为</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

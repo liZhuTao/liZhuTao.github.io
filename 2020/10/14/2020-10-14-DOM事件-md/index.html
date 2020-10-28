@@ -58,11 +58,11 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="什么是事件 document.body.onclick = function(){} 是给body绑定点击事件？ 事件：是浏览器赋予元素的默认行为，可以理解为天生自带的，不论我们是否为其绑定方法，当某些行为触发的时候，相关的事件都会被触发执行">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;c462d3f0-0e91-11eb-8bd0-2998ac5bbf7e.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-10-15T03:39:21.339Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/10/14/2020-10-14-DOM%E4%BA%8B%E4%BB%B6-md/">
 
@@ -357,7 +357,7 @@ document.body.removeEventListener(click,fn1,flase);</code></pre><blockquote>
 <li>凡是浏览器提供的事件行为，都可以基于这种模式完成事件绑定和移除（DOMContentLoaded也可以添加）</li>
 <li>可以同时给当前元素绑定多个不同的方法（进入事件池）,这样事件行为触发，会从事件池中按照绑定的；顺序依次取出执行</li>
 </ul>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png">
 
 <h2 id="事件对象"><a href="#事件对象" class="headerlink" title="事件对象"></a>事件对象</h2><blockquote>
 <p>给当前元素的某个事件行为绑定方法，当事件行为触发，不仅会把绑定的方法执行，还会给方法默认传递一个参数，这个参数就是事件对象</p>
@@ -445,7 +445,7 @@ document.body.removeEventListener(click,fn1,flase);</code></pre><blockquote>
 <li>部分浏览器会记录输入记录，在下一次输入的时候有模糊匹配</li>
 <li>键盘按下会输入内容</li>
 </ul>
-<h3 id="事件传播机制"><a href="#事件传播机制" class="headerlink" title="事件传播机制"></a>事件传播机制</h3><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c462d3f0-0e91-11eb-8bd0-2998ac5bbf7e.png">
+<h3 id="事件传播机制"><a href="#事件传播机制" class="headerlink" title="事件传播机制"></a>事件传播机制</h3><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c462d3f0-0e91-11eb-8bd0-2998ac5bbf7e.png">
 
 <blockquote>
 <p>阶段一：捕获阶段（CAPTURING_PHASE） 从最外层元素一致向内层逐级查找，直到找到事件源为止；目的是为冒泡阶段的传播提供路径（ev.path存放的就是捕获阶段收集的传播路径）</p>
@@ -682,5 +682,10 @@ document.body.removeEventListener(click,fn1,flase);</code></pre><blockquote>
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

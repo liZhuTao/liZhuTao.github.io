@@ -58,10 +58,10 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="vuex 官网上介绍，Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;9ba18300-7268-11ea-b94e-47f67ecf8268.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-04-01T07:18:32.553Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;9ba18300-7268-11ea-b94e-47f67ecf8268.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/03/30/2020-03-30-vuex-md/">
 
@@ -289,7 +289,7 @@
 <h2 id="vuex核心"><a href="#vuex核心" class="headerlink" title="vuex核心"></a>vuex核心</h2><blockquote>
 <p>官网图片</p>
 </blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/9ba18300-7268-11ea-b94e-47f67ecf8268.jpg" >
 
 <h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><blockquote>
 <p>store相当于一个商店，不同的组件可以来商店来获取自己想要的商品，而state就相当于商店的货架，组件可以通多store.state.XXX获取需要的状态</p>
@@ -594,5 +594,10 @@ Action：可以异步，但不能直接操作State。</code></pre><blockquote>
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

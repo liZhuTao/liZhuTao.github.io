@@ -58,12 +58,12 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="Function内置类 所有函数都是Function内置类的实例，Function.prototype和其他构造函数的原型不同，它指向的不是一个对象，而是提个匿名的空函数。 虽然函数的原型指向的不是一个对象，但是这个匿名空函数的表现却和对象是一样的，没有任何区别，而且这个函数没有函数自带的属性prototype却存在对象的__proto__属性。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;0f45b3e0-f634-11ea-b997-9918a5dda011.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;72f71440-f63b-11ea-81ea-f115fe74321c.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;c3426dd0-f63d-11ea-8a36-ebb87efcf8c0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-09-14T04:11:53.265Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;0f45b3e0-f634-11ea-b997-9918a5dda011.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/09/14/2020-09-14-%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E8%A7%92%E8%89%B2%E4%BB%A5%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E7%BB%88%E6%9E%81%E6%96%B9%E6%A1%88-md/">
 
@@ -270,7 +270,7 @@
       
         <h3 id="Function内置类"><a href="#Function内置类" class="headerlink" title="Function内置类"></a>Function内置类</h3><blockquote>
 <p>所有函数都是Function内置类的实例，Function.prototype和其他构造函数的原型不同，它指向的不是一个对象，而是提个匿名的空函数。</p>
-</blockquote><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/0f45b3e0-f634-11ea-b997-9918a5dda011.jpg"><p>虽然函数的原型指向的不是一个对象，但是这个匿名空函数的表现却和对象是一样的，没有任何区别，而且这个函数没有函数自带的属性prototype却存在对象的__proto__属性。</p><a id="more"></a>
+</blockquote><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/0f45b3e0-f634-11ea-b997-9918a5dda011.jpg"><p>虽然函数的原型指向的不是一个对象，但是这个匿名空函数的表现却和对象是一样的，没有任何区别，而且这个函数没有函数自带的属性prototype却存在对象的__proto__属性。</p><a id="more"></a>
 
 
 
@@ -294,7 +294,7 @@
 <h3 id="终极版原型链"><a href="#终极版原型链" class="headerlink" title="终极版原型链"></a>终极版原型链</h3><blockquote>
 <p>从函数的第三种角色我们知道，所有的函数都是一个对象，那么函数就会带有对象自带的属性__proto__,既然每个函数都有原型链属性，那么在整个JS原型链生态中必然会有函数的参与。</p>
 </blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/72f71440-f63b-11ea-81ea-f115fe74321c.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/72f71440-f63b-11ea-81ea-f115fe74321c.png">
 
 <ol>
 <li>所有的内置类都是Function的实例（包括Object）</li>
@@ -308,7 +308,7 @@
 <p><strong>例题</strong>：阿里面试题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">    getName = function () &#123;</span><br><span class="line">        console.log(1);</span><br><span class="line">    &#125;;</span><br><span class="line">    return this;</span><br><span class="line">&#125;</span><br><span class="line">Foo.getName = function () &#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">&#125;;</span><br><span class="line">Foo.prototype.getName = function () &#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;;</span><br><span class="line">var getName = function () &#123;</span><br><span class="line">    console.log(4);</span><br><span class="line">&#125;;</span><br><span class="line">function getName() &#123;</span><br><span class="line">    console.log(5);</span><br><span class="line">&#125;</span><br><span class="line">Foo.getName();          // 2</span><br><span class="line">getName();              // 4</span><br><span class="line">Foo().getName();        // 1</span><br><span class="line">getName();              // 1</span><br><span class="line">new Foo.getName();      // 2</span><br><span class="line">new Foo().getName();    // 3</span><br><span class="line">new new Foo().getName();    //3</span><br></pre></td></tr></table></figure>
 
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c3426dd0-f63d-11ea-8a36-ebb87efcf8c0.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c3426dd0-f63d-11ea-8a36-ebb87efcf8c0.png">
     </div>
 
     
@@ -504,5 +504,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

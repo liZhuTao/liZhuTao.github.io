@@ -687,7 +687,7 @@
           <h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><blockquote>
 <p>webpack是一款基于node.js实现的，现代JavaScript应用程序的静态模块打包工具。</p>
 </blockquote>
-<p>官网图片<br><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/6f3171d0-fd6f-11ea-8ff1-d5dcf8779628.jpg"></p>
+<p>官网图片<br><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/6f3171d0-fd6f-11ea-8ff1-d5dcf8779628.jpg"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/23/2020-09-23-webpack--%E5%89%8D%E7%BD%AE%E7%AF%87-md/" rel="contents">
@@ -774,7 +774,7 @@
 <p>浅克隆只是对第一个级别进行克隆，如果第一级别中存在引用数据类型，那么只会复制他的引用地址。</p>
 </blockquote>
 <p>浅克隆的实现原理</p>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/063ed480-fa75-11ea-81ea-f115fe74321c.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/063ed480-fa75-11ea-81ea-f115fe74321c.png">
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/19/2020-09-19-%E6%95%B0%E7%BB%84%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D-md/" rel="contents">
@@ -1020,7 +1020,7 @@
       
           <h3 id="Function内置类"><a href="#Function内置类" class="headerlink" title="Function内置类"></a>Function内置类</h3><blockquote>
 <p>所有函数都是Function内置类的实例，Function.prototype和其他构造函数的原型不同，它指向的不是一个对象，而是提个匿名的空函数。</p>
-</blockquote><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/0f45b3e0-f634-11ea-b997-9918a5dda011.jpg"><p>虽然函数的原型指向的不是一个对象，但是这个匿名空函数的表现却和对象是一样的，没有任何区别，而且这个函数没有函数自带的属性prototype却存在对象的__proto__属性。</p>
+</blockquote><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/0f45b3e0-f634-11ea-b997-9918a5dda011.jpg"><p>虽然函数的原型指向的不是一个对象，但是这个匿名空函数的表现却和对象是一样的，没有任何区别，而且这个函数没有函数自带的属性prototype却存在对象的__proto__属性。</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/14/2020-09-14-%E5%87%BD%E6%95%B0%E7%9A%84%E4%B8%89%E7%A7%8D%E8%A7%92%E8%89%B2%E4%BB%A5%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9A%84%E7%BB%88%E6%9E%81%E6%96%B9%E6%A1%88-md/" rel="contents">
@@ -1199,5 +1199,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

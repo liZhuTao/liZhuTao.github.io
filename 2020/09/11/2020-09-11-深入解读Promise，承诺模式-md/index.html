@@ -58,14 +58,14 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="Promise Promise是ES6中新增的内置类：承诺模式，主要作用是用来规划异步编程的  123456&#x2F;* * let p1 = new Promise([executor]) *  + Promise 是一个内置类 *  + p1 是类的一个实例 *  + [executor] 可执行的回调函数（必须传递） *&#x2F;">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;1fedd4d0-f368-11ea-8a36-ebb87efcf8c0.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;074b14c0-f36c-11ea-8bd0-2998ac5bbf7e.jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;e19c85d0-f3f5-11ea-8ff1-d5dcf8779628.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;7a42e7c0-0bc5-11eb-8a36-ebb87efcf8c0.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;d4496970-0c50-11eb-b680-7980c8a877b8.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-10-12T06:59:51.924Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;1fedd4d0-f368-11ea-8a36-ebb87efcf8c0.jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/09/11/2020-09-11-%E6%B7%B1%E5%85%A5%E8%A7%A3%E8%AF%BBPromise%EF%BC%8C%E6%89%BF%E8%AF%BA%E6%A8%A1%E5%BC%8F-md/">
 
@@ -304,7 +304,7 @@
 <blockquote>
 <p>我们将p1在控制台中打印出来，会发现这个Promise实例上除了原型链之外还有两个私有属性，分别是[[PromiseState]]以及[[PromiseResult]]</p>
 </blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/1fedd4d0-f368-11ea-8a36-ebb87efcf8c0.jpg">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/1fedd4d0-f368-11ea-8a36-ebb87efcf8c0.jpg">
 
 <p><strong>实例属性</strong></p>
 <ul>
@@ -329,7 +329,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let p1 = new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">    resolve(10)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/074b14c0-f36c-11ea-8bd0-2998ac5bbf7e.jpg">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/074b14c0-f36c-11ea-8bd0-2998ac5bbf7e.jpg">
 
 <h4 id="Promise-prototype"><a href="#Promise-prototype" class="headerlink" title="Promise.prototype"></a>Promise.prototype</h4><ul>
 <li><code>then([A],[B])</code>：基于then方法存放两个回调函数A/B，当Promise状态为成功时执行A，状态为失败时执行B，并将<code>[[PromiseResult]]</code>的值传递给对应函数</li>
@@ -341,7 +341,7 @@
 <blockquote>
 <p>then方法也是同步操作，但是then的callback函数是异步的，then方法执行可以理解为将then中的callback函数存储在p1实例中，在Promise中resolve函数执行之后会通知存储在p1实例中对应的方法执行</p>
 </blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/e19c85d0-f3f5-11ea-8ff1-d5dcf8779628.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/e19c85d0-f3f5-11ea-8ff1-d5dcf8779628.png">
 
 
 <blockquote>
@@ -419,12 +419,12 @@
 <li>上一个Promise执行执行then预设的代码是异步的，而我们返回的新的Promise实例是同步的</li>
 <li>函数执行发生在定时器里面，返回新的Promise实例发生在then中，两个函数毫无关系，怎么让定时器通知then返回实例的状态</li>
 </ul>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/7a42e7c0-0bc5-11eb-8a36-ebb87efcf8c0.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/7a42e7c0-0bc5-11eb-8a36-ebb87efcf8c0.png">
 
 <blockquote>
 <p>为了解决上述问题，可以用函数包装的方式实现</p>
 </blockquote>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/d4496970-0c50-11eb-b680-7980c8a877b8.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/d4496970-0c50-11eb-b680-7980c8a877b8.png">
 
 <p><strong>改写then方法</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">MyPromise.prototype = &#123;</span><br><span class="line">    constructor: MyPromise,</span><br><span class="line">    then:function then(resolveFunc,rejectFunc)&#123;</span><br><span class="line">        //实现顺延效果</span><br><span class="line">        if(typeof resolveFunc !== &quot;function&quot;)&#123;</span><br><span class="line">            resolveFunc = function resolveFunc(result)&#123;</span><br><span class="line">                return MyPromise.resolve(result);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if(typeof rejectFunc !== &quot;function&quot;)&#123;</span><br><span class="line">            rejectFunc = function rejectFunc(reason)&#123;</span><br><span class="line">                return MyPromise.reject(reason);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // this.resolveFunc = resolveFunc;</span><br><span class="line">        // this.rejectFunc = rejectFunc;</span><br><span class="line"></span><br><span class="line">        return new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">             //执行不报错，返回新实例的状态是成功的（如果返回值是新Promise实例，则该实例的状态的成功和失败决定了返回实例的状态）</span><br><span class="line">             _this.resolveFunc = function(result)&#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    var x = resolveFunc(result);</span><br><span class="line">                    x instanceof Promise ?</span><br><span class="line">                        x.then(resolve,reject) :</span><br><span class="line">                        resolve(x);</span><br><span class="line">                &#125; catch (err) &#123;</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            _this.rejectFunc = function(reason)&#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    var x = rejectFunc(reason);</span><br><span class="line">                    x instanceof Promise ?</span><br><span class="line">                        x.then(resolve,reject) :</span><br><span class="line">                        resolve(x);</span><br><span class="line">                &#125; catch (err) &#123;</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">           </span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -646,5 +646,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

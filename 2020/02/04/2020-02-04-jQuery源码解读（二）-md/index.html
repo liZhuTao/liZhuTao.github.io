@@ -58,10 +58,10 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="jQuery核心 在上一篇文章中，我们知道jQuery函数是定义在B函数中的，也就是说主要的核心代码都是在自执行函数的回调函数中，上次我们讨论的是jQuery中的环境校验以及数据类型检测，这一章节开始介绍jQuery的一些核心代码  1234567891011121314151617(function(global,factory)&amp;#123;    &#x2F;&#x2F;...&amp;#125;)(typeof win">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;f7104210-0310-11eb-8a36-ebb87efcf8c0.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-10-01T02:38:00.626Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;f7104210-0310-11eb-8a36-ebb87efcf8c0.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/02/04/2020-02-04-jQuery%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB%EF%BC%88%E4%BA%8C%EF%BC%89-md/">
 
@@ -306,7 +306,7 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// 这里为了方便我们观看，还是先用B来接收这个函数</span><br><span class="line">var B = function(window,noGlobal)&#123;</span><br><span class="line">    /*</span><br><span class="line">     * jQuery核心源码</span><br><span class="line">     */</span><br><span class="line">    var version = &quot;3.5.1&quot;,</span><br><span class="line">        jQuery = function (selector, context) &#123;</span><br><span class="line">            return new jQuery.fn.init(selector, context);</span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">    jQuery.fn = jQuery.prototype = &#123;</span><br><span class="line">        constructor: jQuery,</span><br><span class="line">        jquery: version,</span><br><span class="line">        length:0,</span><br><span class="line">        //...</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    // $(...)执行是创造了init这类的一个实例，实例.__proto__===init.prototype===jQuery.prototype，所以也可以说$(...)创造出来的是jQuery类的一个实例 </span><br><span class="line">    //=&gt;“把jQuery当作普通函数执行，也可以创造它的一个实例「工厂模式」”</span><br><span class="line">    var init = jQuery.fn.init = function (selector, context, root) &#123; //... &#125;;</span><br><span class="line">    init.prototype = jQuery.fn;</span><br><span class="line">    </span><br><span class="line">     if (typeof noGlobal === &quot;undefined&quot;) &#123;</span><br><span class="line">        window.jQuery = window.$ = jQuery;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>init代理</strong><br><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/f7104210-0310-11eb-8a36-ebb87efcf8c0.png"></p>
+<p><strong>init代理</strong><br><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/f7104210-0310-11eb-8a36-ebb87efcf8c0.png"></p>
 <h3 id="init"><a href="#init" class="headerlink" title="init"></a>init</h3><blockquote>
 <p>通过选择器$(…)执行创造了init这类的一个实例，也是jQuery的实例是一个类数组集合，返回值通过<code>jQuery.makeArray</code>方法转换成一个类数组</p>
 </blockquote>
@@ -535,5 +535,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

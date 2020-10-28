@@ -58,11 +58,11 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="JS的底层运行机制JS的运行环境 浏览器(引擎) node(V8引擎) webview(V8引擎)">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-08-20T07:15:34.016Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/08/20/2020-08-20-JS%E7%9A%84%E5%BA%95%E5%B1%82%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%EF%BC%88%E5%A0%86%E6%A0%88%E5%86%85%E5%AD%98%EF%BC%89-md/">
 
@@ -296,14 +296,14 @@
 </blockquote>
 </li>
 </ul>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/525fa4c0-e1ed-11ea-8bd0-2998ac5bbf7e.png">
 
 <h4 id="函数的创建和执行"><a href="#函数的创建和执行" class="headerlink" title="函数的创建和执行"></a>函数的创建和执行</h4><blockquote>
 <p>函数创建时，会新建一个堆内存来存储代码块。在函数执行时，会取出存放在堆中的代码，同时创建一个EC（函数的执行上下文）来供代码执行。</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var x =[12,23]</span><br><span class="line">function fn(y)&#123;</span><br><span class="line">    y[0] = 100;</span><br><span class="line">    y = [100];</span><br><span class="line">    y[1] = 200;</span><br><span class="line">    console.log(y);</span><br><span class="line">&#125;</span><br><span class="line">fn(x);</span><br><span class="line">console.log(x);</span><br></pre></td></tr></table></figure>
 
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/aa97b860-e212-11ea-8ff1-d5dcf8779628.png">
 
 <p><strong>创建函数</strong></p>
 <ol>
@@ -529,5 +529,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

@@ -58,10 +58,10 @@
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="call 函数.call([context],parmas1,parmas2,…)   函数执行，将函数的this指向[context],并将parmas1、parmas2…作为实参传递给函数">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;308f85c0-f7f2-11ea-81ea-f115fe74321c.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-09-17T04:03:24.440Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;vkceyugu.cdn.bspapp.com&#x2F;VKCEYUGU-blogimg&#x2F;308f85c0-f7f2-11ea-81ea-f115fe74321c.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
 <link rel="canonical" href="https://lizhutao.github.io.git/2020/09/16/2020-09-16-%E6%89%8B%E6%92%95call%E3%80%81apply%E3%80%81bind%E6%BA%90%E7%A0%81-md/">
 
@@ -301,7 +301,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.call = function call(context,...parmas)&#123;</span><br><span class="line">    //this =&gt; 当前执行的函数实例</span><br><span class="line">    //context =&gt; 给函数要改变的this ,类型处理：基本类型值无法添加自定义属性</span><br><span class="line">    //...parmas =&gt; 给函数出入的参数信息</span><br><span class="line">    </span><br><span class="line">    context == null ? context = window : null;</span><br><span class="line">    !/^(Function|Object)$/i.test(typeOf context) ? context = Object(context) : null;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    let result，</span><br><span class="line">        key = Symbol(&apos;key&apos;);</span><br><span class="line">    context[key] = this;</span><br><span class="line">    result = context[key](...parmas);</span><br><span class="line">    delete context[key];</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="通过一个面试题，深入理解call"><a href="#通过一个面试题，深入理解call" class="headerlink" title="通过一个面试题，深入理解call"></a>通过一个面试题，深入理解call</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var name = &apos;Bsmall&apos;;</span><br><span class="line">function A(x,y)&#123;</span><br><span class="line">    var res=x+y;</span><br><span class="line">    console.log(res,this.name);</span><br><span class="line">&#125;</span><br><span class="line">function B(x,y)&#123;</span><br><span class="line">    var res=x-y;</span><br><span class="line">    console.log(res,this.name);</span><br><span class="line">&#125;</span><br><span class="line">B.call(A,40,30);    // 10 A</span><br><span class="line">B.call.call.call(A,20,10);  // NaN undefined</span><br><span class="line">Function.prototype.call(A,60,50);   // undefined</span><br><span class="line">Function.prototype.call.call.call(A,80,70); //undefined</span><br></pre></td></tr></table></figure>
-<img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/308f85c0-f7f2-11ea-81ea-f115fe74321c.png">
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/308f85c0-f7f2-11ea-81ea-f115fe74321c.png">
 
 <h3 id="apply"><a href="#apply" class="headerlink" title="apply"></a>apply</h3><blockquote>
 <p>apply和call没有本质上的区别，他们唯一的区别是传参的形式不同，apply需要将传入的参数以数组的形式传入</p>
@@ -521,5 +521,10 @@
 
   
 
-</body>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
 </html>

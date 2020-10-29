@@ -50,32 +50,28 @@
   };
 </script>
 
-  <meta name="description" content="数组去重的方法">
-<meta name="keywords" content="JavaScript">
-<meta property="og:type" content="article">
-<meta property="og:title" content="数组去重">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2019&#x2F;11&#x2F;26&#x2F;2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md&#x2F;index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Bsmall">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;page&#x2F;6&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="数组去重的方法">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-04-01T07:23:07.428Z">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/page/6/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true,
+    isHome: true,
+    isPost: false,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>数组去重 | Bsmall</title>
+  <title>Bsmall</title>
   
 
 
@@ -211,10 +207,10 @@
             
 
   <div class="posts-expand">
-      
+        
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -228,7 +224,8 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          数组去重
+          
+            <a href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" class="post-title-link" itemprop="url">数组去重</a>
         </h1>
 
         <div class="post-meta">
@@ -270,67 +267,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2><a id="more"></a>
-<h3 id="方法一：创建新数组"><a href="#方法一：创建新数组" class="headerlink" title="方法一：创建新数组"></a>方法一：创建新数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let newAry = [];</span><br><span class="line">for (let i = 0; i &lt; ary.length; i++)&#123;</span><br><span class="line">	let item = ary[i];</span><br><span class="line">	if(newAry.includes(item))&#123;</span><br><span class="line">		continue;</span><br><span class="line">	&#125;</span><br><span class="line">	newAry.push(item);</span><br><span class="line">&#125;</span><br><span class="line">console.log(ary,newAry);</span><br><span class="line"></span><br><span class="line">//代码优化</span><br><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let newAry = [];</span><br><span class="line">ary.forEach(item=&gt;&#123;</span><br><span class="line">	if(newAry.includes(item))	return;</span><br><span class="line">	newAry.push(item);</span><br><span class="line">&#125;)</span><br><span class="line">console.log(ary,newAry);</span><br></pre></td></tr></table></figure>
-
-<h3 id="方法二：嵌套for循环操作原有数组"><a href="#方法二：嵌套for循环操作原有数组" class="headerlink" title="方法二：嵌套for循环操作原有数组"></a>方法二：嵌套for循环操作原有数组</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">for (let i = 0; i &lt; ary.length; i++) &#123;</span><br><span class="line">	let item = ary[i];</span><br><span class="line">	for (let j = i + 1; j &lt; ary.length; j++) &#123;</span><br><span class="line">		let item2 = ary[j];</span><br><span class="line">		if (item === item2)&#123;</span><br><span class="line">			ary.splice(j,1);  //数组塌陷</span><br><span class="line">			j--;          //解决数组塌陷问题</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(ary);  =&gt;//[1, 2, 3]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p> 数组的splice方法在操作数组的时候会导致数组塌陷问题</p>
-</blockquote>
-<h3 id="方法三：新建对象比较"><a href="#方法三：新建对象比较" class="headerlink" title="方法三：新建对象比较"></a>方法三：新建对象比较</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let obj = &#123;&#125;;</span><br><span class="line">for (let i = 0; i &lt; ary.length; i++) &#123;</span><br><span class="line">	let item = ary[i];</span><br><span class="line">	if (obj[item] === item) &#123;   //或  obj[item] !== undefined</span><br><span class="line">		ary.splice(i, 1);</span><br><span class="line">		i--;</span><br><span class="line">	&#125;</span><br><span class="line">	obj[item] = item;</span><br><span class="line">&#125;</span><br><span class="line">console.log(ary);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>操作数据大时，性能不好</p>
-</blockquote>
-<h3 id="方法四-遇到重复项将最后一项赋值给当前项，并删除最后一项"><a href="#方法四-遇到重复项将最后一项赋值给当前项，并删除最后一项" class="headerlink" title="方法四:遇到重复项将最后一项赋值给当前项，并删除最后一项"></a>方法四:遇到重复项将最后一项赋值给当前项，并删除最后一项</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let obj = &#123;&#125;;</span><br><span class="line">for (let i = 0; i &lt; ary.length; i++) &#123;</span><br><span class="line">	let item = ary[i];</span><br><span class="line">	if (obj[item] !== undefined) &#123;  //obj中有这一项</span><br><span class="line">		ary[i] == ary[ary.length-1];</span><br><span class="line">		ary.length--;</span><br><span class="line">		i--;</span><br><span class="line">		continue;</span><br><span class="line">	&#125;</span><br><span class="line">	obj[item] = item;</span><br><span class="line">&#125;</span><br><span class="line">console.log(ary);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>操作数据比较大的时候，性能比较好；</p>
-</blockquote>
-<h3 id="方法五：ES6数据结构–set-方法"><a href="#方法五：ES6数据结构–set-方法" class="headerlink" title="方法五：ES6数据结构–set()方法"></a>方法五：ES6数据结构–set()方法</h3><blockquote>
-<p>ES6新增的一种新的数据结构，类似于数组，但成员是唯一的且无序的，没有重复值。Set本身是一种构造函数，用来生成Set数据结构。Set对象允许你存储任何类型的唯一值，无论是原始值还是对象引用。</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let ary = [1, 2, 3, 1, 2, 3, 1, 2, 3];</span><br><span class="line">let ary1 = [...new Set(ary)];  //使用剩余参数转数组</span><br><span class="line">console.log(ary1);</span><br></pre></td></tr></table></figure>
+          <h2 id="数组去重的方法"><a href="#数组去重的方法" class="headerlink" title="数组去重的方法"></a>数组去重的方法</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/26/2019-11-26-%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D-md/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
     
     
     
-      <div>
-        
-          <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    
-</div>
-        
-      </div>
-
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          </div>
-
-        
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2019/11/26/2019-11-26-queryURLParams-md/" rel="prev" title="封装queryURLParams函数">
-                  封装queryURLParams函数 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        <div class="post-eof"></div>
       </footer>
-    
   </article>
   
   
   
 
   </div>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
+  </nav>
+
 
 
           </div>
@@ -359,7 +325,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数组去重的方法"><span class="nav-number">1.</span> <span class="nav-text">数组去重的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法一：创建新数组"><span class="nav-number">1.1.</span> <span class="nav-text">方法一：创建新数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二：嵌套for循环操作原有数组"><span class="nav-number">1.2.</span> <span class="nav-text">方法二：嵌套for循环操作原有数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法三：新建对象比较"><span class="nav-number">1.3.</span> <span class="nav-text">方法三：新建对象比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法四-遇到重复项将最后一项赋值给当前项，并删除最后一项"><span class="nav-number">1.4.</span> <span class="nav-text">方法四:遇到重复项将最后一项赋值给当前项，并删除最后一项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法五：ES6数据结构–set-方法"><span class="nav-number">1.5.</span> <span class="nav-text">方法五：ES6数据结构–set()方法</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

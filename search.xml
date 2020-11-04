@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>React生命周期以及PureComponent</title>
+      <link href="/2020/11/04/2020-11-04-React%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8APureComponent-md/"/>
+      <url>/2020/11/04/2020-11-04-React%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E4%BB%A5%E5%8F%8APureComponent-md/</url>
+      
+        <content type="html"><![CDATA[<h2 id="React生命周期函数"><a href="#React生命周期函数" class="headerlink" title="React生命周期函数"></a>React生命周期函数</h2><blockquote><p>在框架中开发中，都是框架底层处理我们编写的代码，从代码到页面展示的过程，React内部是经历过一些步骤的，官方为我们提供的生命周期函数，是让我们在代码解析到这个阶段的时候，能够执行我们所编写的业务逻辑。</p></blockquote><a id="more"></a><p>在新版的React中为我们提供了新的生命周期，并弃用了一些生命周期</p><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/881eece0-1b6f-11eb-899d-733ae62bed2f.webp"><h3 id="创建时"><a href="#创建时" class="headerlink" title="创建时"></a>创建时</h3><ul><li><code>constructor()</code></li></ul><blockquote><p>初始化属性和状态，是第一个生命周期</p></blockquote><ul><li><code>static getDerivedStateFromProps()</code></li></ul><blockquote><p>根据属性对象派生状态对象，简单理解就是说直接将props上的属性都挂在state上</p></blockquote><ul><li><code>render()</code></li></ul><blockquote><p>组件渲染时（挂载）</p></blockquote><ul><li><code>componentDidMount()</code></li></ul><blockquote><p>组件渲染（挂载）完成</p></blockquote><h3 id="更新时"><a href="#更新时" class="headerlink" title="更新时"></a>更新时</h3><ul><li><p><code>static getDerivedStateFromProps()</code></p></li><li><p><code>shouldComponentUpdate()</code></p><ul><li>true 允许更新继续向下执行</li><li>false 不允许更新，停止执行，不会调用之后的生命周期函数（状态更新，视图不更新）</li><li><code>forceUpdate</code>强制更新，直接跳过 shouldComponentUpdate 这层</li></ul></li></ul><blockquote><p>查看组件是否可以更新</p></blockquote><ul><li><code>render()</code></li></ul><blockquote><p>根据新的状态对象重新挂载(渲染)组件</p></blockquote><ul><li><code>getSnapshotBeforeUpdate()</code></li></ul><blockquote><p>在最近一次渲染输出（提交到 DOM 节点）之前调用。它使得组件能在发生更改之前从 DOM 中捕获一些信息（例如，滚动位置）。此生命周期的任何返回值将作为参数传递给 componentDidUpdate()</p></blockquote><ul><li><code>componentDidUpdate</code></li></ul><blockquote><p>组件更新完成</p></blockquote><h3 id="卸载时"><a href="#卸载时" class="headerlink" title="卸载时"></a>卸载时</h3><ul><li><code>componentWillUnmount</code></li></ul><blockquote><p>组件卸载之前</p></blockquote><h3 id="数据获取为什么一定要在componentDidMount里面调用"><a href="#数据获取为什么一定要在componentDidMount里面调用" class="headerlink" title="数据获取为什么一定要在componentDidMount里面调用"></a>数据获取为什么一定要在componentDidMount里面调用</h3><ul><li>constructor</li></ul><blockquote><p>constructor()中获取数据的话，如果时间太长，或者出错，组件就渲染不出来，整个页面都没法渲染了</p></blockquote><ul><li>componentWillMount()</li></ul><blockquote><ol><li>如果使用SSR（服务端渲染）,componentWillMount会执行2次，一次在服务端，一次在客户端。而componentDidMount不会。</li></ol></blockquote><blockquote><ol start="2"><li>React16之后采用了Fiber架构，只有componentDidMount声明周期函数是确定被执行一次的，类似componentWillMount的生命周期钩子都有可能执行多次，所以不加以在这些生命周期中做有副作用的操作，比如请求数据之类</li></ol></blockquote><ul><li>componentDidMount()</li></ul><blockquote><ol><li>确保已经render过一次。提醒我们正确地设置初始状态，这样就不会得到导致错误的undefined状态</li></ol></blockquote><blockquote><ol start="2"><li>componentDidMount方法中的代码，是在组件已经完全挂载到网页上才会调用被执行，所以可以保证数据的加载。此外，在这方法中调用setState方法，会触发重渲染。所以，官方设计这个方法就是用来加载外部数据用的，或处理其他的副作用代码</li></ol></blockquote><h3 id="新旧对比"><a href="#新旧对比" class="headerlink" title="新旧对比"></a>新旧对比</h3><ul><li><p>废弃</p><ul><li>componentWillMount</li><li>componentWillReceiveProps</li><li>componentWillUpdate</li></ul></li><li><p>增加了</p><ul><li>getDerivedStateFromProps</li><li>getSnapshotbeforeUpdate</li></ul></li></ul><blockquote><p>旧图</p></blockquote><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/89483860-1b74-11eb-8a36-ebb87efcf8c0.webp"><h2 id="PureComponent-纯粹组件"><a href="#PureComponent-纯粹组件" class="headerlink" title="PureComponent 纯粹组件"></a>PureComponent 纯粹组件</h2><blockquote><p>PureComponent 和 Component 的区别在于，PureComponent相当于默认给当前组件在<code>shouldComponentUpdate</code>设置为true</p></blockquote><ul><li>在这个函数中默认进行了关于<code>原始属性/状态</code>和<code>最新要修改的属性/状态</code>的一个<code>浅比较</code><ul><li>浅比较相当于<code>===</code>，对于基本数据类型值比较的是值</li><li>对于引用数据类型来说，浅比较只是比较引用地址（当堆的值改变时，地址没变，会被判断状态未修改，从而导致组件不会重新渲染）</li><li>为了防止PureComponent浅比较，我们一般将引用类型值克隆一份再重新复制</li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> react </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> react </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>React类组件</title>
       <link href="/2020/10/31/2020-10-31-React%E7%B1%BB%E7%BB%84%E4%BB%B6-md/"/>
       <url>/2020/10/31/2020-10-31-React%E7%B1%BB%E7%BB%84%E4%BB%B6-md/</url>

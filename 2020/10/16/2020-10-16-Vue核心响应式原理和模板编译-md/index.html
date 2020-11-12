@@ -54,22 +54,22 @@
 <meta name="keywords" content="vue">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue核心响应式原理和模板编译">
-<meta property="og:url" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;16&#x2F;2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;16&#x2F;2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="Vue响应式原理 Vue2.0是基于Object.defineProperty来实现数据劫持的，这也是Vue的核心api。当我们传入一个JavaScript对象来作为Vue的data属性，Vue在内部会遍历这个对象的所有属性，并通过Object.defineProperty来将数据劫持，转化为getter或setter，转化之后Vue就可以追踪依赖，在属性值访问和修改的时候通知变更。每一个组件实例">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-10-18T06:56:46.849Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
-<link rel="canonical" href="http://li_zhu_tao.gitee.io/lizhutao.github.io.git/2020/10/16/2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md/">
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/10/16/2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md/">
 
 
 <script id="page-configurations">
@@ -223,7 +223,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://li_zhu_tao.gitee.io/lizhutao.github.io.git/2020/10/16/2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md/">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/10/16/2020-10-16-Vue%E6%A0%B8%E5%BF%83%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86%E5%92%8C%E6%A8%A1%E6%9D%BF%E7%BC%96%E8%AF%91-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">

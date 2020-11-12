@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.0.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/lizhutao.github/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/lizhutao.github/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/lizhutao.github/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/lizhutao.github/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/lizhutao.github/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lizhutao.github/lib/font-awesome/css/font-awesome.min.css">
 
 
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    root: '/',
+    root: '/lizhutao.github/',
     scheme: 'Gemini',
     version: '7.5.0',
     exturl: false,
@@ -54,18 +54,18 @@
 <meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS同步异步编程及EventLoop机制">
-<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;01&#x2F;2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md&#x2F;index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;10&#x2F;01&#x2F;2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
 <meta property="og:description" content="JS中的同步异步编程 进程、线程  进程代表的是一个程序（浏览器开一个页卡就是一个进程） 线程是用来处理进程中的具体事物，如果一个进程中有很多事情要做，就可以开辟很多线程 一个线程同时只能做一件事  浏览器是多线程的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
 <meta property="og:updated_time" content="2020-10-03T13:08:33.866Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;li_zhu_tao.gitee.io&#x2F;images&#x2F;loading.png">
 
-<link rel="canonical" href="https://lizhutao.github.io.git/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
+<link rel="canonical" href="http://li_zhu_tao.gitee.io/lizhutao.github.io.git/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
 
 
 <script id="page-configurations">
@@ -121,7 +121,7 @@
   <div class="site-meta">
 
     <div>
-      <a href="/" class="brand" rel="start">
+      <a href="/lizhutao.github/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Bsmall</span>
         <span class="logo-line-after"><i></i></span>
@@ -144,27 +144,27 @@
   <ul id="menu" class="menu">
         <li class="menu-item menu-item-首页">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/lizhutao.github/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-关于">
 
-    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+    <a href="/lizhutao.github/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
 
   </li>
         <li class="menu-item menu-item-标签">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/lizhutao.github/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-分类">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/lizhutao.github/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-档案">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+    <a href="/lizhutao.github/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -219,10 +219,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
+    <link itemprop="mainEntityOfPage" href="http://li_zhu_tao.gitee.io/lizhutao.github.io.git/lizhutao.github/2020/10/01/2020-10-01-JS%E5%90%8C%E6%AD%A5%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%8F%8AEventLoop%E6%9C%BA%E5%88%B6-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/lizhutao.github/images/avatar.gif">
       <meta itemprop="name" content="liZhuTao">
       <meta itemprop="description" content="">
     </span>
@@ -257,7 +257,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                  <a href="/lizhutao.github/categories/JavaScript/" itemprop="url" rel="index">
                     <span itemprop="name">JavaScript</span>
                   </a>
                 </span>
@@ -385,14 +385,14 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+              <a href="/lizhutao.github/tags/JavaScript/" rel="tag"># JavaScript</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/09/27/2020-09-27-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A8%E8%A7%A3-md/" rel="next" title="正则表达式全解">
+                <a href="/lizhutao.github/2020/09/27/2020-09-27-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%85%A8%E8%A7%A3-md/" rel="next" title="正则表达式全解">
                   <i class="fa fa-chevron-left"></i> 正则表达式全解
                 </a>
             </div>
@@ -400,7 +400,7 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/10/08/2020-10-08-%E5%AD%A6%E4%B9%A0Vue%E4%B9%8B%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E7%9F%A5%E8%AF%86-md/" rel="prev" title="学习Vue之前你需要知道的知识">
+                <a href="/lizhutao.github/2020/10/08/2020-10-08-%E5%AD%A6%E4%B9%A0Vue%E4%B9%8B%E5%89%8D%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E7%9F%A5%E8%AF%86-md/" rel="prev" title="学习Vue之前你需要知道的知识">
                   学习Vue之前你需要知道的知识 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
@@ -448,25 +448,25 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <img class="site-author-image" itemprop="image" alt="liZhuTao"
-    src="/images/avatar.gif">
+    src="/lizhutao.github/images/avatar.gif">
   <p class="site-author-name" itemprop="name">liZhuTao</p>
   <div class="site-description" itemprop="description"></div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/archives">
+          <a href="/lizhutao.github/archives">
           <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
+            <a href="/lizhutao.github/categories/">
         <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/tags/">
+            <a href="/lizhutao.github/tags/">
         <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -531,12 +531,12 @@
   </div>
 
   
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
-<script src="/js/schemes/pisces.js"></script>
-<script src="/js/next-boot.js"></script>
+  <script src="/lizhutao.github/lib/anime.min.js"></script>
+  <script src="/lizhutao.github/lib/velocity/velocity.min.js"></script>
+  <script src="/lizhutao.github/lib/velocity/velocity.ui.min.js"></script>
+<script src="/lizhutao.github/js/utils.js"></script><script src="/lizhutao.github/js/motion.js"></script>
+<script src="/lizhutao.github/js/schemes/pisces.js"></script>
+<script src="/lizhutao.github/js/next-boot.js"></script>
 
 
 
@@ -545,7 +545,7 @@
 
 
 
-  <script src="/js/local-search.js"></script>
+  <script src="/lizhutao.github/js/local-search.js"></script>
 
 
 

@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="设计模式思想 所有的设计模式都是用来有效管理代码的（没有设计模式也能实现效果）  便捷开发 通俗易懂 便于维护 发布订阅设计模式 发布订阅设计模式是对观察者模式的升级（灵感来源于DOM2级事件），我们通过自定义事件池来模拟DOM2事件池">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发布订阅设计模式">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;11&#x2F;13&#x2F;2020-11-13-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="设计模式思想 所有的设计模式都是用来有效管理代码的（没有设计模式也能实现效果）  便捷开发 通俗易懂 便于维护 发布订阅设计模式 发布订阅设计模式是对观察者模式的升级（灵感来源于DOM2级事件），我们通过自定义事件池来模拟DOM2事件池">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:updated_time" content="2020-11-13T14:03:22.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/11/13/2020-11-13-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>发布订阅设计模式 | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/13/2020-11-13-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          发布订阅设计模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-13 22:02:17 / 修改时间：22:03:22" itemprop="dateCreated datePublished" datetime="2020-11-13T22:02:17+08:00">2020-11-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="设计模式思想"><a href="#设计模式思想" class="headerlink" title="设计模式思想"></a>设计模式思想</h2><blockquote>
+<p>所有的设计模式都是用来有效管理代码的（没有设计模式也能实现效果）</p>
+</blockquote><ul>
+<li>便捷开发</li>
+<li>通俗易懂</li>
+<li>便于维护</li>
+</ul><h2 id="发布订阅设计模式"><a href="#发布订阅设计模式" class="headerlink" title="发布订阅设计模式"></a>发布订阅设计模式</h2><blockquote>
+<p>发布订阅设计模式是对观察者模式的升级（灵感来源于DOM2级事件），我们通过自定义事件池来模拟DOM2事件池</p>
+</blockquote><a id="more"></a>
+
+
+<p><strong>DOM2事件池</strong><br><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/fe0ddf80-0e1b-11eb-b244-a9f5e5565f30.png"></p>
+<ul>
+<li>发布一个计划，并且向计划中订阅一个个方法</li>
+<li>当触发某个事件或某个阶段，我们可以通知计划中订阅的方法，按照顺序依次执行</li>
+</ul>
+<blockquote>
+<p>JQ中的发布订阅</p>
+</blockquote>
+<ul>
+<li><code>let plan = $Callback()</code> 创建一个新的自定义事件池</li>
+<li><code>plan.add(fn1)</code> 向事件池中订阅方法</li>
+<li><code>plan.remove(fn1)</code> 从事件池中移除方法</li>
+<li><code>plan.fire(...)</code> 通知事件池中的方法执行</li>
+</ul>
+<blockquote>
+<p>Redux中的发布订阅</p>
+</blockquote>
+<ul>
+<li>默认创建一个自定义事件池（一个页面只有一个事件池）</li>
+<li><code>let unsubscribe = subscribe(fn1)</code> 向事件池中订阅方法</li>
+<li><code>unsubscribe()</code> 订阅时的返回值（函数），是用来移除方法的</li>
+<li>内部通知执行（state中的数据变化的时候会默认通知事件池中的事件执行）</li>
+</ul>
+<blockquote>
+<p>Vue中的发布订阅(事件总线)</p>
+</blockquote>
+<ul>
+<li>默认创建一个事件池（一个页面只有一个）</li>
+<li><code>$on(&quot;AA&quot;,fn1)</code> 给某个自定义事件订阅方法</li>
+<li><code>$emit(&quot;AA&quot;,...)</code> 通知事件执行</li>
+</ul>
+<h3 id="发布订阅1-0"><a href="#发布订阅1-0" class="headerlink" title="发布订阅1.0"></a>发布订阅1.0</h3><blockquote>
+<p>基于单例设计模式：不支持自定义事件，一个页面只有一个事件池</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">let sub = (function()&#123;</span><br><span class="line">    //创建自定义事件池</span><br><span class="line">    let pond =[];</span><br><span class="line">    </span><br><span class="line">    //订阅、移除、通知执行</span><br><span class="line">    const on = function on(func)&#123;</span><br><span class="line">        // 去重处理</span><br><span class="line">        for(let i = 0; i &lt; pond.length; i++ )&#123;</span><br><span class="line">            if(pond[i]===func) return ;</span><br><span class="line">        &#125;</span><br><span class="line">        pond.push(func)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    const off = function off(func)&#123;</span><br><span class="line">        for(let i = 0 ; i &lt; pond.length; i++ )&#123;</span><br><span class="line">            if(pond[i] === func)&#123;</span><br><span class="line">                // pond.splice(i,1);   //数组塌陷 </span><br><span class="line">                pond[i] = null;  //直接赋值为null</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    const fire = function fire(...parmas)&#123;</span><br><span class="line">        for(let i = 0 ; i &lt; pond.length; i++ )&#123;</span><br><span class="line">            let itemFunc = pond[i];</span><br><span class="line">            if(typeof itemFunc !== &quot;function&quot;)&#123;</span><br><span class="line">                //在这里将null移除</span><br><span class="line">                pond.splice(i,1)</span><br><span class="line">                i--;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            itemFunc(...parmas)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    retrun&#123;</span><br><span class="line">        on,</span><br><span class="line">        off,</span><br><span class="line">        fire</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h3 id="发布订阅2-0"><a href="#发布订阅2-0" class="headerlink" title="发布订阅2.0"></a>发布订阅2.0</h3><blockquote>
+<p>单事件池，支持自定义事件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">let sub = (function()&#123;</span><br><span class="line">    //创建自定义事件池</span><br><span class="line">    let pond =&#123;&#125;;</span><br><span class="line">    </span><br><span class="line">    //订阅、移除、通知执行</span><br><span class="line">    const on = function on(event,func)&#123;</span><br><span class="line">        !pond.hasOwnProperty(event)?pond[event] = []:null;</span><br><span class="line">        let arr = pond[event];</span><br><span class="line">        !arr.includes(func)?arr.push(func):null;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    const off = function off(event,func)&#123;</span><br><span class="line">        let arr = pond[event];</span><br><span class="line">        if(!arr) return ;</span><br><span class="line">        for(let i = 0 ; i &lt; arr.length; i++ )&#123;</span><br><span class="line">            if(arr[i] === func)&#123;</span><br><span class="line">                arr[i] = null;  //直接赋值为null</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    const fire = function fire(event,...parmas)&#123;</span><br><span class="line">        let arr = pond[event];</span><br><span class="line">        if(!arr) return ;</span><br><span class="line">        for(let i = 0 ; i &lt; arr.length; i++ )&#123;</span><br><span class="line">            let itemFunc = arr[i];</span><br><span class="line">            if(typeof itemFunc !== &quot;function&quot;)&#123;</span><br><span class="line">                arr.splice(i,1)</span><br><span class="line">                i--;</span><br><span class="line">                continue;</span><br><span class="line">            &#125;</span><br><span class="line">            itemFunc(...parmas)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    retrun&#123;</span><br><span class="line">        on,</span><br><span class="line">        off,</span><br><span class="line">        fire</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h3 id="发布订阅3-0"><a href="#发布订阅3-0" class="headerlink" title="发布订阅3.0"></a>发布订阅3.0</h3><blockquote>
+<p>面向对象：创建多个事件池，每个事件池是独立的，存放订阅方法，原型存放公共方法</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    class Sub&#123;</span><br><span class="line">        //实例私有，事件池</span><br><span class="line">        pond = [];</span><br><span class="line">        </span><br><span class="line">        //原型公共方法</span><br><span class="line">        //订阅方法</span><br><span class="line">        on(func)&#123;</span><br><span class="line">            let pond = this.pond;</span><br><span class="line">            !pond.includes(func) ?</span><br><span class="line">                pond.push(func) :</span><br><span class="line">                null;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //移除方法</span><br><span class="line">        off(func)&#123;</span><br><span class="line">            let pond = this.pond;</span><br><span class="line">            for(let i = 0; i &lt; pond.length ; i++)&#123;</span><br><span class="line">                if(pond[i] === func)&#123;</span><br><span class="line">                    pond[i] = null</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //通知执行</span><br><span class="line">        fire(...parmas)&#123;</span><br><span class="line">            let pond = this.pond;</span><br><span class="line">            for(let i = 0; i &lt; pond.length ; i++)&#123;</span><br><span class="line">                let itemFunc = pond[i];</span><br><span class="line">                if(typeof itemFunc !== &apos;function&apos;)&#123;</span><br><span class="line">                    pond = pond.splice(i,1);</span><br><span class="line">                    i--;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                itemFunc(...parmas)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    window.subscribe = function sub()&#123;</span><br><span class="line">        return new Sub;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h3 id="发布订阅4-0"><a href="#发布订阅4-0" class="headerlink" title="发布订阅4.0"></a>发布订阅4.0</h3><blockquote>
+<p>多事件池，支持自定义事件</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    class Sub&#123;</span><br><span class="line">        // 实例私有属性</span><br><span class="line">        // 自定义事件池</span><br><span class="line">        pond = &#123;&#125;</span><br><span class="line">        </span><br><span class="line">        // 原型公有属性</span><br><span class="line">        // 订阅方法</span><br><span class="line">        on(event,func)&#123;</span><br><span class="line">            !pond[event] ? pond[event] = [] : null;</span><br><span class="line">            let arr  = pond[event];</span><br><span class="line">            !arr.includes(func) ? arr.push(func) : null;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 移除方法</span><br><span class="line">        off(event,func)&#123;</span><br><span class="line">            if(!pond[event]) return ;</span><br><span class="line">            let arr = pond[event];</span><br><span class="line">            for(let i = 0 ; i &lt; arr.length ; i++ )&#123;</span><br><span class="line">                if(arr[i] === func)&#123;</span><br><span class="line">                    arr[i] = null;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        // 通知执行</span><br><span class="line">        fire(event,...parmas)&#123;</span><br><span class="line">            if(!pond[event]) return ;</span><br><span class="line">            let arr = pond[event];</span><br><span class="line">            for(let i = 0; i &lt; arr.length ; i++ )&#123;</span><br><span class="line">                let itemFunc = arr[i];</span><br><span class="line">                if(typeof itemFunc !== &quot;function&quot;)&#123;</span><br><span class="line">                    arr = arr.splice(i,1);</span><br><span class="line">                    i--;</span><br><span class="line">                    continue;</span><br><span class="line">                &#125;</span><br><span class="line">                itemFunc(...parmas)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    window.subscribe = function sub()&#123;</span><br><span class="line">        return new Sub;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/10/2020-11-10-react-redux%E5%9F%BA%E7%A1%80%E3%80%81%E6%BA%90%E7%A0%81%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6-md/" rel="next" title="react-redux基础、源码、中间件">
+                  <i class="fa fa-chevron-left"></i> react-redux基础、源码、中间件
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式思想"><span class="nav-number">1.</span> <span class="nav-text">设计模式思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发布订阅设计模式"><span class="nav-number">2.</span> <span class="nav-text">发布订阅设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅1-0"><span class="nav-number">2.1.</span> <span class="nav-text">发布订阅1.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅2-0"><span class="nav-number">2.2.</span> <span class="nav-text">发布订阅2.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅3-0"><span class="nav-number">2.3.</span> <span class="nav-text">发布订阅3.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅4-0"><span class="nav-number">2.4.</span> <span class="nav-text">发布订阅4.0</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">59</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

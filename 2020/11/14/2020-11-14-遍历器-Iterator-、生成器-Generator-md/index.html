@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="遍历器(Iterator) 遍历器(Iterator)是一种机制（接口）：为各种不同的数据提供统一的访问机制，任何数据结构只要部署Iterator接口，就可以完成遍历操作，依次处理该数据结构的所有成员   拥有next方法用于依次遍历数据结构的成员 每一次遍历返回的结果都是一个对象 {done:false,value:xxx} done：记录是否遍历完成 value：当前遍历的结果">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="遍历器(Iterator)、生成器(Generator)">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;11&#x2F;14&#x2F;2020-11-14-%E9%81%8D%E5%8E%86%E5%99%A8-Iterator-%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8-Generator-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="遍历器(Iterator) 遍历器(Iterator)是一种机制（接口）：为各种不同的数据提供统一的访问机制，任何数据结构只要部署Iterator接口，就可以完成遍历操作，依次处理该数据结构的所有成员   拥有next方法用于依次遍历数据结构的成员 每一次遍历返回的结果都是一个对象 {done:false,value:xxx} done：记录是否遍历完成 value：当前遍历的结果">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:updated_time" content="2020-11-14T15:15:51.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/11/14/2020-11-14-%E9%81%8D%E5%8E%86%E5%99%A8-Iterator-%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8-Generator-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>遍历器(Iterator)、生成器(Generator) | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/14/2020-11-14-%E9%81%8D%E5%8E%86%E5%99%A8-Iterator-%E3%80%81%E7%94%9F%E6%88%90%E5%99%A8-Generator-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          遍历器(Iterator)、生成器(Generator)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-14 23:15:15 / 修改时间：23:15:51" itemprop="dateCreated datePublished" datetime="2020-11-14T23:15:15+08:00">2020-11-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="遍历器-Iterator"><a href="#遍历器-Iterator" class="headerlink" title="遍历器(Iterator)"></a>遍历器(Iterator)</h2><blockquote>
+<p><code>遍历器(Iterator)</code>是一种机制（接口）：为各种不同的数据提供统一的访问机制，任何数据结构只要部署Iterator接口，就可以完成遍历操作，依次处理该数据结构的所有成员</p>
+</blockquote>
+<ul>
+<li>拥有<code>next</code>方法用于依次遍历数据结构的成员</li>
+<li>每一次遍历返回的结果都是一个对象 <code>{done:false,value:xxx}</code><ul>
+<li><code>done</code>：记录是否遍历完成</li>
+<li><code>value</code>：当前遍历的结果</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<blockquote>
+<p>在JS中是没有<code>Iterator</code>这个类的概念的，但是我们可以自己实现一个</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class Iterator&#123;</span><br><span class="line">    constructor(arr)&#123;</span><br><span class="line">        this.arr = arr;</span><br><span class="line">        this.index = 0;</span><br><span class="line">    &#125;</span><br><span class="line">    next()&#123;</span><br><span class="line">        let index = this.index,</span><br><span class="line">            arr = this.arr;</span><br><span class="line">        if(index&gt;arr.length-1)&#123;</span><br><span class="line">            return &#123;</span><br><span class="line">                done:true,</span><br><span class="line">                value:undefined</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;</span><br><span class="line">            done:false,</span><br><span class="line">            value:arr[this.index++]</span><br><span class="line">        &#125;</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let arr = [10,20,30]</span><br><span class="line">let itor = new Iterator(arr)</span><br><span class="line">console.log(itor.next());   //=&gt;&#123;done:false,value:10&#125;</span><br><span class="line">console.log(itor.next());   //=&gt;&#123;done:false,value:20&#125;</span><br><span class="line">console.log(itor.next());   //=&gt;&#123;done:false,value:30&#125;</span><br><span class="line">console.log(itor.next());   //=&gt;&#123;done:ture,value:undefined&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>虽然浏览器中未提供Iterator类，但是浏览器通过<code>Symbol.iterator</code>属性给JS中的许多数据结构提供了可遍历性，只有拥有<code>Symbol.iterator</code>属性的数据结构（值），被称为可遍历的，就可以基于<code>for of</code>循环来处理</p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/ca041310-23cb-11eb-b680-7980c8a877b8.jpg">
+
+<ul>
+<li>数组</li>
+<li>部分类数组（argument/NodeList/HTMLCollection…）</li>
+<li>String</li>
+<li>Set</li>
+<li>Map</li>
+<li>generator object</li>
+<li>…</li>
+</ul>
+<p><strong>重构Symbol.iterator</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let arr = [10,20,30,40]</span><br><span class="line">arr[Symbol.iterator] = function()&#123;</span><br><span class="line">    // 必须返回一个符合Iterator规范的对象：具备next方法</span><br><span class="line">    let index = 0,</span><br><span class="line">        self = this;</span><br><span class="line">    return &#123;</span><br><span class="line">        next()&#123;</span><br><span class="line">            if(index &gt; self.length - 1)&#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    done:true,</span><br><span class="line">                    value:undefined</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return &#123;</span><br><span class="line">                done:false,</span><br><span class="line">                value:self[index++]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(let item of arr)&#123;</span><br><span class="line">    console.log(item)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// console.log(...arg)  =&gt; 展开运算符处理机制也是先验证Symbol.iterator遍历器结构，如果存在，就按照这个结构去处理</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>对象本身不是符合Iterator遍历规范的数据，但是我么可以手动设置Symbol.iterator让其具备这个能力</p>
+</blockquote>
+<ol>
+<li>自定义类数组</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">let obj = &#123;</span><br><span class="line">    0:10,</span><br><span class="line">    1:20,</span><br><span class="line">    2:30,</span><br><span class="line">    length:3</span><br><span class="line">    [Symbol.iterator]:Array.prototype[Symbol.iterator]  //直接借用数组的Symbol.iterator</span><br><span class="line">    &lt;!--[Symbol.iterator]:function()&#123;--&gt;</span><br><span class="line">    &lt;!--    let index = 0,--&gt;</span><br><span class="line">    &lt;!--        self = this;--&gt;</span><br><span class="line">    &lt;!--    return &#123;--&gt;</span><br><span class="line">    &lt;!--        next()&#123;--&gt;</span><br><span class="line">    &lt;!--            return index &gt; self.length - 1 ? &#123;--&gt;</span><br><span class="line">    &lt;!--                done:true,--&gt;</span><br><span class="line">    &lt;!--                value:undefined--&gt;</span><br><span class="line">    &lt;!--            &#125;:&#123;--&gt;</span><br><span class="line">    &lt;!--                done:false,--&gt;</span><br><span class="line">    &lt;!--                value:self[index++]--&gt;</span><br><span class="line">    &lt;!--            &#125;--&gt;</span><br><span class="line">    &lt;!--        &#125;--&gt;</span><br><span class="line">    &lt;!--    &#125;--&gt;</span><br><span class="line">    &lt;!--&#125;--&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(let item of obj)&#123;</span><br><span class="line">    console.log(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>对象</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Object.prototype[Symbol.iterator]:function()&#123;</span><br><span class="line">    let self = this;</span><br><span class="line">    let keys = [</span><br><span class="line">        ...Object.hasOwnPropertyName(self),</span><br><span class="line">        ...Object.hasOwnPropertySymbol(self)</span><br><span class="line">    ];</span><br><span class="line">    let index:0;</span><br><span class="line">    return &#123;</span><br><span class="line">        next()&#123;</span><br><span class="line">            return index &gt; self.length - 1 ? &#123;</span><br><span class="line">                done:true,</span><br><span class="line">                value:undefined</span><br><span class="line">            &#125;:&#123;</span><br><span class="line">                done:false,</span><br><span class="line">                value:self[keys[index++]]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let obj1 = &#123;</span><br><span class="line">    name:&apos;BSmall&apos;,</span><br><span class="line">    age:11,</span><br><span class="line">    [Symbol(&quot;A&quot;)]:100,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(let item of obj1)&#123;</span><br><span class="line">    console.log(item);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成器对象-Generator"><a href="#生成器对象-Generator" class="headerlink" title="生成器对象(Generator)"></a>生成器对象(Generator)</h2><blockquote>
+<p>生成器对象是由一个generator function返回的，并且它符合迭代协议和迭代器协议</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">function* func()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">func.prototype.AA = &apos;10&apos;</span><br><span class="line"></span><br><span class="line">let iterator = func()</span><br><span class="line">// iterator.__proto__ = func.prototype</span><br><span class="line">console.log(interator)  //返回值是当前func的实例</span><br><span class="line"></span><br><span class="line">console.log(iterator instanceof func)   //true  </span><br><span class="line">// new func()   //=&gt; 但是func本身是无法 new 执行  Uncaught TypeError: func is not a constructor</span><br><span class="line"></span><br><span class="line">/* 也是GeneratorFunction的一个实例</span><br><span class="line"> *      + next：依次遍历对应的值</span><br><span class="line"> *      + return：结束遍历并返回return指定的值</span><br><span class="line"> *      + throw</span><br><span class="line"> *</span><br><span class="line"> * 它拥有Symbol(Symbol.iterator)这个属性值：说明我们获取的结果是具备Iterator迭代规范的</span><br><span class="line"> */</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>next()</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function* func()&#123;</span><br><span class="line">    console.log(&quot;A&quot;)</span><br><span class="line">    yield 1;</span><br><span class="line">    console.log(&quot;B&quot;)</span><br><span class="line">    yield 2;</span><br><span class="line">    console.log(&quot;C&quot;)</span><br><span class="line">    yield 3;</span><br><span class="line">    console.log(&quot;D&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let iterator = func();</span><br><span class="line">console.log(iterator.next())    // &#123;done:false,value:1&#125;</span><br><span class="line">console.log(iterator.next())    // &#123;done:false,value:2&#125;</span><br><span class="line">console.log(iterator.next())    // &#123;done:false,value:3&#125;</span><br><span class="line">console.log(iterator.next())    // &#123;done:true,value:undefined&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function* func()&#123;</span><br><span class="line">    let x = yield 1;</span><br><span class="line">    console.log(x);     //=&gt; 10</span><br><span class="line">&#125;</span><br><span class="line">let interator = func();</span><br><span class="line">console.log(interator.next())        // &#123;done:false,value:1&#125;</span><br><span class="line">console.log(interator.next(10))      // &#123;done:true,value:undefined&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>生成器函数嵌套</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function* func1()&#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* func2()&#123;</span><br><span class="line">    yield 3;</span><br><span class="line">    yield func1();</span><br><span class="line">    yield 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let interator = func2();</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:3&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:func()&#125;     //func()是Generator实例</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:4&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:true,value:undefined&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:true,value:undefined&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function* func1()&#123;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function* func2()&#123;</span><br><span class="line">    yield 3;</span><br><span class="line">    yield* func1();     // * 执行 迭代func1</span><br><span class="line">    yield 4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let interator = func2();</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:3&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:1&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:2&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:false,value:4&#125;</span><br><span class="line">console.log(iterator.next());   //&#123;done:true,value:undefined&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>this</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function* func1()&#123;</span><br><span class="line">    console.log(this)     // this -&gt; window</span><br><span class="line">    this.NO = &apos;NO&apos;</span><br><span class="line">    yield 1;</span><br><span class="line">    yield 2;</span><br><span class="line">&#125;</span><br><span class="line">func1.prototype.OK = &apos;OK&apos;;</span><br><span class="line"></span><br><span class="line">let interator = func1();</span><br><span class="line">iterator.next()</span><br><span class="line">console.log(iterator.OK);   //OK</span><br><span class="line">console.log(iterator.NO);   //undefined</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/13/2020-11-13-%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-md/" rel="next" title="发布订阅设计模式">
+                  <i class="fa fa-chevron-left"></i> 发布订阅设计模式
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历器-Iterator"><span class="nav-number">1.</span> <span class="nav-text">遍历器(Iterator)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成器对象-Generator"><span class="nav-number">2.</span> <span class="nav-text">生成器对象(Generator)</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

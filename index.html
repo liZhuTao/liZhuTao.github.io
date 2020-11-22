@@ -211,6 +211,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/22/2020-11-22-axios%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/22/2020-11-22-axios%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-md/" class="post-title-link" itemprop="url">axios基础知识</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-22 22:46:21 / 修改时间：22:47:50" itemprop="dateCreated datePublished" datetime="2020-11-22T22:46:21+08:00">2020-11-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/axios/" itemprop="url" rel="index">
+                    <span itemprop="name">axios</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>前后端数据通信方案：</p>
+</blockquote>
+<ul>
+<li>ajax XMLHttpRequest：同源 &amp; 跨域「cors &amp; proxy」<ul>
+<li>JQ $.ajax</li>
+<li>axios</li>
+</ul>
+</li>
+<li>Fetch：同源 &amp; 跨域「cors &amp; proxy」</li>
+<li>webscoket</li>
+<li>jsonp</li>
+<li>postMessage</li>
+<li>iframe + document.domain/location.hash…</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/11/22/2020-11-22-axios%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-md/" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/18/2020-11-18-HTTP%E7%BD%91%E7%BB%9C%E5%B1%82%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -311,10 +402,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-11-15 23:36:07 / 修改时间：23:37:13" itemprop="dateCreated datePublished" datetime="2020-11-15T23:36:07+08:00">2020-11-15</time>
+              <time title="创建时间：2020-11-15 23:36:07" itemprop="dateCreated datePublished" datetime="2020-11-15T23:36:07+08:00">2020-11-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-22 22:48:03" itemprop="dateModified" datetime="2020-11-22T22:48:03+08:00">2020-11-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -340,7 +437,7 @@
       
           <h2 id="异步串行"><a href="#异步串行" class="headerlink" title="异步串行"></a>异步串行</h2><blockquote>
 <p>不管是Promise还是async/await都是将上一个异步函数执行完成，才会通知下一个异步执行</p>
-</blockquote><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">const func = x =&gt; &#123;</span><br><span class="line">    return new Promise(resolve=&gt;&#123;</span><br><span class="line">        setTimeout(_=&gt;&#123;</span><br><span class="line">            resolve(++x)</span><br><span class="line">        &#125;,1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 基于Promise</span><br><span class="line">func(0).then(result=&gt;&#123;</span><br><span class="line">    console.log(x)  // 1</span><br><span class="line">    return func(x)</span><br><span class="line">&#125;).then(result=&gt;&#123;</span><br><span class="line">    console.log(x)  // 2</span><br><span class="line">    return func(x)</span><br><span class="line">&#125;).then(result=&gt;&#123;</span><br><span class="line">    console.log(x)  // 3</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 基于async/await</span><br><span class="line">(async function()&#123;</span><br><span class="line">    let x = await func(0)</span><br><span class="line">    console.log(x); // 1</span><br><span class="line">    </span><br><span class="line">    x = await func(x)</span><br><span class="line">    console.log(x);  // 2</span><br><span class="line">    </span><br><span class="line">    x = await func(x)</span><br><span class="line">    console.log(x);  // 3</span><br><span class="line">&#125;)()</span><br><span class="line"></span><br><span class="line">// 基于generator函数</span><br><span class="line">function* generator(x)&#123;</span><br><span class="line">    x = yield func(x)</span><br><span class="line">    console.log(x)  // 1</span><br><span class="line">    </span><br><span class="line">    x = yield func(x)</span><br><span class="line">    console.log(x)  // 2</span><br><span class="line">    </span><br><span class="line">    x = yield func(x)</span><br><span class="line">    console.log(x)  // 3</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let iterator = generator(0);</span><br><span class="line">let result = iterator = generator(0)</span><br><span class="line">result.value.then(x=&gt;&#123;</span><br><span class="line">    result = iterator.next(x);</span><br><span class="line">    result.value.then(x=&gt;&#123;</span><br><span class="line">        result = iterator.next(x);</span><br><span class="line">        result.value.then(x=&gt;&#123;</span><br><span class="line">            result = iterator.next(x);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/11/15/2020-11-15-async%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-md/" rel="contents">
@@ -931,89 +1028,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/10/31/2020-10-31-React%E7%B1%BB%E7%BB%84%E4%BB%B6-md/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="liZhuTao">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bsmall">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/10/31/2020-10-31-React%E7%B1%BB%E7%BB%84%E4%BB%B6-md/" class="post-title-link" itemprop="url">React类组件</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-10-31 13:34:55 / 修改时间：13:46:54" itemprop="dateCreated datePublished" datetime="2020-10-31T13:34:55+08:00">2020-10-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/react/" itemprop="url" rel="index">
-                    <span itemprop="name">react</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="类组件"><a href="#类组件" class="headerlink" title="类组件"></a>类组件</h2><blockquote>
-<p>创建一个继承React.Component/React.PureComponent的类，那么这个类就是类组件</p>
-</blockquote>
-<ul>
-<li>渲染的时候发现type是一个类，则会创建当前类的实例</li>
-<li>同样会把解析出来的props传递给当前类,并且React会默认帮我们将props挂载在当前类的实例上（方法中可以直接使用this.props操作），但是默认情况下是执行完constructor在把props挂载在实例上的，所以在constructor中不写是无法基于this.props获取</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/10/31/2020-10-31-React%E7%B1%BB%E7%BB%84%E4%BB%B6-md/" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1063,13 +1077,13 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">63</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

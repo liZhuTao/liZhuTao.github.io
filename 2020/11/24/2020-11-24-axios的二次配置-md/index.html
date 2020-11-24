@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="axios二次封装 axios配置优先级">
+<meta name="keywords" content="HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="axios的二次配置">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;11&#x2F;24&#x2F;2020-11-24-axios%E7%9A%84%E4%BA%8C%E6%AC%A1%E9%85%8D%E7%BD%AE-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:description" content="axios二次封装 axios配置优先级">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:updated_time" content="2020-11-24T15:21:53.814Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/11/24/2020-11-24-axios%E7%9A%84%E4%BA%8C%E6%AC%A1%E9%85%8D%E7%BD%AE-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>axios的二次配置 | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/24/2020-11-24-axios%E7%9A%84%E4%BA%8C%E6%AC%A1%E9%85%8D%E7%BD%AE-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          axios的二次配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-24 23:21:27 / 修改时间：23:21:53" itemprop="dateCreated datePublished" datetime="2020-11-24T23:21:27+08:00">2020-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/axios/" itemprop="url" rel="index">
+                    <span itemprop="name">axios</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="axios二次封装"><a href="#axios二次封装" class="headerlink" title="axios二次封装"></a>axios二次封装</h2><blockquote>
+<p>axios配置优先级</p>
+</blockquote>
+<img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c51bc1f0-2672-11eb-97b7-0dc4655d6e68.png">
+
+<a id="more"></a>
+<blockquote>
+<p>axios的配置项</p>
+</blockquote>
+<ul>
+<li>url</li>
+<li>method</li>
+<li>baseURL * </li>
+<li>transformRequest *</li>
+<li>transformResponse *</li>
+<li>headers *</li>
+<li>params</li>
+<li>data</li>
+<li>timeout *</li>
+<li>withCredentials *</li>
+<li>responseType *</li>
+<li>validateStatus *</li>
+<li>…</li>
+</ul>
+<blockquote>
+<p>后面带*的，是当前项目中绝大部分请求都公用的信息，偶尔有极个别的请求配置信息和它不一样，这类配置信息，我们应该统一设定，所有请求都用这些配置信息 =&gt; axios的二次封装/配置</p>
+</blockquote>
+<h3 id="axios-defaults"><a href="#axios-defaults" class="headerlink" title="axios.defaults"></a>axios.defaults</h3><blockquote>
+<p>我们可以基于<code>axios.defaults</code>来配置项目的基本信息</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--注释的配置不是很常用--&gt;</span><br><span class="line"></span><br><span class="line">axios.defaults.baseURL = &apos;http://127.0.0.1:8888&apos;;   //服务器默认地址</span><br><span class="line"></span><br><span class="line">axios.defaults.timeout = 10000;     //设置超时时间</span><br><span class="line"></span><br><span class="line">axios.defaults.withCredential = true;   //允许携带资源凭证cookie</span><br><span class="line"></span><br><span class="line">&lt;!--axios.defaults.responseType = &apos;json&apos;;   //默认转化格式--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--axios.defaults.validateStatus = status =&gt;&#123;--&gt;</span><br><span class="line">&lt;!--    return status &gt;= 200 &amp;&amp; status &lt; 300;   //设置请求的成功范围--&gt;</span><br><span class="line">&lt;!--&#125;--&gt;</span><br><span class="line"></span><br><span class="line">// 真实项目中，大部分post请求，基于请求主体传递给服务器的格式，不期望是默认的json格式字符串，而是需要改为服务器要求的格式，例如：x-www-form-urlencoded，则需要我们统一基于transformRequest处理</span><br><span class="line">axios.defaults.transformRequest = [data =&gt;&#123;</span><br><span class="line">    // data是基于请求主体传递给服务器的信息，transformRequest只对post系列请求有用</span><br><span class="line">    return Qs.stringify(data);  // 返回的是啥，最后基于请求主体传递给服务器就是啥</span><br><span class="line">&#125;]</span><br><span class="line"></span><br><span class="line">&lt;!--axios.defaults.transformResponse = [data =&gt;&#123;    // =&gt; 一般不用这个属性，而是使用响应拦截器--&gt;</span><br><span class="line">&lt;!--    //这里可以处理返回的data(请求主体信息)，再将处理后的data返回除去--&gt;</span><br><span class="line">&lt;!--    return data;    //返回啥，以后拿到的就是啥--&gt;</span><br><span class="line">&lt;!--&#125;]--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基于webpack区分环境变量"><a href="#基于webpack区分环境变量" class="headerlink" title="基于webpack区分环境变量"></a>基于webpack区分环境变量</h3><ul>
+<li>开发环境：测试服务器接口 <a href="http://168.1.12.8081" target="_blank" rel="noopener">http://168.1.12.8081</a></li>
+<li>测试环境：模拟实际上线数据 =&gt; 测试人员测试 <a href="http://168.1.12.9000" target="_blank" rel="noopener">http://168.1.12.9000</a></li>
+<li>生产环境：部署到真实的服务器上 <a href="http://api.BSmall.cn" target="_blank" rel="noopener">http://api.BSmall.cn</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//  基于webpack指定环境变量，在打包或运行时，实现自动切换地址</span><br><span class="line">let env = process.env.NODE_ENV;</span><br><span class="line">switch(env)&#123;</span><br><span class="line">    case &apos;development&apos;:</span><br><span class="line">        axios.defaults.baseURL = &apos;http://168.1.12.8081&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case &apos;test&apos;:</span><br><span class="line">        axios.defaults.baseURL = &apos;http://168.1.12.9000&apos;;</span><br><span class="line">        break;</span><br><span class="line">    case &apos;production&apos;:</span><br><span class="line">        axios.defaults.baseURL = &apos;http://api.BSmall.cn&apos;;</span><br><span class="line">        break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="拦截器axios-interceptors"><a href="#拦截器axios-interceptors" class="headerlink" title="拦截器axios.interceptors"></a>拦截器<code>axios.interceptors</code></h3><blockquote>
+<p>请求拦截器:<code>axios.interceptors.request</code> 发生在axios整理完配置项之后，发送到飞速武器之前，请求拦截器一般是对配置项的进一步处理</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">axios.interceptors.request.use(config=&gt;&#123;    // config就是整理好的配置项</span><br><span class="line">    // 处理config，例如：在发送之前传递一个token到请求头中</span><br><span class="line">    let token = localStorage.getItem(&apos;token&apos;);</span><br><span class="line">    if(token)&#123;</span><br><span class="line">        // 按服务器要求的名称传递，常用X-Token或Authorzation</span><br><span class="line">        config.headers[X-Token] = token;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return config;  // 返回处理后的config</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>响应拦截器:<code>axios.interceptors.response</code> 发生在拿到服务器信息之后，.then调用之前</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">axios.interceptors.response.use(response=&gt;&#123;</span><br><span class="line">    // 成功 （根据validateStatus处理的结果）</span><br><span class="line">    // 实际开发中，response中的信息太杂了，但是业务层往往用到的只有响应主体信息</span><br><span class="line">    return response.data;   // 之后 .then 拿到的信息只有响应主体信息了</span><br><span class="line">&#125;,reason=&gt;&#123;</span><br><span class="line">    // 失败 状态码不对或者是没有获取任何的数据</span><br><span class="line">    // 实际开发中，不论是哪一个请求失败，基本上的提示信息或者处理方案是一致的，此时我们就可以对错误进行统一的处理</span><br><span class="line">    let response = reason.response;</span><br><span class="line">    if(response)&#123;</span><br><span class="line">        // 获取到数据，只是状态码不对，根据状态码来做不同的提示</span><br><span class="line">        switch(response.status)&#123;</span><br><span class="line">            case 400:</span><br><span class="line">                break;</span><br><span class="line">            case 401:</span><br><span class="line">                break;</span><br><span class="line">            case 404:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        // 数据都没有获取到</span><br><span class="line">        if(!navigator.onLine)&#123;</span><br><span class="line">            // 断网了</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return Promise.reject(reason);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="axios-get-post的再次封装"><a href="#axios-get-post的再次封装" class="headerlink" title="axios.get/post的再次封装"></a>axios.get/post的再次封装</h3><blockquote>
+<p>在一些项目中，会根据业务场景实现统一的get/post公共方法，方法中会夹杂着业务的一些统一逻辑，然后基于再次封装的方法发送请求</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function api_get(url,parmas)&#123;</span><br><span class="line">    // ... 根据业务逻辑实现统一处理</span><br><span class="line">    return axios.get(url,&#123;</span><br><span class="line">        parmas</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function api_post(url,data)&#123;</span><br><span class="line">    //...</span><br><span class="line">    return axios.post(url,data)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/22/2020-11-22-axios%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-md/" rel="next" title="axios基础知识">
+                  <i class="fa fa-chevron-left"></i> axios基础知识
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#axios二次封装"><span class="nav-number">1.</span> <span class="nav-text">axios二次封装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#axios-defaults"><span class="nav-number">1.1.</span> <span class="nav-text">axios.defaults</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于webpack区分环境变量"><span class="nav-number">1.2.</span> <span class="nav-text">基于webpack区分环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拦截器axios-interceptors"><span class="nav-number">1.3.</span> <span class="nav-text">拦截器axios.interceptors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#axios-get-post的再次封装"><span class="nav-number">1.4.</span> <span class="nav-text">axios.get/post的再次封装</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/my-blog-logo.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="keywords" content="HTTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content=":2020-:11-:29-:基于Promise封装一个axios库.md">
+<meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;11&#x2F;29&#x2F;2020-11-29-%E5%9F%BA%E4%BA%8EPromise%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAaxios%E5%BA%93-md&#x2F;index.html">
+<meta property="og:site_name" content="Bsmall">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+<meta property="og:updated_time" content="2020-11-29T14:28:45.193Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
+
+<link rel="canonical" href="https://lizhutao.github.io.git/2020/11/29/2020-11-29-%E5%9F%BA%E4%BA%8EPromise%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAaxios%E5%BA%93-md/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>:2020-:11-:29-:基于Promise封装一个axios库.md | Bsmall</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bsmall</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-关于">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-档案">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>档案</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liZhuTao.github.io.git/2020/11/29/2020-11-29-%E5%9F%BA%E4%BA%8EPromise%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAaxios%E5%BA%93-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liZhuTao">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bsmall">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          :2020-:11-:29-:基于Promise封装一个axios库.md
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-29 22:28:22 / 修改时间：22:28:45" itemprop="dateCreated datePublished" datetime="2020-11-29T22:28:22+08:00">2020-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/axios/" itemprop="url" rel="index">
+                    <span itemprop="name">axios</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/39c2f5d0-28d7-11eb-8a36-ebb87efcf8c0.png">
+
+<a id="more"></a>
+<h2 id="基于Promise封装自己的axios库"><a href="#基于Promise封装自己的axios库" class="headerlink" title="基于Promise封装自己的axios库"></a>基于Promise封装自己的axios库</h2><h3 id="初始化插件配置项"><a href="#初始化插件配置项" class="headerlink" title="初始化插件配置项"></a>初始化插件配置项</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">let headers = &#123;</span><br><span class="line">    common: &#123;</span><br><span class="line">        &apos;Content-Type&apos;: &apos;application/json&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">_.each([&apos;get&apos;, &apos;head&apos;, &apos;delete&apos;, &apos;options&apos;, &apos;post&apos;, &apos;put&apos;], (index, item) =&gt; &#123;</span><br><span class="line">    headers[item] = &#123;&#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">// 插件默认配置项及其规则</span><br><span class="line">let configDefault = &#123;</span><br><span class="line">    baseURL: &#123;</span><br><span class="line">        type: &apos;string&apos;,</span><br><span class="line">        default: &apos;&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    url: &#123;</span><br><span class="line">        type: &apos;string&apos;,</span><br><span class="line">        required: true</span><br><span class="line">    &#125;,</span><br><span class="line">    method: &#123;</span><br><span class="line">        type: &apos;string&apos;,</span><br><span class="line">        default: &apos;get&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    headers: &#123;</span><br><span class="line">        type: &apos;object&apos;,</span><br><span class="line">        default: headers</span><br><span class="line">    &#125;,</span><br><span class="line">    params: &#123;</span><br><span class="line">        type: &apos;object&apos;,</span><br><span class="line">        default: &#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    cache: &#123;</span><br><span class="line">        type: &apos;boolean&apos;,</span><br><span class="line">        default: true</span><br><span class="line">    &#125;,</span><br><span class="line">    data: &#123;</span><br><span class="line">        type: &apos;object&apos;,</span><br><span class="line">        default: &#123;&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    timeout: &#123;</span><br><span class="line">        type: &apos;number&apos;,</span><br><span class="line">        default: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    withCredentials: &#123;</span><br><span class="line">        type: &apos;boolean&apos;,</span><br><span class="line">        default: false</span><br><span class="line">    &#125;,</span><br><span class="line">    responseType: &#123;</span><br><span class="line">        type: &apos;string&apos;,</span><br><span class="line">        default: &apos;json&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    transformRequest: &#123;</span><br><span class="line">        type: &apos;function&apos;,</span><br><span class="line">        default: function (data) &#123;</span><br><span class="line">            if (_.isEmptyObject(data)) return null;</span><br><span class="line">            // 默认会把请求主体传递的DATA对象，变为JSON字符串传递给服务器</span><br><span class="line">            return JSON.stringify(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    validateStatus: &#123;</span><br><span class="line">        type: &apos;function&apos;,</span><br><span class="line">        default: function (status) &#123;</span><br><span class="line">            return status &gt;= 200 &amp;&amp; status &lt; 300;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="合并配置项"><a href="#合并配置项" class="headerlink" title="合并配置项"></a>合并配置项</h3><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/c51bc1f0-2672-11eb-97b7-0dc4655d6e68.png">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// 配置项初始化</span><br><span class="line">function initParams(config) &#123;</span><br><span class="line">    // 先把自定义配置项config和ajax.defaults二次配置项进行合并</span><br><span class="line">    config = _.merge(ajax.defaults, config);</span><br><span class="line">    // 把合并后的结果再次和插件默认配置项进行合并「同时校验规则」</span><br><span class="line">    let params = &#123;&#125;;</span><br><span class="line">    _.each(configDefault, (key, rule) =&gt; &#123;</span><br><span class="line">        let &#123;</span><br><span class="line">            type,</span><br><span class="line">            required,</span><br><span class="line">            default: defaultValue</span><br><span class="line">        &#125; = rule;</span><br><span class="line">        // 传递的配置中没有这一项：验证是否必传 &amp;&amp; 走默认值</span><br><span class="line">        if (!config.hasOwnProperty(key)) &#123;</span><br><span class="line">            if (required) throw new ReferenceError(`$&#123;key&#125; is muse be required!`);</span><br><span class="line">            params[key] = defaultValue;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        // 传递的配置中有这一项：验证传递值的格式 &amp;&amp; 合并</span><br><span class="line">        if (_.toType(config[key]) !== type) throw new TypeError(`$&#123;key&#125; is must be an $&#123;type&#125;!`);</span><br><span class="line">        params[key] = _.merge(defaultValue, config[key]);</span><br><span class="line">    &#125;);</span><br><span class="line">    return params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="暴露到外部的API"><a href="#暴露到外部的API" class="headerlink" title="暴露到外部的API"></a>暴露到外部的API</h3><blockquote>
+<p>ajax(url,config)是所有快捷方法的核心方法</p>
+<ul>
+<li>ajax.get/head/delete/options(url,config)</li>
+<li>ajax.post/put(url,data,config)</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">function ajax(url, config) &#123;</span><br><span class="line">    if (_.isPlainObject(url)) config = url;     //支持 ajax(config) 形式传参</span><br><span class="line">    if (_.toType(url) === &quot;string&quot;) &#123;</span><br><span class="line">        if (!_.isPlainObject(config)) config = &#123;&#125;;</span><br><span class="line">        config.url = url;                       //合并配置项</span><br><span class="line">    &#125;</span><br><span class="line">    config = initParams(config);</span><br><span class="line">    return new Ajax(config);</span><br><span class="line">&#125;</span><br><span class="line">// 快捷方法</span><br><span class="line">_.each([&apos;get&apos;, &apos;head&apos;, &apos;delete&apos;, &apos;options&apos;], (index, item) =&gt; &#123;</span><br><span class="line">    ajax[item] = function (url, config) &#123;</span><br><span class="line">        if (!_.isPlainObject(config)) config = &#123;&#125;;</span><br><span class="line">        config.url = url;</span><br><span class="line">        config.method = item;</span><br><span class="line">        return ajax(config);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">_.each([&apos;post&apos;, &apos;put&apos;], (index, item) =&gt; &#123;</span><br><span class="line">    ajax[item] = function (url, data, config) &#123;</span><br><span class="line">        if (!_.isPlainObject(config)) config = &#123;&#125;;</span><br><span class="line">        config.url = url;</span><br><span class="line">        config.method = item;</span><br><span class="line">        config.data = data;</span><br><span class="line">        return ajax(config);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;);</span><br><span class="line">ajax[&apos;all&apos;] = function all(promiseList) &#123;</span><br><span class="line">    if (!_.isArrayLike(promiseList)) throw new TypeError(&apos;promiseList must be an array or likeArray!&apos;);</span><br><span class="line">    return Promise.all(promiseList);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ajax.stringify = Ajax.prototype.stringify;</span><br><span class="line">ajax.defaults = &#123;   // 支持二次配置更改</span><br><span class="line">    headers: headers</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//将ajax方法暴露出去</span><br><span class="line">if (typeof window !== &quot;undefined&quot;) &#123;</span><br><span class="line">    window.ajax = ajax;</span><br><span class="line">&#125;</span><br><span class="line">if (typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;) &#123;</span><br><span class="line">    module.exports = ajax;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="插件核心类Ajax"><a href="#插件核心类Ajax" class="headerlink" title="插件核心类Ajax"></a>插件核心类Ajax</h3><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/3f094760-294f-11eb-97b7-0dc4655d6e68.png">
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line">/* 发送请求核心内容 */</span><br><span class="line">function Ajax(config) &#123;</span><br><span class="line">    this.config = config;</span><br><span class="line">    this.GETREG = /^(GET|HEAD|OPTIONS|DELETE)$/i;</span><br><span class="line">    return this.send();</span><br><span class="line">&#125;</span><br><span class="line">Ajax.prototype = &#123;</span><br><span class="line">    version: &apos;1.0.0&apos;,</span><br><span class="line">    constructor: Ajax,</span><br><span class="line">    send() &#123;</span><br><span class="line">        let &#123;</span><br><span class="line">            method,</span><br><span class="line">            validateStatus,</span><br><span class="line">            timeout,</span><br><span class="line">            withCredentials</span><br><span class="line">        &#125; = this.config;</span><br><span class="line">        return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">            let xhr = new XMLHttpRequest;</span><br><span class="line">            xhr.open(method, this.initURL());</span><br><span class="line">            // 常规配置</span><br><span class="line">            xhr.timeout = timeout;</span><br><span class="line">            xhr.withCredentials = withCredentials;</span><br><span class="line">            this.initHeaders(xhr);</span><br><span class="line">            xhr.onreadystatechange = () =&gt; &#123;</span><br><span class="line">                // 服务有响应</span><br><span class="line">                let &#123;</span><br><span class="line">                    readyState,</span><br><span class="line">                    status</span><br><span class="line">                &#125; = xhr;</span><br><span class="line">                if (!validateStatus(status)) &#123;</span><br><span class="line">                    // 状态码不符合要求：失败</span><br><span class="line">                    reject(this.initResult(false, xhr));</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line">                if (readyState === 4) &#123;</span><br><span class="line">                    // 成功</span><br><span class="line">                    resolve(this.initResult(true, xhr));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line">            xhr.onerror = error =&gt; &#123;</span><br><span class="line">                // 服务器没有任何响应：返回的结果中是没有response对象的</span><br><span class="line">                reject(&#123;</span><br><span class="line">                    message: error.message</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;;</span><br><span class="line">            xhr.send(this.initData());</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 处理请求头</span><br><span class="line">    initHeaders(xhr) &#123;</span><br><span class="line">        let &#123;</span><br><span class="line">            headers,</span><br><span class="line">            method</span><br><span class="line">        &#125; = this.config;</span><br><span class="line">        let alone = headers[method] || &#123;&#125;,</span><br><span class="line">            common = headers[&apos;common&apos;] || &#123;&#125;;</span><br><span class="line">        delete headers[&apos;common&apos;];</span><br><span class="line">        _.each([&apos;get&apos;, &apos;head&apos;, &apos;delete&apos;, &apos;options&apos;, &apos;post&apos;, &apos;put&apos;], (index, item) =&gt; &#123;</span><br><span class="line">            delete headers[item];</span><br><span class="line">        &#125;);</span><br><span class="line">        common = _.merge(common, alone);</span><br><span class="line">        headers = _.merge(headers, common);</span><br><span class="line">        _.each(headers, (key, value) =&gt; &#123;</span><br><span class="line">            xhr.setRequestHeader(key, value);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 处理URL</span><br><span class="line">    stringify(params) &#123;</span><br><span class="line">        let str = ``;</span><br><span class="line">        _.each(params, (key, value) =&gt; &#123;</span><br><span class="line">            str += `&amp;$&#123;key&#125;=$&#123;value&#125;`;</span><br><span class="line">        &#125;);</span><br><span class="line">        return str.substring(1);</span><br><span class="line">    &#125;,</span><br><span class="line">    initURL() &#123;</span><br><span class="line">        let &#123;</span><br><span class="line">            baseURL,</span><br><span class="line">            url,</span><br><span class="line">            method,</span><br><span class="line">            params,</span><br><span class="line">            cache</span><br><span class="line">        &#125; = this.config;</span><br><span class="line">        url = baseURL + url;</span><br><span class="line">        // GET请求下才处理问号传参 &amp;&amp; 缓存</span><br><span class="line">        if (this.GETREG.test(method)) &#123;</span><br><span class="line">            params = this.stringify(params);</span><br><span class="line">            if (params) &#123;</span><br><span class="line">                url += `$&#123;url.includes(&apos;?&apos;)?&apos;&amp;&apos;:&apos;?&apos;&#125;$&#123;params&#125;`;</span><br><span class="line">            &#125;</span><br><span class="line">            if (!cache) &#123;</span><br><span class="line">                url += `$&#123;url.includes(&apos;?&apos;)?&apos;&amp;&apos;:&apos;?&apos;&#125;_=$&#123;Math.random()&#125;`;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return url;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 处理DATA</span><br><span class="line">    initData() &#123;</span><br><span class="line">        let &#123;</span><br><span class="line">            method,</span><br><span class="line">            data,</span><br><span class="line">            transformRequest</span><br><span class="line">        &#125; = this.config;</span><br><span class="line">        if (this.GETREG.test(method)) return null;</span><br><span class="line">        return transformRequest(data);</span><br><span class="line">    &#125;,</span><br><span class="line">    // 处理返回结果</span><br><span class="line">    getHeaders(xhr) &#123;</span><br><span class="line">        let headersText = xhr.getAllResponseHeaders(),</span><br><span class="line">            headers = &#123;&#125;;</span><br><span class="line">        headersText = headersText.split(/(?:\n)/g);</span><br><span class="line">        _.each(headersText, (index, item) =&gt; &#123;</span><br><span class="line">            let [key, value] = item.split(&apos;: &apos;);</span><br><span class="line">            if (!key) return;</span><br><span class="line">            headers[key] = value;</span><br><span class="line">        &#125;);</span><br><span class="line">        return headers;</span><br><span class="line">    &#125;,</span><br><span class="line">    initResult(flag, xhr) &#123;</span><br><span class="line">        let response = &#123;</span><br><span class="line">            data: &#123;&#125;,</span><br><span class="line">            request: xhr,</span><br><span class="line">            status: xhr.status,</span><br><span class="line">            statusText: xhr.statusText,</span><br><span class="line">            headers: this.getHeaders(xhr),</span><br><span class="line">            config: this.config</span><br><span class="line">        &#125;;</span><br><span class="line">        if (flag) &#123;</span><br><span class="line">            let text = xhr.responseText;</span><br><span class="line">            switch (this.config.responseType.toLowerCase()) &#123;</span><br><span class="line">                case &apos;json&apos;:</span><br><span class="line">                    text = JSON.parse(text);</span><br><span class="line">                    break;</span><br><span class="line">                case &apos;stream&apos;:</span><br><span class="line">                    text = xhr.response;</span><br><span class="line">                    break;</span><br><span class="line">                case &apos;document&apos;:</span><br><span class="line">                    text = xhr.responseXML;</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">            response.data = text;</span><br><span class="line">            return response;</span><br><span class="line">        &#125;</span><br><span class="line">        return &#123;</span><br><span class="line">            response,</span><br><span class="line">            message: xhr.statusText</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>完整源码</strong></p>
+<p><a href="https://github.com/liZhuTao/Handwritten-SourceCode/tree/master/axios" target="_blank" rel="noopener">基于Promise封装自己的axios库</a></p>
+
+    </div>
+
+    
+    
+    
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+        
+      </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTTP/" rel="tag"># HTTP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/11/26/2020-11-26-%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AA%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E6%96%B9%E6%B3%95%E7%B1%BB%E5%BA%93-md/" rel="next" title="封装一个常用工具方法类库">
+                  <i class="fa fa-chevron-left"></i> 封装一个常用工具方法类库
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Promise封装自己的axios库"><span class="nav-number">1.</span> <span class="nav-text">基于Promise封装自己的axios库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化插件配置项"><span class="nav-number">1.1.</span> <span class="nav-text">初始化插件配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合并配置项"><span class="nav-number">1.2.</span> <span class="nav-text">合并配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#暴露到外部的API"><span class="nav-number">1.3.</span> <span class="nav-text">暴露到外部的API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插件核心类Ajax"><span class="nav-number">1.4.</span> <span class="nav-text">插件核心类Ajax</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="liZhuTao"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">liZhuTao</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liZhuTao" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liZhuTao" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:li.zhutao@foxmail.com" title="E-Mail &amp;rarr; mailto:li.zhutao@foxmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liZhuTao</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=i;var e=n.imageLazyLoadSetting.isSPA,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight||document.documentElement.clientHeight)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},n.src=i}()}i(),n.addEventListener("scroll",function(){var t,e;t=i,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body>
+</html>

@@ -50,16 +50,16 @@
   };
 </script>
 
-  <meta name="description" content="react源码render函数 在React中render函数式定义在react-dom文件上的，这里只是简单的实现React所以我们直接都定义在react文件上 react.js12345678910111213141516171819202122232425import $ from &amp;apos;jquery&amp;apos;;     &#x2F;&#x2F; 借用jquery实现插入节点，和生命周期import c">
+  <meta name="description" content="react源码">
 <meta name="keywords" content="react">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实现简易的react">
 <meta property="og:url" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;2020&#x2F;12&#x2F;04&#x2F;2020-12-04-%E5%AE%9E%E7%8E%B0%E7%AE%80%E6%98%93%E7%9A%84react-md&#x2F;index.html">
 <meta property="og:site_name" content="Bsmall">
-<meta property="og:description" content="react源码render函数 在React中render函数式定义在react-dom文件上的，这里只是简单的实现React所以我们直接都定义在react文件上 react.js12345678910111213141516171819202122232425import $ from &amp;apos;jquery&amp;apos;;     &#x2F;&#x2F; 借用jquery实现插入节点，和生命周期import c">
+<meta property="og:description" content="react源码">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
-<meta property="og:updated_time" content="2020-12-04T14:32:36.054Z">
+<meta property="og:updated_time" content="2020-12-07T14:23:24.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;lizhutao.github.io.git&#x2F;images&#x2F;loading.png">
 
@@ -239,10 +239,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-12-04 22:31:54 / 修改时间：22:32:36" itemprop="dateCreated datePublished" datetime="2020-12-04T22:31:54+08:00">2020-12-04</time>
+              <time title="创建时间：2020-12-04 22:31:54" itemprop="dateCreated datePublished" datetime="2020-12-04T22:31:54+08:00">2020-12-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-12-07 22:23:24" itemprop="dateModified" datetime="2020-12-07T22:23:24+08:00">2020-12-07</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -266,13 +272,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="react源码"><a href="#react源码" class="headerlink" title="react源码"></a>react源码</h2><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/cb74b060-317c-11eb-b997-9918a5dda011.png"><h3 id="render函数"><a href="#render函数" class="headerlink" title="render函数"></a>render函数</h3><blockquote>
+        <h2 id="react源码"><a href="#react源码" class="headerlink" title="react源码"></a>react源码</h2><img src="/images/loading.png" data-original="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-blogimg/cb74b060-317c-11eb-b997-9918a5dda011.png">
+
+<a id="more"></a>
+<h3 id="render函数"><a href="#render函数" class="headerlink" title="render函数"></a>render函数</h3><blockquote>
 <p>在React中render函数式定义在react-dom文件上的，这里只是简单的实现React所以我们直接都定义在react文件上</p>
-</blockquote><p><strong>react.js</strong></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import $ from &apos;jquery&apos;;     // 借用jquery实现插入节点，和生命周期</span><br><span class="line">import createReactUnit from &apos;./unit.js&apos;     // 渲染真实节点</span><br><span class="line">import createElement from &apos;./element.js&apos;    // 创建虚拟节点</span><br><span class="line">import Component from &apos;./component.js&apos;      // 类组件</span><br><span class="line"></span><br><span class="line">let React = &#123;</span><br><span class="line">    render,</span><br><span class="line">    nextRootIndex:0,    // 节点标记</span><br><span class="line">    createElement,</span><br><span class="line">    Component</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 给每个元素添加一个属性，为了方便获取到这个元素</span><br><span class="line">function render(element,container)&#123;</span><br><span class="line">    // 编写一个工厂函数，用来创建对应的react元素</span><br><span class="line">    // 通过这个工厂函数来创建</span><br><span class="line">    // console.log(element)</span><br><span class="line">    let createReactUnitInstance = createReactUnit(element);</span><br><span class="line">    let markUp = createReactUnitInstance.getMarkUp(React.nextRootIndex);</span><br><span class="line">    $(container).html(markUp);</span><br><span class="line">    // 触发创建完成的方法</span><br><span class="line">    $(document).trigger(&apos;mounted&apos;); // 所有组件都挂载完成了，通知事件池中的componentDidMount生命周期钩子执行</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default React</span><br></pre></td></tr></table></figure><a id="more"></a>
-
-
-
-
+</blockquote>
+<p><strong>react.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import $ from &apos;jquery&apos;;     // 借用jquery实现插入节点，和生命周期</span><br><span class="line">import createReactUnit from &apos;./unit.js&apos;     // 渲染真实节点</span><br><span class="line">import createElement from &apos;./element.js&apos;    // 创建虚拟节点</span><br><span class="line">import Component from &apos;./component.js&apos;      // 类组件</span><br><span class="line"></span><br><span class="line">let React = &#123;</span><br><span class="line">    render,</span><br><span class="line">    nextRootIndex:0,    // 节点标记</span><br><span class="line">    createElement,</span><br><span class="line">    Component</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 给每个元素添加一个属性，为了方便获取到这个元素</span><br><span class="line">function render(element,container)&#123;</span><br><span class="line">    // 编写一个工厂函数，用来创建对应的react元素</span><br><span class="line">    // 通过这个工厂函数来创建</span><br><span class="line">    // console.log(element)</span><br><span class="line">    let createReactUnitInstance = createReactUnit(element);</span><br><span class="line">    let markUp = createReactUnitInstance.getMarkUp(React.nextRootIndex);</span><br><span class="line">    $(container).html(markUp);</span><br><span class="line">    // 触发创建完成的方法</span><br><span class="line">    $(document).trigger(&apos;mounted&apos;); // 所有组件都挂载完成了，通知事件池中的componentDidMount生命周期钩子执行</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default React</span><br></pre></td></tr></table></figure>
 
 <h3 id="Element"><a href="#Element" class="headerlink" title="Element"></a>Element</h3><blockquote>
 <p>创建虚拟节点</p>
